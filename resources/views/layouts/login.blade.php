@@ -36,8 +36,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
-
+    
     @yield('content')
 
   </div>

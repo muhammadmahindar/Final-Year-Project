@@ -1,6 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.login')
+@section('title','Login')
 @section('content')
+<p class="login-box-msg">Register a new user account</p>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

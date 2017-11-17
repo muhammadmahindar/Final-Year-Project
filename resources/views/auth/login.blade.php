@@ -1,6 +1,7 @@
 @extends('layouts.login')
 @section('title','Login')
 @section('content')
+<p class="login-box-msg">Sign in to start your session</p>
 <form role="form" method="POST" action="{{ url('/login') }}">
       {{ csrf_field() }}
       <div class="form-group has-feedback form-group{{ $errors->has('email') ? ' has-error' : '' }}">
