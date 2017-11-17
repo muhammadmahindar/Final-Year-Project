@@ -16,7 +16,7 @@ class CreateProductionsTable extends Migration
         Schema::create('productions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('production-code')->unique();
-            $table->string('status');
+            $table->integer('status');
             $table->integer('quantity');
             $table->boolean('delete_status');
             $table->text('description');
