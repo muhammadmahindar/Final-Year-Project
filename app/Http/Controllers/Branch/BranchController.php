@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Branch;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use App\Branch;
+use App\Company;
 
 class BranchController extends Controller
 {
@@ -14,7 +17,12 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+       $branch=Branch::orderBy('created_at','desc')->get();
+       $company=Company::orderBy('created_at','desc')->get();
+        $setModal=0;
+        $branchData=0;
+        return view('Branch.index',compact('branch','setModal','branchData','company'));
+         //
     }
 
     /**
@@ -35,7 +43,19 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $this->validateInput($request);
+        $branchData = new Branch();
+        $this->SaveBranch($request,$branchData);
+        if($branchData->save())
+        {
+            Session::flash('notice','Branch was successfully created');
+            return redirect('/Branch');
+        }
+        else
+        {
+            Session::flash('alert','Branch was not successfully created');
+            return redirect('/Branch');
+        } //
     }
 
     /**
@@ -57,7 +77,11 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        //
+       $branchData=Branch::findOrFail($id);
+       $setModal=1;
+       $branch=Branch::orderBy('created_at','desc')->get();
+       $company=Company::orderBy('created_at','desc')->get();
+       return view('Branch.index',compact('company','branch','setModal','branchData'));;  //
     }
 
     /**
@@ -69,7 +93,19 @@ class BranchController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $branchData=Branch::findOrFail($id);
+       $this->validateEditInput($request,$branchData);
+        $this->SaveBranch($request,$branchData);
+        if($branchData->save())
+        {
+            Session::flash('notice','Branch was successfully Edited');
+            return redirect('/Branch');
+        }
+        else
+        {
+            Session::flash('alert','Branch was not successfully Edited');
+            return redirect('/Branch');
+        } //
     }
 
     /**
@@ -80,6 +116,34 @@ class BranchController extends Controller
      */
     public function destroy($id)
     {
-        //
+       $branchData=Branch::findOrFail($id);
+        $branchData->delete();
+        return redirect('/Branch'); //
+    }
+    protected function validateInput(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:branches,name',
+            'email' => 'required',
+            'phone'=>  'min:11|numeric'
+        ]);
+    }
+    protected function validateEditInput(Request $request,$branchData)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:branches,name,'.$branchData->id,
+            'email' => 'required',
+            'phone'=>  'min:11|numeric'
+        ]);
+    }
+    protected function SaveBranch(Request $request,$branchData)
+    {
+        $branchData->name=$request->name;
+        $branchData->email=$request->email;
+        $branchData->phone=$request->phone;
+        $branchData->address=$request->Address;
+        $branchData->description=$request->Description;
+        $branchData->company_id=$request->companyId;
+        $branchData->toArray();
     }
 }

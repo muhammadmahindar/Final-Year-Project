@@ -112,7 +112,9 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $companyData=Company::findOrFail($id);
+        $companyData->delete();
+        return redirect('/Company'); //
     }
 
     protected function validateInput(Request $request)
