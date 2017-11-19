@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Company;
 class CompanyController extends Controller
 {
@@ -44,9 +45,17 @@ class CompanyController extends Controller
         $companyData->address=$request->Address;
         $companyData->description=$request->Description;
         $companyData->toArray();
-        $companyData->save();
-        return redirect('/Company');
-        //return $this->sendFailedSave($request);
+        if($companyData->save())
+        {
+            Session::flash('notice','Company was successfully created');
+            return redirect('/Company');
+        }
+        else
+        {
+            Session::flash('alert','Company was not successfully created');
+            return redirect('/Company');
+        }
+        
     }
 
     /**
@@ -101,13 +110,5 @@ class CompanyController extends Controller
             'email' => 'required',
             'phone'=>  'min:11|numeric'
         ]);
-    }
-    protected function sendFailedSave(Request $request)
-    {
-        return redirect()->back()
-            ->withInput($request->only('name', 'remember'))
-            ->withErrors([
-                $this->username() => Lang::get('auth.tryagain'),
-            ]);
     }
 }

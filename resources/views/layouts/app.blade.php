@@ -23,6 +23,8 @@
     <link href="{{ asset('css/bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Ionicons -->
     <link href="{{ asset('css/bower_components/Ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+    <!--Toast -->
+    <link href="{{ asset('css/bower_components/toast/jquery.toast.css') }}" rel="stylesheet">
     <!-- Theme style -->
     <link href="{{ asset('css/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -469,6 +471,8 @@
 <script src="{{ asset('css/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
 <script src="{{ asset('css/bower_components/fastclick/lib/fastclick.js') }}"></script>
+<!--Toast -->
+<script src="{{ asset('js/toast/jquery.toast.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('css/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
@@ -489,6 +493,39 @@
   }
 }
 </script>
+  @if(Session::has('notice'))
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $.toast({
+                        heading: 'Success'
+                        , text: '{{ Session::get("notice") }}'
+                        , position: 'top-right'
+                        , loaderBg: '#ff6849'
+                        , icon: 'success'
+                        , hideAfter: 9500
+                        , stack: 6
+                    })
+                });
+            </script>
+
+        @endif
+
+        @if(Session::has('alert'))
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $.toast({
+                        heading: 'Error'
+                        , text: '{{ Session::get("alert") }}'
+                        , position: 'top-right'
+                        , loaderBg: '#ff6849'
+                        , icon: 'danger'
+                        , hideAfter: 9500
+                        , stack: 6
+                    })
+                });
+            </script>
+
+        @endif
 @yield('scriptarea')
 <script>
   $(document).ready(function () {
