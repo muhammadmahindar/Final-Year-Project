@@ -16,7 +16,9 @@ class CompanyController extends Controller
     public function index()
     {
         $company=Company::orderBy('created_at','desc')->get();
-       return view('Company.index',compact('company')); //
+        $setModal=0;
+        $companyData=0;
+       return view('Company.index',compact('company','setModal','companyData')); //
     }
 
     /**
@@ -39,12 +41,7 @@ class CompanyController extends Controller
     {
         $this->validateInput($request);
         $companyData = new Company();
-        $companyData->name=$request->name;
-        $companyData->email=$request->email;
-        $companyData->phone=$request->phone;
-        $companyData->address=$request->Address;
-        $companyData->description=$request->Description;
-        $companyData->toArray();
+        $this->SaveCompany($request,$companyData);
         if($companyData->save())
         {
             Session::flash('notice','Company was successfully created');
@@ -77,7 +74,10 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+       $companyData=Company::findOrFail($id);
+       $setModal=1;
+       $company=Company::orderBy('created_at','desc')->get();
+       return view('Company.index',compact('company','setModal','companyData'));; //
     }
 
     /**
@@ -89,7 +89,19 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $companyData=Company::findOrFail($id);
+       $this->validateEditInput($request,$companyData);
+        $this->SaveCompany($request,$companyData);
+        if($companyData->save())
+        {
+            Session::flash('notice','Company was successfully Edited');
+            return redirect('/Company');
+        }
+        else
+        {
+            Session::flash('alert','Company was not successfully Edited');
+            return redirect('/Company');
+        } //
     }
 
     /**
@@ -110,5 +122,22 @@ class CompanyController extends Controller
             'email' => 'required',
             'phone'=>  'min:11|numeric'
         ]);
+    }
+    protected function validateEditInput(Request $request,$companyData)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:companies,name,'.$companyData->id,
+            'email' => 'required',
+            'phone'=>  'min:11|numeric'
+        ]);
+    }
+    protected function SaveCompany(Request $request,$companyData)
+    {
+        $companyData->name=$request->name;
+        $companyData->email=$request->email;
+        $companyData->phone=$request->phone;
+        $companyData->address=$request->Address;
+        $companyData->description=$request->Description;
+        $companyData->toArray();
     }
 }
