@@ -19,4 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::resource('Company','Company\CompanyController');
 Route::resource('Branch','Branch\BranchController');

@@ -15,5 +15,7 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'tryagain' => 'Invalid Input Please Try Again With Right Information.',
+    'invalidNumber' => 'Please Provide A 11 Digit Number.'
 
 ];

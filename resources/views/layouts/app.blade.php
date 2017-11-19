@@ -30,7 +30,7 @@
     <link href="{{ asset('css/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+    @yield('cssarea')
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -144,6 +144,11 @@
                 <a href="#">View all tasks</a>
               </li>
             </ul>
+          </li>
+          <li>
+              <a href="javascript:void(0);" class=" right-menu-item" onclick="go_full_screen()">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+              </a>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           @if(Auth::check())
@@ -421,7 +426,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">@yield('title')</h3>
+          <h3 class="box-title">@yield('pagetitle')</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -468,6 +473,23 @@
 <script src="{{ asset('css/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('css/dist/js/demo.js') }}"></script>
+
+
+<script type="text/javascript">
+  function go_full_screen(){
+  var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  } else if (elem.mozRequestFullScreen) {
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  }
+}
+</script>
+@yield('scriptarea')
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree()
