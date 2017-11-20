@@ -25,12 +25,13 @@ Branch
             <tr>
                 <th data-priority="1">Name</th>
                 <th data-priority="3">Company Name</th>
-                <th data-priority="4">E-mail</th>
-                <th data-priority="5">Phone</th>
-                <th data-priority="6">Address</th>
-                <th data-priority="7">Description</th>
-                <th data-priority="8">Updated At</th>
-                <th data-priority="9">Created At</th>
+                <th data-priority="4">Departments</th>
+                <th data-priority="5">E-mail</th>
+                <th data-priority="6">Phone</th>
+                <th data-priority="7">Address</th>
+                <th data-priority="8">Description</th>
+                <th data-priority="9">Updated At</th>
+                <th data-priority="10">Created At</th>
                 <th data-priority="2">Actions</th> 
             </tr>
         </thead>
@@ -41,6 +42,7 @@ Branch
             <tr>
                 <td>{{$cmp->name}}</td>
                 <td>{{$bra->name}}</td>
+                <td>@foreach($cmp->departments as $chekc) {{$chekc->name}},@endforeach</td>
                 <td>{{$cmp->email}}</td>
                 <td>{{$cmp->phone}}</td>
                 <td>{{$cmp->address}}</td>
@@ -136,6 +138,20 @@ Branch
             </span>
           @endif
           </div>
+          <div class="form-group has-feedback form-group{{ $errors->has('departmentList[]') ? ' has-error' : '' }}">
+            <label>Associate Departments</label>
+            <select class="form-control select2" multiple="multiple" data-placeholder="Departments"
+                        style="width: 100%;" name="departmentList[]">
+                  @foreach($departmentData as $dpDT)
+                  <option value="{{$dpDT->id}}">{{$dpDT->name}}</option>
+                  @endforeach
+                </select>
+                @if ($errors->has('departmentList[]'))
+            <span class="help-block">
+                <strong>{{ $errors->first('departmentList[]') }}</strong>
+            </span>
+          @endif
+          </div>
           <div class="form-group modal-footer">
             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
           <button type="submit" class="btn btn-primary pull-right">Save it</button>
@@ -217,6 +233,24 @@ Branch
           @if ($errors->has('companySelect'))
             <span class="help-block">
                 <strong>{{ $errors->first('companySelect') }}</strong>
+            </span>
+          @endif
+          </div>
+          <div class="form-group has-feedback form-group{{ $errors->has('departmentList[]') ? ' has-error' : '' }}">
+            <label>Associate Departments</label>
+            <select class="form-control select2" multiple="multiple" data-placeholder="Departments"
+                        style="width: 100%;" name="departmentList[]">
+                  @foreach($departmentData as $dpDT)
+                  <option value="{{$dpDT->id}}" @foreach($branchData->departments as $selectdept)
+                    @if($dpDT->id== $selectdept->id)
+                      selected="selected"
+                    @endif
+                    @endforeach>{{$dpDT->name}}</option>
+                  @endforeach
+                </select>
+                @if ($errors->has('departmentList[]'))
+            <span class="help-block">
+                <strong>{{ $errors->first('departmentList[]') }}</strong>
             </span>
           @endif
           </div>

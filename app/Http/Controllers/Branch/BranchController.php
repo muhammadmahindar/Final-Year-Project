@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Branch;
 use App\Company;
-
+use App\Department;
 class BranchController extends Controller
 {
     /**
@@ -19,9 +19,10 @@ class BranchController extends Controller
     {
        $branch=Branch::orderBy('created_at','desc')->get();
        $company=Company::orderBy('created_at','desc')->get();
+       $departmentData=Department::orderBy('created_at','desc')->get();
         $setModal=0;
         $branchData=0;
-        return view('Branch.index',compact('branch','setModal','branchData','company'));
+        return view('Branch.index',compact('branch','setModal','branchData','company','departmentData'));
          //
     }
 
@@ -48,6 +49,10 @@ class BranchController extends Controller
         $this->SaveBranch($request,$branchData);
         if($branchData->save())
         {
+            if($request->departmentList!=null)
+            {
+            $branchData->departments()->sync($request->departmentList);
+            }
             Session::flash('notice','Branch was successfully created');
             return redirect('/Branch');
         }
@@ -81,7 +86,8 @@ class BranchController extends Controller
        $setModal=1;
        $branch=Branch::orderBy('created_at','desc')->get();
        $company=Company::orderBy('created_at','desc')->get();
-       return view('Branch.index',compact('company','branch','setModal','branchData'));;  //
+        $departmentData=Department::orderBy('created_at','desc')->get();
+       return view('Branch.index',compact('company','branch','setModal','branchData','departmentData'));;  //
     }
 
     /**
@@ -98,6 +104,10 @@ class BranchController extends Controller
         $this->SaveBranch($request,$branchData);
         if($branchData->save())
         {
+            if($request->departmentList!=null)
+            {
+            $branchData->departments()->sync($request->departmentList);
+            }
             Session::flash('notice','Branch was successfully Edited');
             return redirect('/Branch');
         }
