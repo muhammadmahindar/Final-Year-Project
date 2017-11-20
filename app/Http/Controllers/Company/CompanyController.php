@@ -77,7 +77,7 @@ class CompanyController extends Controller
        $companyData=Company::findOrFail($id);
        $setModal=1;
        $company=Company::orderBy('created_at','desc')->get();
-       return view('Company.index',compact('company','setModal','companyData'));; //
+       return view('Company.index',compact('company','setModal','companyData')); //
     }
 
     /**
