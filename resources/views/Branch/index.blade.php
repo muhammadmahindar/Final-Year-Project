@@ -127,7 +127,7 @@ Branch
           </div>
           <div class="form-group has-feedback form-group{{ $errors->has('companySelect') ? ' has-error' : '' }}">
           <label>Associate Company</label>
-          <select class="form-control select2" style="width: 100%;" name="companyId">
+          <select class="form-control select2" style="width: 100%;" name="companyId" data-placeholder="Company">
             @foreach($company as $mater)
               <option value="{{$mater->id}}">{{$mater->name}}</option>
             @endforeach
@@ -225,7 +225,7 @@ Branch
           </div>
           <div class="form-group has-feedback form-group{{ $errors->has('companySelect') ? ' has-error' : '' }}">
           <label>Associate Company</label>
-          <select class="form-control select2" style="width: 100%;" name="companyId">
+          <select class="form-control select2" style="width: 100%;" name="companyId" data-placeholder="Company">
             @foreach($company as $mater)
               <option value="{{$mater->id}}" @if($mater->id==$branchData->company_id)selected="selected"@endif>{{$mater->name}}</option>
             @endforeach
