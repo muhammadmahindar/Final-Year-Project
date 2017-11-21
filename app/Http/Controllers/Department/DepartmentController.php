@@ -112,8 +112,17 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         $departmentData=Department::findOrFail($id);
-        $departmentData->delete();
-        return redirect('/Department'); //
+       
+        if( $departmentData->delete())
+        {
+            Session::flash('notice','Department was successfully Deleted');
+            return redirect('/Department');
+        }
+        else
+        {
+            Session::flash('alert','Department was not successfully Deleted');
+            return redirect('/Department');
+        }
     }
 
     protected function validateInput(Request $request)

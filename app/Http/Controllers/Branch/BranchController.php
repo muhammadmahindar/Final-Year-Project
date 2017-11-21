@@ -127,8 +127,17 @@ class BranchController extends Controller
     public function destroy($id)
     {
        $branchData=Branch::findOrFail($id);
-        $branchData->delete();
-        return redirect('/Branch'); //
+       
+         if( $branchData->delete())
+        {
+            Session::flash('notice','Branch was successfully Deleted');
+            return redirect('/Branch');
+        }
+        else
+        {
+            Session::flash('alert','Branch was not successfully Deleted');
+            return redirect('/Branch');
+        } //
     }
     protected function validateInput(Request $request)
     {

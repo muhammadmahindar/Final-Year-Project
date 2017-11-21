@@ -113,8 +113,16 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         $companyData=Company::findOrFail($id);
-        $companyData->delete();
-        return redirect('/Company'); //
+         if( $companyData->delete())
+        {
+            Session::flash('notice','Company was successfully Deleted');
+            return redirect('/Company');
+        }
+        else
+        {
+            Session::flash('alert','Company was not successfully Deleted');
+            return redirect('/Company');
+        }
     }
 
     protected function validateInput(Request $request)

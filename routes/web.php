@@ -22,3 +22,4 @@ Route::get('/home', 'HomeController@index');
 Route::resource('Company','Company\CompanyController');
 Route::resource('Branch','Branch\BranchController');
 Route::resource('Department','Department\DepartmentController');
+Route::resource('Material','Material\MaterialController');

@@ -10,6 +10,13 @@ trait HasRoles
     use HasPermissions;
     use RefreshesPermissionCache;
 
+    public function materials()
+    {
+        return $this->hasMany('App\Material');
+    }
+
+
+
     /**
      * A user may have multiple roles.
      *

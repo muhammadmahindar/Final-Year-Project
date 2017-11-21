@@ -171,7 +171,7 @@ Branch
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <a class="close" href="{{url('/Branch')}}">&times;</a>
           <h4>Edit Branch Details</h4>
         </div>
         <div class="modal-body">
@@ -255,7 +255,7 @@ Branch
           @endif
           </div>
           <div class="form-group modal-footer">
-            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
+            <a class="btn btn-default btn-default pull-left" href="{{url('/Branch')}}">Back</a>
           <button type="submit" class="btn btn-primary pull-right">Update</button>
           </div>
           </form> 
@@ -324,10 +324,13 @@ Branch
 });
 </script>
 <script type="text/javascript">
-@if (count($errors) > 0)
+@if (count($errors) > 0  && $setModal!=true)
     $("#myModal").modal('show');
+@elseif(count($errors) > 0 && $setModal==true)
+$("#editModal").modal('show');
 @endif
 @if($setModal==true)
+$('#editModal').modal({backdrop: 'static', keyboard: false})
 $("#editModal").modal('show');
 @endif
 </script>

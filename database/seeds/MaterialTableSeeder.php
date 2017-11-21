@@ -12,9 +12,8 @@ class MaterialTableSeeder extends Seeder
     public function run()
     {
       DB::table('materials')->insert([
-      		'material-code'=>str_random(10),
+      		'material_code'=>str_random(10),
             'name' => "material1",
-            'quantity' => 1,
             'delete_status'=>1,
             'description'=>"material1 default",
             'user_id'=>1,
