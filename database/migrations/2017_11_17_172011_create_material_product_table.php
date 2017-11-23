@@ -16,7 +16,7 @@ class CreateMaterialProductTable extends Migration
       Schema::create('material_product', function (Blueprint $table) {
             $table->integer('material_id')->unsigned();
             $table->integer('product_id')->unsigned();
-            $table->integer('quantity');
+            $table->float('quantity', 8, 4);
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

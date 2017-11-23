@@ -146,7 +146,7 @@ Products
                                    </select>
                                </div>
                                 <div class="col-sm-4 ">
-                                    <input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required="">
+                                    <input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="0" step="any" required="">
                                </div>
                           </div>
                           </div>
