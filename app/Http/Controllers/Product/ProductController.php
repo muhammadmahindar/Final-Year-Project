@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Product;
 use App\Material;
-use Log;
 use App\Unit;
 class ProductController extends Controller
 {
@@ -53,12 +52,11 @@ class ProductController extends Controller
         //doesnt have duplicate material
             $this->validateInput($request);
             $productData = new Product();
-            $this->SaveMaterial($request,$productData);
+            $this->SaveProduct($request,$productData);
             $sync_data = [];
             for($i = 0; $i < $formulaSize;$i++)
             {
             $sync_data[$request->FormulaList[$i]] = ['quantity' => $request->QuantityList[$i]];
-            Log::info('This is some useful information.');
             }
             if($productData->save())
             {
@@ -96,7 +94,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+       $productData=Product::findOrFail($id);
+       $setModal=1;
+       $product=Product::orderBy('created_at','desc')->get();
+       $unitData=Unit::orderBy('created_at','desc')->get();
+       $materialData=Material::where('delete_status',1)->get();
+       return view('Product.index',compact('product','setModal','productData','unitData','materialData')); //
     }
 
     /**
@@ -108,7 +111,34 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $formulaSize=sizeof($request->FormulaList);
+        if(count(array_unique($request->FormulaList))<count($request->FormulaList))
+        {
+            return redirect()->back()->withInput()->withErrors(['Duplicate' => 'Duplicate Material Name']);// Array has duplicates
+        }
+        else{
+       $productData=Product::findOrFail($id);
+        $this->validateEditInput($request,$productData);
+        $this->SaveProduct($request,$productData);
+        $sync_data = [];
+            for($i = 0; $i < $formulaSize;$i++)
+            {
+            $sync_data[$request->FormulaList[$i]] = ['quantity' => $request->QuantityList[$i]];
+            }
+            if($productData->save())
+            {
+            
+            Session::flash('notice','Product was successfully Edited');
+           
+            $productData->materials()->sync($sync_data);
+            return redirect('/Product');
+             }
+            else
+            {
+            Session::flash('alert','Product was not successfully Edited');
+            return redirect('/Product');
+            } //
+    }
     }
 
     /**
@@ -143,7 +173,16 @@ class ProductController extends Controller
             'user_code'=>  'required'
         ]);
     }
-    protected function SaveMaterial(Request $request,$productData)
+    protected function validateEditInput(Request $request,$productData)
+    {
+        $this->validate($request, [
+            'mat_code' => 'required|unique:products,product_code,'.$productData->id,
+            'name' => 'required|unique:products,name,'.$productData->id,
+            'unitID' => 'required',
+            'user_code'=>  'required'
+        ]);
+    }
+    protected function SaveProduct(Request $request,$productData)
     {
         $productData->name=$request->name;
         $productData->product_code=$request->mat_code;

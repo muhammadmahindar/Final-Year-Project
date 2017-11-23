@@ -176,6 +176,15 @@ Products
           <form role="form" action="{{route('Product.update',$productData->id)}}" method="POST">
             <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
+            <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
+            <input id="mat_codeedit" type="text" class="form-control" name="mat_code" value="{{$productData->product_code}}" readonly>
+            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
+          @if ($errors->has('mat_code'))
+            <span class="help-block">
+                <strong>{{ $errors->first('mat_code') }}</strong>
+            </span>
+          @endif  
+            </div>
             <div class="form-group has-feedback form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $productData->name}}" required autofocus>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
@@ -185,24 +194,7 @@ Products
             </span>
           @endif  
             </div>
-            <div class="form-group has-feedback form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-          <input id="email" type="email" class="form-control" placeholder="Email" name="email" value="{{ $productData->email }}" required autofocus>
-          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-          @if ($errors->has('email'))
-            <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
-          @endif
-          </div>
-          <div class="form-group has-feedback form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-          <input type="text" class="form-control" id="phone1" required placeholder="032XXXXXXXX" name="phone" value="{{$productData->phone}}">
-          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-          @if ($errors->has('phone'))
-            <span class="help-block">
-                <strong>{{ $errors->first('phone') }}</strong>
-            </span>
-          @endif
-          </div>
+            
 
           <div class="form-group has-feedback form-group{{ $errors->has('Description') ? ' has-error' : '' }}">
           <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description">{{$productData->description}}</textarea>
@@ -213,6 +205,54 @@ Products
             </span>
           @endif
           </div>
+
+          <div class="form-group has-feedback form-group{{ $errors->has('unitID') ? ' has-error' : '' }}">
+          <label>Associate Unit</label>
+          <select class="form-control select2" style="width: 100%;" name="unitID" data-placeholder="Company">
+            @foreach($unitData as $ud)
+              <option value="{{$ud->id}}" @if($productData->unit_id==$ud->id) selected="selected"@endif>{{$ud->uom}}</option>
+            @endforeach
+          </select>
+          @if ($errors->has('unitID'))
+            <span class="help-block">
+                <strong>{{ $errors->first('unitID') }}</strong>
+            </span>
+          @endif
+          </div>
+          <button class="add_form_field test" type="button">Add more</button>
+            @if ($errors->has('Duplicate'))
+            <span class="help-block">
+                <strong>{{ $errors->first('Duplicate') }}</strong>
+            </span>
+          @endif
+            <div class="container1">
+              @foreach($productData->materials as $cmp)
+              <div class="row">
+                <div class="col-sm-offset-2 col-sm-4">
+                  <select class="test" name="FormulaList[]" required="">
+                    <option value="">--Please choose--</option>
+                      @foreach($materialData as $mater)
+                        <option value="{{$mater->id}}" @if($mater->id == $cmp->id)selected="selected"@endif>{{$mater->name}}</option>
+                      @endforeach
+                  </select>
+                </div>
+                <div class="col-sm-4 ">
+                  <input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required="" value="{{$cmp->pivot->quantity}}">
+                </div>
+              </div>
+              @endforeach
+              </div>
+
+          <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
+            <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
+            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ $productData->user->name }}">
+            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
+          @if ($errors->has('user_code'))
+            <span class="help-block">
+                <strong>{{ $errors->first('user_code') }}</strong>
+            </span>
+          @endif  
+            </div>
           <div class="form-group modal-footer">
             <a class="btn btn-default btn-default pull-left" href="{{url('/Product')}}">Back</a>
           <button type="submit" class="btn btn-primary pull-right">Update</button>
