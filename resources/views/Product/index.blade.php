@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('title','Material')
+@section('title','Product')
 @section('BigHeading')
-Material
+Products
 @endsection
 @section('SmallHeading')
 details
 @endsection
 @section('pagetitle')
-Material
+Products
 @endsection
 @section('cssarea')
 <!-- DataTable Bootstrap  -->
@@ -20,37 +20,39 @@ Material
 @endsection
 @section('dynamiccontent')
 
-<table id="materialtable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
+<table id="producttable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th data-priority="3">Material Code</th>
-                <th data-priority="1">Material Name</th>
-                <th data-priority="4">Description</th>
-                <th data-priority="5">Created By</th>
-                <th data-priority="6">Unit</th>
-                <th data-priority="7">Updated At</th>
-                <th data-priority="8">Created At</th>
+                <th data-priority="3">Product Code</th>
+                <th data-priority="1">Product Name</th>
+                <th data-priority="4">Material List</th>
+                <th data-priority="5">Description</th>
+                <th data-priority="6">Created By</th>
+                <th data-priority="7">Unit</th>
+                <th data-priority="8">Updated At</th>
+                <th data-priority="9">Created At</th>
                 <th data-priority="2">Actions</th> 
             </tr>
         </thead>
         <tbody>
-          @foreach($material as $cmp)
-          @if($cmp->delete_status==1)
+          @foreach($product as $cmp)
+            @if($cmp->delete_status==1)
             <tr>
-                <td>{{$cmp->material_code}}</td>
+                <td>{{$cmp->product_code}}</td>
                 <td>{{$cmp->name}}</td>
+                <td><ul>@foreach($cmp->materials as $chekc) <li>{{$chekc->name}},{{$chekc->pivot->quantity}}</li>@endforeach</ul></td>
                 <td>{{$cmp->description}}</td>
                 <td>{{$cmp->user->name}}</td>
                 <td>{{$cmp->unit->uom}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('Material.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
-                  <form action="{{route('Material.destroy',$cmp->id)}}" method="POST">
+                <td><a href="{{route('Product.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                  <form action="{{route('Product.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
                         <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
-                                  </tr>
-                                  @endif
+            </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
@@ -59,7 +61,7 @@ Material
 <!--Create Modal -->
 <div class="container">
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-primary" id="companyCreate">New Material</button>
+  <button type="button" class="btn btn-primary" id="productCreate">New Product</button>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -69,12 +71,11 @@ Material
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4>New Material Details</h4>
+          <h4>New Product Details</h4>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{route('Material.store')}}" method="POST">
+          <form role="form" action="{{route('Product.store')}}" method="POST">
             {{csrf_field()}}
-
             <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
             <input id="mat_code" type="text" class="form-control" name="mat_code" readonly>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
@@ -94,7 +95,7 @@ Material
             </span>
           @endif  
             </div>
-
+            
           <div class="form-group has-feedback form-group{{ $errors->has('Description') ? ' has-error' : '' }}">
           <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description" value="{{old('Description')}}"></textarea>
           <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
@@ -104,7 +105,6 @@ Material
             </span>
           @endif
           </div>
-
           <div class="form-group has-feedback form-group{{ $errors->has('unitID') ? ' has-error' : '' }}">
           <label>Associate Unit</label>
           <select class="form-control select2" style="width: 100%;" name="unitID" data-placeholder="Company">
@@ -129,7 +129,27 @@ Material
             </span>
           @endif  
             </div>
-
+            <button class="add_form_field test" type="button">Add more</button>
+            @if ($errors->has('Duplicate'))
+            <span class="help-block">
+                <strong>{{ $errors->first('Duplicate') }}</strong>
+            </span>
+          @endif
+            <div class="container1">
+                              <div class="row">
+                               <div class="col-sm-offset-2 col-sm-4">
+                                   <select class="test" name="FormulaList[]" required="">
+                                    <option value="">--Please choose--</option>
+                                     @foreach($materialData as $mater)
+                                     <option value="{{$mater->id}}">{{$mater->name}}</option>
+                                     @endforeach
+                                   </select>
+                               </div>
+                                <div class="col-sm-4 ">
+                                    <input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required="">
+                               </div>
+                          </div>
+                          </div>
           <div class="form-group modal-footer">
             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
           <button type="submit" class="btn btn-primary pull-right">Save it</button>
@@ -141,7 +161,7 @@ Material
   </div> 
 </div>
 @endsection
-@if(!$materialData==0)
+@if(!$productData==0)
   <!--Edit Modal -->
   <div class="modal fade" id="editModal" role="dialog">
     <div class="modal-dialog">
@@ -149,25 +169,15 @@ Material
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-         
-          <a class="close" href="{{url('/Material')}}">&times;</a>
-          <h4>Edit Material Details</h4>
+          <a class="close" href="{{url('/Product')}}">&times;</a>
+          <h4>Edit Product Details</h4>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{route('Material.update',$materialData->id)}}" method="POST">
+          <form role="form" action="{{route('Product.update',$productData->id)}}" method="POST">
             <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
-            <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
-            <input id="mat_codeedit" type="text" class="form-control" name="mat_code" value="{{$materialData->material_code}}" readonly>
-            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
-          @if ($errors->has('mat_code'))
-            <span class="help-block">
-                <strong>{{ $errors->first('mat_code') }}</strong>
-            </span>
-          @endif  
-            </div>
             <div class="form-group has-feedback form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $materialData->name}}" required autofocus>
+            <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $productData->name}}" required autofocus>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
           @if ($errors->has('name'))
             <span class="help-block">
@@ -175,10 +185,27 @@ Material
             </span>
           @endif  
             </div>
-
+            <div class="form-group has-feedback form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+          <input id="email" type="email" class="form-control" placeholder="Email" name="email" value="{{ $productData->email }}" required autofocus>
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+          @endif
+          </div>
+          <div class="form-group has-feedback form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+          <input type="text" class="form-control" id="phone1" required placeholder="032XXXXXXXX" name="phone" value="{{$productData->phone}}">
+          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+          @if ($errors->has('phone'))
+            <span class="help-block">
+                <strong>{{ $errors->first('phone') }}</strong>
+            </span>
+          @endif
+          </div>
 
           <div class="form-group has-feedback form-group{{ $errors->has('Description') ? ' has-error' : '' }}">
-          <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description">{{$materialData->description}}</textarea>
+          <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description">{{$productData->description}}</textarea>
           <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
           @if ($errors->has('Description'))
             <span class="help-block">
@@ -186,36 +213,8 @@ Material
             </span>
           @endif
           </div>
-
-          <div class="form-group has-feedback form-group{{ $errors->has('unitID') ? ' has-error' : '' }}">
-          <label>Associate Unit</label>
-          <select class="form-control select2" style="width: 100%;" name="unitID" data-placeholder="Company">
-            @foreach($unitData as $ud)
-              <option value="{{$ud->id}}" @if($materialData->unit_id==$ud->id) selected="selected"@endif>{{$ud->uom}}</option>
-            @endforeach
-          </select>
-          @if ($errors->has('unitID'))
-            <span class="help-block">
-                <strong>{{ $errors->first('unitID') }}</strong>
-            </span>
-          @endif
-          </div>
-
-          <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
-            <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
-            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ Auth::user()->name }}">
-            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
-          @if ($errors->has('user_code'))
-            <span class="help-block">
-                <strong>{{ $errors->first('user_code') }}</strong>
-            </span>
-          @endif  
-            </div>
-
-
-
           <div class="form-group modal-footer">
-            <a class="btn btn-default btn-default pull-left" href="{{url('/Material')}}">Back</a>
+            <a class="btn btn-default btn-default pull-left" href="{{url('/Product')}}">Back</a>
           <button type="submit" class="btn btn-primary pull-right">Update</button>
           </div>
           </form> 
@@ -237,7 +236,6 @@ Material
 <script src="{{asset('css/plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
 <!-- Select2 -->
 <script src="{{asset('css/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-
 <script type="text/javascript">
   $(document).ready(function(){
   $(":input").inputmask();
@@ -253,7 +251,7 @@ Material
 </script>
  <script type="text/javascript">
   $(document).ready(function() {
-    $('#materialtable').DataTable( {
+    $('#producttable').DataTable( {
     
         responsive: {
             details: {
@@ -274,12 +272,11 @@ Material
 } );
 </script>
 
-
 <script type="text/javascript">
   //Initialize Select2 Elements
     $('.select2').select2()
   $(document).ready(function(){
-    $("#companyCreate").click(function(){
+    $("#productCreate").click(function(){
 
       var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -306,7 +303,7 @@ Material
             e.preventDefault();
             if(true){
                 x++;
-                $(wrapper).append('<div class="row"><div class="col-sm-offset-2 col-sm-4"><select name="FormulaList[]" class="test"><option value="">--Please choose--</option>@foreach($material as $mater)<option value="{{$mater->id}}">{{$mater->name}}</option>@endforeach</select></div><div class="col-sm-4 "><input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required=""></div><a href="#" class="delete">Delete</a></div>'); //add input box
+                $(wrapper).append('<div class="row"><div class="col-sm-offset-2 col-sm-4"><select name="FormulaList[]" class="test" required><option value="">--Please choose--</option>@foreach($materialData as $mater)<option value="{{$mater->id}}">{{$mater->name}}</option>@endforeach</select></div><div class="col-sm-4 "><input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required=""></div><a href="#" class="delete">Delete</a></div>'); //add input box
             }        });
 
         $(wrapper).on("click",".delete", function(e){

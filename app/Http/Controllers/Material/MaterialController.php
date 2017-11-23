@@ -20,7 +20,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-      $material=Material::orderBy('created_at','desc')->get();
+      $material=Material::where('delete_status',1)->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;

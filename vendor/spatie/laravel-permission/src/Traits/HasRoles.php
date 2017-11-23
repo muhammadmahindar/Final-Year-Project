@@ -15,6 +15,11 @@ trait HasRoles
         return $this->hasMany('App\Material');
     }
 
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
+
 
 
     /**

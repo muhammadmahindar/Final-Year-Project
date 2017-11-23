@@ -23,3 +23,4 @@ Route::resource('Company','Company\CompanyController');
 Route::resource('Branch','Branch\BranchController');
 Route::resource('Department','Department\DepartmentController');
 Route::resource('Material','Material\MaterialController');
+Route::resource('Product','Product\ProductController');

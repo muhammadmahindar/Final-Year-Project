@@ -12,9 +12,8 @@ class ProductTableSeeder extends Seeder
     public function run()
     {
       DB::table('products')->insert([
-      		'product-code'=>str_random(10),
+      		'product_code'=>str_random(10),
             'name' => "product1",
-            'quantity' => 1,
             'delete_status'=>1,
             'description'=>"product1 default",
             'user_id'=>1,
