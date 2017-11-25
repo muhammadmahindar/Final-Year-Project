@@ -19,6 +19,18 @@ trait HasRoles
     {
         return $this->hasMany('App\Product');
     }
+    public function branch()
+    {
+        return $this->belongsTo('App\Branch');
+    }
+    public function company()
+    {
+        return $this->belongsTo('App\Company');
+    }
+    public function Department()
+    {
+        return $this->belongsTo('App\Department');
+    }
 
 
 

@@ -96,7 +96,7 @@ class ProductController extends Controller
     {
        $productData=Product::findOrFail($id);
        $setModal=1;
-       $product=Product::orderBy('created_at','desc')->get();
+       $product=Product::where('delete_status',1)->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $materialData=Material::where('delete_status',1)->get();
        return view('Product.index',compact('product','setModal','productData','unitData','materialData')); //
@@ -149,7 +149,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-     $productData=Product::findOrFail($id);
+       $productData=Product::findOrFail($id);
        $productData->delete_status=0;
         if($productData->save())
         {

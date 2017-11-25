@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('title','Product')
+@section('title','Production')
 @section('BigHeading')
-Products
+Productions
 @endsection
 @section('SmallHeading')
 details
 @endsection
 @section('pagetitle')
-Products
+Productions
 @endsection
 @section('cssarea')
 <!-- DataTable Bootstrap  -->
@@ -20,34 +20,36 @@ Products
 @endsection
 @section('dynamiccontent')
 
-<table id="producttable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
+<table id="productiontable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th data-priority="3">Product Code</th>
-                <th data-priority="1">Product Name</th>
-                <th data-priority="4">Material List</th>
-                <th data-priority="5">Description</th>
-                <th data-priority="6">Created By</th>
-                <th data-priority="7">Unit</th>
-                <th data-priority="8">Updated At</th>
-                <th data-priority="9">Created At</th>
-                <th data-priority="2">Actions</th> 
+                <th data-priority="3">Production Code</th>
+                <th data-priority="1">Production Name</th>
+                <th data-priority="4">Status</th>
+                <th data-priority="6">Description</th>
+                <th data-priority="5">Products</th>
+                <th data-priority="7">Company/Branch/Department</th>
+                <th data-priority="8">Created By</th>
+                <th data-priority="9">Updated At</th>
+                <th data-priority="10">Created At</th>
+                <th data-priority="2">Actions</th>  
             </tr>
         </thead>
         <tbody>
-          @foreach($product as $cmp)
+          @foreach($production as $cmp)
             @if($cmp->delete_status==1)
             <tr>
-                <td>{{$cmp->product_code}}</td>
+                <td>{{$cmp->production_code}}</td>
                 <td>{{$cmp->name}}</td>
-                <td><ul>@foreach($cmp->materials as $chekc) <li>{{$chekc->name}},{{$chekc->pivot->quantity}}</li>@endforeach</ul></td>
+                <td>{{$cmp->status}}</td>
                 <td>{{$cmp->description}}</td>
+                <td><ul>@foreach($cmp->Products as $chekc) <li>{{$chekc->name}},{{$chekc->pivot->quantity}}</li>@endforeach</ul></td>
+                <td>{{$cmp->company->name}}/{{$cmp->branch->name}}/{{$cmp->department->name}}</td>
                 <td>{{$cmp->user->name}}</td>
-                <td>{{$cmp->unit->uom}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('Product.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
-                  <form action="{{route('Product.destroy',$cmp->id)}}" method="POST">
+                <td><a href="{{route('Production.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                  <form action="{{route('Production.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
                         <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
@@ -61,7 +63,7 @@ Products
 <!--Create Modal -->
 <div class="container">
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-primary" id="productCreate">New Product</button>
+  <button type="button" class="btn btn-primary" id="productionCreate">New Production</button>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -71,10 +73,10 @@ Products
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4>New Product Details</h4>
+          <h4>New Production Details</h4>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{route('Product.store')}}" method="POST">
+          <form role="form" action="{{route('Production.store')}}" method="POST">
             {{csrf_field()}}
             <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
             <input id="mat_code" type="text" class="form-control" name="mat_code" readonly>
@@ -105,30 +107,10 @@ Products
             </span>
           @endif
           </div>
-          <div class="form-group has-feedback form-group{{ $errors->has('unitID') ? ' has-error' : '' }}">
-          <label>Associate Unit</label>
-          <select class="form-control select2" style="width: 100%;" name="unitID" data-placeholder="Company">
-            @foreach($unitData as $ud)
-              <option value="{{$ud->id}}">{{$ud->uom}}</option>
-            @endforeach
-          </select>
-          @if ($errors->has('unitID'))
-            <span class="help-block">
-                <strong>{{ $errors->first('unitID') }}</strong>
-            </span>
-          @endif
-          </div>
 
-          <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
-            <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
-            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ Auth::user()->name }}">
-            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
-          @if ($errors->has('user_code'))
-            <span class="help-block">
-                <strong>{{ $errors->first('user_code') }}</strong>
-            </span>
-          @endif  
-            </div>
+
+            <label>Products</label>
+            <br>
             <button class="add_form_field test" type="button">Add more</button>
             @if ($errors->has('Duplicate'))
             <span class="help-block">
@@ -140,7 +122,7 @@ Products
                                <div class="col-sm-offset-2 col-sm-4">
                                    <select class="test" name="FormulaList[]" required="">
                                     <option value="">--Please choose--</option>
-                                     @foreach($materialData as $mater)
+                                     @foreach($productData as $mater)
                                      <option value="{{$mater->id}}">{{$mater->name}}</option>
                                      @endforeach
                                    </select>
@@ -150,6 +132,32 @@ Products
                                </div>
                           </div>
                           </div>
+                          <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
+            <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
+            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ Auth::user()->name }}">
+            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
+          @if ($errors->has('user_code'))
+            <span class="help-block">
+                <strong>{{ $errors->first('user_code') }}</strong>
+            </span>
+          @endif  
+            </div>
+            <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
+              <label>Company/Department/Branch</label>
+            <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->company->name }}/{{ Auth::user()->department->name }}/{{ Auth::user()->branch->name }}">
+            <input id="user_code" type="hidden" class="form-control" name="company_code" value="{{ Auth::user()->company->id }}" readonly placeholder="{{ Auth::user()->company->name }}">
+
+            <input id="user_code" type="hidden" class="form-control" name="department_code" value="{{ Auth::user()->department->id }}" readonly placeholder="{{ Auth::user()->department->name }}">
+
+            <input id="user_code" type="hidden" class="form-control" name="branch_code" value="{{ Auth::user()->branch->id }}" readonly placeholder="{{ Auth::user()->branch->name }}">
+            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
+          @if ($errors->has('user_code'))
+            <span class="help-block">
+                <strong>{{ $errors->first('user_code') }}</strong>
+            </span>
+          @endif  
+            </div>
+          
           <div class="form-group modal-footer">
             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
           <button type="submit" class="btn btn-primary pull-right">Save it</button>
@@ -161,7 +169,7 @@ Products
   </div> 
 </div>
 @endsection
-@if(!$productData==0)
+@if(!$productionData==0)
   <!--Edit Modal -->
   <div class="modal fade" id="editModal" role="dialog">
     <div class="modal-dialog">
@@ -169,15 +177,15 @@ Products
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <a class="close" href="{{url('/Product')}}">&times;</a>
-          <h4>Edit Product Details</h4>
+          <a class="close" href="{{url('/Production')}}">&times;</a>
+          <h4>Edit Production Details</h4>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{route('Product.update',$productData->id)}}" method="POST">
+          <form role="form" action="{{route('Production.update',$productionData->id)}}" method="POST">
             <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
             <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
-            <input id="mat_codeedit" type="text" class="form-control" name="mat_code" value="{{$productData->product_code}}" readonly>
+            <input id="mat_codeedit" type="text" class="form-control" name="mat_code" value="{{$productionData->production_code}}" readonly>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
           @if ($errors->has('mat_code'))
             <span class="help-block">
@@ -186,7 +194,7 @@ Products
           @endif  
             </div>
             <div class="form-group has-feedback form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $productData->name}}" required autofocus>
+            <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $productionData->name}}" required autofocus>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
           @if ($errors->has('name'))
             <span class="help-block">
@@ -197,25 +205,11 @@ Products
             
 
           <div class="form-group has-feedback form-group{{ $errors->has('Description') ? ' has-error' : '' }}">
-          <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description">{{$productData->description}}</textarea>
+          <textarea class="form-control" rows="4" placeholder="Enter Description" id="Address" name="Description">{{$productionData->description}}</textarea>
           <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
           @if ($errors->has('Description'))
             <span class="help-block">
                 <strong>{{ $errors->first('Description') }}</strong>
-            </span>
-          @endif
-          </div>
-
-          <div class="form-group has-feedback form-group{{ $errors->has('unitID') ? ' has-error' : '' }}">
-          <label>Associate Unit</label>
-          <select class="form-control select2" style="width: 100%;" name="unitID" data-placeholder="Company">
-            @foreach($unitData as $ud)
-              <option value="{{$ud->id}}" @if($productData->unit_id==$ud->id) selected="selected"@endif>{{$ud->uom}}</option>
-            @endforeach
-          </select>
-          @if ($errors->has('unitID'))
-            <span class="help-block">
-                <strong>{{ $errors->first('unitID') }}</strong>
             </span>
           @endif
           </div>
@@ -226,12 +220,12 @@ Products
             </span>
           @endif
             <div class="container1">
-              @foreach($productData->materials as $cmp)
+              @foreach($productionData->products as $cmp)
               <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
                   <select class="test" name="FormulaList[]" required="">
                     <option value="">--Please choose--</option>
-                      @foreach($materialData as $mater)
+                      @foreach($productData as $mater)
                         <option value="{{$mater->id}}" @if($mater->id == $cmp->id)selected="selected"@endif>{{$mater->name}}</option>
                       @endforeach
                   </select>
@@ -245,7 +239,7 @@ Products
 
           <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
             <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
-            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ $productData->user->name }}">
+            <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ $productionData->user->name }}">
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
           @if ($errors->has('user_code'))
             <span class="help-block">
@@ -253,8 +247,13 @@ Products
             </span>
           @endif  
             </div>
+            <input id="user_code" type="hidden" class="form-control" name="company_code" value="{{ Auth::user()->company->id }}" readonly placeholder="{{ Auth::user()->company->name }}">
+
+            <input id="user_code" type="hidden" class="form-control" name="department_code" value="{{ Auth::user()->department->id }}" readonly placeholder="{{ Auth::user()->department->name }}">
+
+            <input id="user_code" type="hidden" class="form-control" name="branch_code" value="{{ Auth::user()->branch->id }}" readonly placeholder="{{ Auth::user()->branch->name }}">
           <div class="form-group modal-footer">
-            <a class="btn btn-default btn-default pull-left" href="{{url('/Product')}}">Back</a>
+            <a class="btn btn-default btn-default pull-left" href="{{url('/Production')}}">Back</a>
           <button type="submit" class="btn btn-primary pull-right">Update</button>
           </div>
           </form> 
@@ -291,7 +290,7 @@ Products
 </script>
  <script type="text/javascript">
   $(document).ready(function() {
-    $('#producttable').DataTable( {
+    $('#productiontable').DataTable( {
     
         responsive: {
             details: {
@@ -316,7 +315,7 @@ Products
   //Initialize Select2 Elements
     $('.select2').select2()
   $(document).ready(function(){
-    $("#productCreate").click(function(){
+    $("#productionCreate").click(function(){
 
       var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -343,7 +342,7 @@ Products
             e.preventDefault();
             if(true){
                 x++;
-                $(wrapper).append('<div class="row"><div class="col-sm-offset-2 col-sm-4"><select name="FormulaList[]" class="test" required><option value="">--Please choose--</option>@foreach($materialData as $mater)<option value="{{$mater->id}}">{{$mater->name}}</option>@endforeach</select></div><div class="col-sm-4 "><input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity"  min="0" step="any" required=""></div><a href="#" class="delete">Delete</a></div>'); //add input box
+                $(wrapper).append('<div class="row"><div class="col-sm-offset-2 col-sm-4"><select name="FormulaList[]" class="test" required><option value="">--Please choose--</option>@foreach($productData as $mater)<option value="{{$mater->id}}">{{$mater->name}}</option>@endforeach</select></div><div class="col-sm-4 "><input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity"  min="0" step="any" required=""></div><a href="#" class="delete">Delete</a></div>'); //add input box
             }        });
 
         $(wrapper).on("click",".delete", function(e){

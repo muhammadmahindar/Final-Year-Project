@@ -12,12 +12,11 @@ class ProductionTableSeeder extends Seeder
     public function run()
     {
       DB::table('productions')->insert([
-      		'production-code'=>str_random(10),
+      		'production_code'=>str_random(10),
+          'name'=>"The name",
             'status'=>1,
-            'quantity' => 1,
             'delete_status'=>1,
             'description'=>"production default",
-            'product_id'=>1,
             'branch_id'=>1,
             'department_id'=>1,
             'company_id'=>1,
