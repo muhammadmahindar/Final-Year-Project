@@ -25,7 +25,7 @@ Products
             <tr>
                 <th data-priority="3">Product Code</th>
                 <th data-priority="1">Product Name</th>
-                <th data-priority="4">Material List</th>
+                <th data-priority="4">Material List,Quantity</th>
                 <th data-priority="5">Description</th>
                 <th data-priority="6">Created By</th>
                 <th data-priority="7">Unit</th>

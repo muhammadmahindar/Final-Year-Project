@@ -27,7 +27,7 @@ Productions
                 <th data-priority="1">Production Name</th>
                 <th data-priority="4">Status</th>
                 <th data-priority="6">Description</th>
-                <th data-priority="5">Products</th>
+                <th data-priority="5">Products,Quantity</th>
                 <th data-priority="7">Company/Branch/Department</th>
                 <th data-priority="8">Created By</th>
                 <th data-priority="9">Updated At</th>
