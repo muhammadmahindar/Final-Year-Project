@@ -27,6 +27,7 @@
     <link href="{{ asset('css/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
     <!-- iCheck -->
     <link href="{{ asset('css/plugins/iCheck/square/blue.css') }}" rel="stylesheet">
+     @yield('cssarea')  
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <body class="hold-transition login-page">
@@ -51,7 +52,7 @@
         ]); ?>
     </script>
 </head>
-
+@yield('scriptarea')
 <!-- jQuery 3 -->
  <script src="{{ asset('css/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->

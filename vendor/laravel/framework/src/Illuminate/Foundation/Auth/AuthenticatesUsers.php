@@ -5,7 +5,7 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
-
+use App\User;
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
@@ -28,6 +28,9 @@ trait AuthenticatesUsers
      */
     public function login(Request $request)
     {
+        $userData=User::where('email',$request->email)->get();
+        foreach ($userData as $value) {
+        if ($value->active==1) {
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -47,8 +50,13 @@ trait AuthenticatesUsers
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
-
-        return $this->sendFailedLoginResponse($request);
+        }
+        else
+        {
+            return $this->sendFailedLoginResponse($request);
+        }
+        }
+        
     }
 
     /**

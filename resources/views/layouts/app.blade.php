@@ -216,9 +216,21 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Gate Pass</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('GatePass')}}"><i class="fa fa-circle-o"></i>Gate Passes</a></li>           
+          </ul>
+        </li>
+        <li class="header">User Management Area</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Company</span>
+            <i class="fa fa-dashboard"></i> <span>Company Mangement</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -229,8 +241,22 @@
             <li><a href="{{URL('Department')}}"><i class="fa fa-circle-o"></i>Departments</a></li>            
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>User Management</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('User')}}"><i class="fa fa-circle-o"></i>Users</a></li>
+            <li><a href="{{URL('Role')}}"><i class="fa fa-circle-o"></i>Role</a></li>
+            <li><a href="{{URL('Permission')}}"><i class="fa fa-circle-o"></i>Permission</a></li>            
+          </ul>
+        </li>
 
-        <li class="header">Production</li>
+
+        <li class="header">Production Area</li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Production</span>

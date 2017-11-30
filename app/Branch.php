@@ -10,4 +10,9 @@ class Branch extends Model
     {
         return $this->belongsToMany('App\Department')->withTimestamps();
     } //
+
+     public function company()
+    {
+        return $this->belongsTo('App\Company');
+    }
 }

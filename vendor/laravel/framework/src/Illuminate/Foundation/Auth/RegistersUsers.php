@@ -5,7 +5,10 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
-
+use App\Company;
+use App\Branch;
+use App\Department;
+use DB;
 trait RegistersUsers
 {
     use RedirectsUsers;
@@ -17,8 +20,29 @@ trait RegistersUsers
      */
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        $CompanyData=Company::all();
+        return view('auth.register',compact('CompanyData','BranchData','DepartmentData'));
     }
+
+    public function getbranch(Request $request)
+    {
+        if($request->ajax()){
+            $states=Branch::where('company_id',$request->companyList)->pluck("name","id")->all();
+            $data = view('auth.ajax.ajaxbranch',compact('states'))->render();
+            return response()->json(['options'=>$data]);
+        }
+    }
+
+
+    public function getdepartment(Request $request)
+    {
+        if($request->ajax()){
+            $states=Branch::where('id',$request->branchList)->get();
+            $data = view('auth.ajax.ajaxdepartment',compact('states'))->render();
+            return response()->json(['options'=>$data]);
+        }
+    }
+
 
     /**
      * Handle a registration request for the application.

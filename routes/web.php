@@ -25,3 +25,6 @@ Route::resource('Department','Department\DepartmentController');
 Route::resource('Material','Material\MaterialController');
 Route::resource('Product','Product\ProductController');
 Route::resource('Production','Production\ProductionController');
+Route::resource('GatePass','GatePass\GatePassController');
+Route::post('/getbranch','Auth\RegisterController@getbranch');
+Route::post('/getdepartment','Auth\RegisterController@getdepartment');
