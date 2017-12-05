@@ -249,9 +249,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{URL('User')}}"><i class="fa fa-circle-o"></i>Users</a></li>
+            <li><a href="{{URL('users')}}"><i class="fa fa-circle-o"></i>Users</a></li>
             <li><a href="{{URL('Role')}}"><i class="fa fa-circle-o"></i>Role</a></li>
-            <li><a href="{{URL('Permission')}}"><i class="fa fa-circle-o"></i>Permission</a></li>            
+                    
           </ul>
         </li>
 

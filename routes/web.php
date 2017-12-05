@@ -26,5 +26,7 @@ Route::resource('Material','Material\MaterialController');
 Route::resource('Product','Product\ProductController');
 Route::resource('Production','Production\ProductionController');
 Route::resource('GatePass','GatePass\GatePassController');
+Route::resource('Role','Role\RoleController');
+Route::get('users','Auth\UserController@index')->name('users');;
 Route::post('/getbranch','Auth\RegisterController@getbranch');
 Route::post('/getdepartment','Auth\RegisterController@getdepartment');

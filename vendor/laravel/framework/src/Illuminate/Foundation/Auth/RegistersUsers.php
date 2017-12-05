@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Company;
 use App\Branch;
 use App\Department;
+use Spatie\Permission\Models\Role;
 use DB;
 trait RegistersUsers
 {
@@ -21,7 +22,8 @@ trait RegistersUsers
     public function showRegistrationForm()
     {
         $CompanyData=Company::all();
-        return view('auth.register',compact('CompanyData','BranchData','DepartmentData'));
+        $roleData=Role::where('delete_status',1)->get();
+        return view('auth.register',compact('CompanyData','BranchData','DepartmentData','roleData'));
     }
 
     public function getbranch(Request $request)
@@ -53,10 +55,20 @@ trait RegistersUsers
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-
+        $formulaSize=sizeof($request->roleList);
+        if(count(array_unique($request->roleList))<count($request->roleList))
+        {
+            return redirect()->back()->withInput()->withErrors(['roleList' => 'Duplicate Role Name']);// Array has duplicates
+        }
+        else
+        {
         event(new Registered($user = $this->create($request->all())));
-
-        $this->guard()->login($user);
+        for($i = 0; $i < $formulaSize;$i++)
+        {
+          $user->assignRole($request->roleList[$i]); 
+        }
+        }
+        
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());

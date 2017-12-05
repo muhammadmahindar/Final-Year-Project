@@ -13,8 +13,10 @@ class RoleTableSeeder extends Seeder
     {
       DB::table('roles')->insert([
             'name' => "Role1",
+            'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-        ]);  //
+        ]);
+        
     }
 }

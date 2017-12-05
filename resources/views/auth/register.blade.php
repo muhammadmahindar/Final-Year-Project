@@ -121,8 +121,29 @@
                                 @endif
                             </div>
                         </div>
+                        <button class="add_form_field test btn btn-info" type="button">Add more</button>
+                        <div class="container1 form-group{{ $errors->has('roleList') ? ' has-error' : '' }}">
+                            <div class="row">
+                            <label for="password" class="col-md-4 control-label">Role</label>
 
+                            <div class="col-md-8">
+                                 <select class="test" name="roleList[]" required="">
+                                    <option value="">--Please choose--</option>
+                                     @foreach($roleData as $mater)
+                                     <option value="{{$mater->name}}">{{$mater->name}}</option>
+                                     @endforeach
+                                   </select>
+
+                                @if ($errors->has('roleList'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('roleList') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                          </div>
+                        </div>
                         
+                                    
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -146,6 +167,28 @@
         $("#myModal").modal();
     });
 });
+</script>
+<script>
+
+
+ $(document).ready(function() {
+        var max_fields      = 10;
+        var wrapper         = $(".container1");
+        var add_button      = $(".add_form_field");
+
+        var x = 1;
+        $(add_button).click(function(e){
+            e.preventDefault();
+            if(true){
+                x++;
+                $(wrapper).append('<div class="row"><label for="roleList" class="col-md-4 control-label">Role</label><div class="col-md-6"><select class="test" name="roleList[]" required=""><option value="">--Please choose--</option>@foreach($roleData as $mater)<option value="{{$mater->name}}">{{$mater->name}}</option>@endforeach</select>@if ($errors->has('roleList'))<span class="help-block"><strong>{{ $errors->first('roleList') }}</strong></span>@endif</div><a href="#" class="delete">Delete</a></div>'); //add input box
+            }        });
+
+        $(wrapper).on("click",".delete", function(e){
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+    });
+
 </script>
 <script type="text/javascript">
    var text = "";

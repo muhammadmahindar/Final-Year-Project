@@ -36,7 +36,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+       
     }
 
     /**
@@ -54,7 +54,8 @@ class RegisterController extends Controller
             'status'=>'required',
             'branchList'=>'required',
             'departmentList'=>'required',
-            'companyList'=>'required'
+            'companyList'=>'required',
+            'roleList'=>'required'
         ]);
     }
 
