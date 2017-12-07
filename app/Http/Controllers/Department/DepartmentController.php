@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Department;
 use Illuminate\Support\Facades\Session;
+use Auth;
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,10 +20,16 @@ class DepartmentController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Department')) 
+            {
        $department=Department::orderBy('created_at','desc')->get();
         $setModal=0;
         $departmentData=0;
-       return view('Department.index',compact('department','setModal','departmentData')); //
+       return view('Department.index',compact('department','setModal','departmentData'));
+       }
+       else{
+        abort(500);
+       } //
     }
 
     /**
@@ -73,10 +84,16 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Department')) 
+            {
       $departmentData=Department::findOrFail($id);
        $setModal=1;
        $department=Department::orderBy('created_at','desc')->get();
-       return view('Department.index',compact('department','setModal','departmentData'));  //
+       return view('Department.index',compact('department','setModal','departmentData'));
+       }
+       else{
+        abort(500);
+       }  //
     }
 
     /**
@@ -111,6 +128,8 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-Department')) 
+            {
         $departmentData=Department::findOrFail($id);
        
         if( $departmentData->delete())
@@ -123,6 +142,10 @@ class DepartmentController extends Controller
             Session::flash('alert','Department was not successfully Deleted');
             return redirect('/Department');
         }
+     }
+     else{
+        abort(500);
+     }
     }
 
     protected function validateInput(Request $request)

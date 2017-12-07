@@ -48,11 +48,12 @@ Productions
                 <td>{{$cmp->user->name}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('Production.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                <td>@can('Edit-Production')<a href="{{route('Production.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
+                  @can('Delete-Production')
                   <form action="{{route('Production.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan</td>
             </tr>
             @endif
             @endforeach
@@ -62,9 +63,10 @@ Productions
 @section('footer')
 <!--Create Modal -->
 <div class="container">
+  @can('Create-Production')
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-primary" id="productionCreate">New Production</button>
-
+@endcan
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

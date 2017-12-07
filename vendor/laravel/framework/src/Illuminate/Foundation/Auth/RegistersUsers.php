@@ -10,6 +10,9 @@ use App\Branch;
 use App\Department;
 use Spatie\Permission\Models\Role;
 use DB;
+use Illuminate\Support\Facades\Session;
+use Auth;
+
 trait RegistersUsers
 {
     use RedirectsUsers;
@@ -19,11 +22,17 @@ trait RegistersUsers
      *
      * @return \Illuminate\Http\Response
      */
+
     public function showRegistrationForm()
     {
+        if (Auth::user()->can('Create-User')) 
+            {
         $CompanyData=Company::all();
         $roleData=Role::where('delete_status',1)->get();
         return view('auth.register',compact('CompanyData','BranchData','DepartmentData','roleData'));
+    }else{
+        abort(500);
+    }
     }
 
     public function getbranch(Request $request)
@@ -69,13 +78,12 @@ trait RegistersUsers
         }
         }
         
-
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        Session::flash('notice','User was successfully ');
+        return redirect('Users');
     }
 
     /**
-     * Get the guard to be used during registration.
+     * Get the guard to be uCreatedsed during registration.
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */

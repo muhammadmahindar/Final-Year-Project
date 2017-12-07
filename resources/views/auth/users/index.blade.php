@@ -30,9 +30,10 @@ User's
         <thead>
             <tr>
                 <th data-priority="1">Name</th>
-                <th data-priority="6">Email</th>
-                <th data-priority="6">Company/Branch/Department</th>
-                <th data-priority="6">Role</th>
+                <th data-priority="3">Email</th>
+                <th data-priority="5">Company/Branch/Department</th>
+                <th data-priority="4">Role</th>
+                <th data-priority="6">Status</th>
                 <th data-priority="7">Updated At</th>
                 <th data-priority="8">Created At</th>
                 <th data-priority="2">Actions</th> 
@@ -44,14 +45,18 @@ User's
                 <td>{{$cmp->name}}</td>
                 <td>{{$cmp->email}}</td>
                 <td>{{$cmp->company->name}}/{{$cmp->branch->name}}/{{$cmp->Department->name}}</td>
-                <td>@foreach($cmp->roles as $keyva){{$keyva->name}}@endforeach</td>
+                <td>@foreach($cmp->roles as $keyva)<li>{{$keyva->name}}</li>@endforeach</td>
+                <td>@if($cmp->active==1)<label class="label label-success">Enabled</label> @else <label class="label label-danger">Disabled</label> @endif</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('Role.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
-                  <form action="{{route('Role.destroy',$cmp->id)}}" method="POST">
+                <td>@can('Edit-User')<a href="{{route('Users.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                  @endcan
+                  @can('Delete-User')
+                  <form action="{{route('Users.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan
+                 </td>
             </tr>
             @endforeach
         </tbody>
@@ -60,8 +65,10 @@ User's
 @section('footer')
 <!--Create Modal -->
 <div class="container">
+  @can('Create-User')
   <!-- Trigger the modal with a button -->
   <a href="{{url('register')}}"><button type="button" class="btn btn-primary">New User</button></a>
+  @endcan
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">

@@ -8,8 +8,14 @@ use Illuminate\Support\Facades\Session;
 use App\Product;
 use App\Material;
 use App\Unit;
+use Auth;
 class ProductController extends Controller
 {
+
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +23,18 @@ class ProductController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Product')) 
+            {
        $product=Product::where('delete_status',1)->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $setModal=0;
        $productData=0;
        $materialData=Material::where('delete_status',1)->get();
        return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
+   }
+   else{
+    abort(500);
+   }
     }
 
     /**
@@ -94,12 +106,18 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Product')) 
+            {
        $productData=Product::findOrFail($id);
        $setModal=1;
        $product=Product::where('delete_status',1)->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $materialData=Material::where('delete_status',1)->get();
        return view('Product.index',compact('product','setModal','productData','unitData','materialData')); //
+   }
+   else{
+    abort(500);
+   }
     }
 
     /**
@@ -149,6 +167,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-Product')) 
+            {
        $productData=Product::findOrFail($id);
        $productData->delete_status=0;
         if($productData->save())
@@ -160,6 +180,10 @@ class ProductController extends Controller
         {
             Session::flash('alert','Product was not successfully Deleted');
             return redirect('/Product');
+        }
+        }
+        else{
+            abort(500);
         } //   //
     }
 

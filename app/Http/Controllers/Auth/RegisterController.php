@@ -6,7 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Auth;
 class RegisterController extends Controller
 {
     /*
@@ -19,7 +19,10 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
     use RegistersUsers;
 
     /**
@@ -74,7 +77,8 @@ class RegisterController extends Controller
             'active'=> $data['status'],
             'branch_id'=> $data['branchList'],
             'department_id'=>$data['departmentList'],
-            'company_id'=>$data['companyList']
+            'company_id'=>$data['companyList'],
+            'delete_status'=>1
         ]);
     }
 }

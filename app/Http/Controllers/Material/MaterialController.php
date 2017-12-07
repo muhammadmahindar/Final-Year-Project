@@ -10,9 +10,13 @@ use App\Company;
 use App\Department;
 use App\Material;
 use App\Unit;
-
+use Auth;
 class MaterialController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +24,18 @@ class MaterialController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Material')) 
+            {
       $material=Material::where('delete_status',1)->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;
-        return view('Material.index',compact('material','setModal','materialData','unitData'));  //
+        return view('Material.index',compact('material','setModal','materialData','unitData'));  
+    }
+    else
+    {
+        abort(500);
+    }
     }
 
     /**
@@ -79,11 +90,17 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Material')) 
+            {
        $materialData=Material::findOrFail($id);
        $setModal=1;
        $material=Material::orderBy('created_at','desc')->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
-       return view('Material.index',compact('material','setModal','materialData','unitData'));  //
+       return view('Material.index',compact('material','setModal','materialData','unitData')); 
+   }
+   else{
+    abort(500);
+   }
     }
 
     /**
@@ -118,6 +135,8 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-Material')) 
+            {
        $materialData=Material::findOrFail($id);
        $materialData->delete_status=0;
         if($materialData->save())
@@ -129,7 +148,11 @@ class MaterialController extends Controller
         {
             Session::flash('alert','Material was not successfully Deleted');
             return redirect('/Material');
-        } //
+        } }
+        else
+        {
+            abort(500);
+        }
     
     }
     protected function validateInput(Request $request)

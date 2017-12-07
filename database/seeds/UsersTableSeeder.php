@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
             'branch_id'=>1,
             'department_id'=>1,
             'company_id'=>1,
+            'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]); //

@@ -9,10 +9,15 @@ use App\Production;
 use App\Material;
 use App\Unit;
 use App\Product;
-
+use Auth;
 
 class ProductionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +25,16 @@ class ProductionController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Production')) 
+            {
        $production=Production::where('delete_status',1)->get();
        $setModal=0;
        $productionData=0;
        $productData=Product::where('delete_status',1)->get();
-       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); //
+       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       else{
+        abort(500);
+       }
     }
 
     /**
@@ -96,12 +106,18 @@ class ProductionController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Production')) 
+            {
        $productionData=Production::findOrFail($id);
        $setModal=1;
        $production=Production::where('delete_status',1)->get();
        $product=Product::where('delete_status',1)->get();
        $productData=Product::where('delete_status',1)->get();
-       return view('Production.index',compact('production','product','setModal','productionData','unitData','productData'));   //
+       return view('Production.index',compact('production','product','setModal','productionData','unitData','productData'));
+   }
+   else{
+    abort(500);
+   }
     }
 
     /**
@@ -150,7 +166,9 @@ class ProductionController extends Controller
      */
     public function destroy($id)
     {
-           $productionData=Production::findOrFail($id);
+        if (Auth::user()->can('Delete-Production')) 
+            {
+       $productionData=Production::findOrFail($id);
        $productionData->delete_status=0;
         if($productionData->save())
         {
@@ -161,7 +179,12 @@ class ProductionController extends Controller
         {
             Session::flash('alert','Production was not successfully Deleted');
             return redirect('/Production');
-        } //   //  //
+        } 
+    }
+    else
+    {
+        abort(500);
+    }
     }
     protected function validateEditInput(Request $request,$productionData)
     {

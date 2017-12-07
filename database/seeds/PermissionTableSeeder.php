@@ -11,9 +11,147 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
-      
-      DB::table('permissions')->insert([
-            'name' => "All-Role",
+        
+        DB::table('permissions')->insert([
+            'name' => "Create-Branch",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Branch",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Branch",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Branch",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Create-Company",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Company",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Company",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Company",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Create-Department",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Department",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Department",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Department",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Create-Material",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Material",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Material",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Material",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Create-Product",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Product",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Product",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Product",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Create-Production",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-Production",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-Production",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-Production",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
@@ -43,35 +181,30 @@ class PermissionTableSeeder extends Seeder
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
-            'name' => "All-Branch",
+            'name' => "Create-User",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
-            'name' => "Create-Branch",
+            'name' => "Read-User",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
-            'name' => "Read-Branch",
+            'name' => "Edit-User",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
-            'name' => "Edit-Branch",
+            'name' => "Delete-User",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        DB::table('permissions')->insert([
-            'name' => "Delete-Branch",
-            'delete_status'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
+
     }
 
 

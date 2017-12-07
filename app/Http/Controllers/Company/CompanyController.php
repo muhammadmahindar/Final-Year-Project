@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Company;
+use Auth;
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,10 +20,16 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Company')) 
+            {
         $company=Company::orderBy('created_at','desc')->get();
         $setModal=0;
         $companyData=0;
-       return view('Company.index',compact('company','setModal','companyData')); //
+       return view('Company.index',compact('company','setModal','companyData'));
+       }
+       else{
+        abort(500);
+       } //
     }
 
     /**
@@ -74,10 +85,16 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Company')) 
+            {
        $companyData=Company::findOrFail($id);
        $setModal=1;
        $company=Company::orderBy('created_at','desc')->get();
-       return view('Company.index',compact('company','setModal','companyData')); //
+       return view('Company.index',compact('company','setModal','companyData'));
+       }
+       else{
+        abort(500);
+       } //
     }
 
     /**
@@ -112,6 +129,8 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-Company')) 
+            {
         $companyData=Company::findOrFail($id);
          if( $companyData->delete())
         {
@@ -123,6 +142,10 @@ class CompanyController extends Controller
             Session::flash('alert','Company was not successfully Deleted');
             return redirect('/Company');
         }
+    }
+    else{
+        abort(500);
+    }
     }
 
     protected function validateInput(Request $request)

@@ -7,8 +7,13 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Session;
+use Auth;
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +21,17 @@ class RoleController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-Role')) 
+            {
         $roleData=Role::where('delete_status',1)->get();
         $permissionData=Permission::all();
         $setModal=0;
         $roleaData=0;
-        return view('Role.index',compact('roleData','setModal','roleaData','permissionData')); //
+        return view('Role.index',compact('roleData','setModal','roleaData','permissionData'));}
+        else
+        {
+            abort(500);
+        }
     }
 
     /**
@@ -80,11 +91,17 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('Edit-Role')) 
+            {
        $roleaData=Role::findOrFail($id);
        $setModal=1;
        $permissionData=Permission::all();
        $roleData=Role::where('delete_status',1)->get();
        return view('Role.index',compact('permissionData','setModal','roleaData','roleData')); 
+   }
+   else{
+    abort(500);
+   }
     }
 
     /**
@@ -128,6 +145,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-Role')) 
+            {
        $roleData=Role::findOrFail($id);
        $roleData->delete_status=0;
         if($roleData->save())
@@ -140,6 +159,10 @@ class RoleController extends Controller
             Session::flash('alert','Role was not successfully Deleted');
             return redirect('/Role');
         }
+    }
+    else{
+        abort(500);
+    }
     }
     protected function validateInput(Request $request)
     {

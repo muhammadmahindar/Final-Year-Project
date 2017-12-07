@@ -5,9 +5,13 @@ namespace App\Http\Controllers\GatePass;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\GatePass;
-
+use Auth;
 class GatePassController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +19,16 @@ class GatePassController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Read-GatePass')) 
+            {
         $gatepass=GatePass::all();
         $setModal=false;
-       return view('GatePass.index',compact('gatepass','setModal')); //
+       return view('GatePass.index',compact('gatepass','setModal'));
+       } 
+       else
+       {
+        abort(500);
+       }
     }
 
     /**

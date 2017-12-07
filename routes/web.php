@@ -16,7 +16,13 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Auth::routes();
+//Admin Routes
+Route::group(['middleware' => ['role:SuperAdmin']], function () {
+Route::resource('Role','Role\RoleController');
+Route::resource('Users','Auth\UserController'); //
+});
 
+//User With Roles Route
 Route::get('/home', 'HomeController@index');
 
 Route::resource('Company','Company\CompanyController');
@@ -26,7 +32,6 @@ Route::resource('Material','Material\MaterialController');
 Route::resource('Product','Product\ProductController');
 Route::resource('Production','Production\ProductionController');
 Route::resource('GatePass','GatePass\GatePassController');
-Route::resource('Role','Role\RoleController');
-Route::get('users','Auth\UserController@index')->name('users');;
+
 Route::post('/getbranch','Auth\RegisterController@getbranch');
 Route::post('/getdepartment','Auth\RegisterController@getdepartment');

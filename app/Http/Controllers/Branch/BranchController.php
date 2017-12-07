@@ -8,8 +8,14 @@ use Illuminate\Support\Facades\Session;
 use App\Branch;
 use App\Company;
 use App\Department;
+use Auth;
 class BranchController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +23,19 @@ class BranchController extends Controller
      */
     public function index()
     {
-       $branch=Branch::orderBy('created_at','desc')->get();
+        if (Auth::user()->can('Read-Branch')) 
+            {
+        $branch=Branch::orderBy('created_at','desc')->get();
        $company=Company::orderBy('created_at','desc')->get();
        $departmentData=Department::orderBy('created_at','desc')->get();
         $setModal=0;
         $branchData=0;
         return view('Branch.index',compact('branch','setModal','branchData','company','departmentData'));
+        }
+        else{
+            abort(500);
+        }
+       
          //
     }
 
@@ -82,12 +95,18 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
+      if (Auth::user()->can('Edit-Branch')) 
+            {  
        $branchData=Branch::findOrFail($id);
        $setModal=1;
        $branch=Branch::orderBy('created_at','desc')->get();
        $company=Company::orderBy('created_at','desc')->get();
         $departmentData=Department::orderBy('created_at','desc')->get();
-       return view('Branch.index',compact('company','branch','setModal','branchData','departmentData'));;  //
+       return view('Branch.index',compact('company','branch','setModal','branchData','departmentData'));
+       }
+       else{
+        abort(500);
+       }  //
     }
 
     /**
@@ -126,6 +145,7 @@ class BranchController extends Controller
      */
     public function destroy($id)
     {
+        
        $branchData=Branch::findOrFail($id);
        
          if( $branchData->delete())

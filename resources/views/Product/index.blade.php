@@ -46,11 +46,12 @@ Products
                 <td>{{$cmp->unit->uom}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('Product.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                <td>@can('Edit-Product')<a href="{{route('Product.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
+                  @can('Delete-Product')
                   <form action="{{route('Product.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan</td>
             </tr>
             @endif
             @endforeach
@@ -60,8 +61,10 @@ Products
 @section('footer')
 <!--Create Modal -->
 <div class="container">
+  @can('Create-Product')
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-primary" id="productCreate">New Product</button>
+  @endcan
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
