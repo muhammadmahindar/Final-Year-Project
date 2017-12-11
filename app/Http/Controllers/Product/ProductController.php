@@ -47,6 +47,11 @@ class ProductController extends Controller
         //
     }
 
+    public function approve(Request $request)
+    {
+            return $request;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

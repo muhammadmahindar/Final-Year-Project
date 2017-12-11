@@ -132,12 +132,19 @@ class PermissionTableSeeder extends Seeder
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+         DB::table('permissions')->insert([
+            'name' => "Approve-Production",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
         DB::table('permissions')->insert([
             'name' => "Create-Production",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
         DB::table('permissions')->insert([
             'name' => "Read-Production",
             'delete_status'=>1,
