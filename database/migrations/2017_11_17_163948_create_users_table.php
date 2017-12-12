@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('active');
+            $table->string('avatar')->default('default.jpg');
             $table->integer('branch_id')->unsigned();
             $table->integer('department_id')->unsigned();
             $table->integer('company_id')->unsigned();

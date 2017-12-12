@@ -48,6 +48,7 @@ class RegisterController extends Controller
             'status'=>'required',
             'branchList'=>'required',
             'departmentList'=>'required',
+            'avatar'=>'nullable',
             'companyList'=>'required',
             'roleList'=>'required'
         ]);
@@ -69,6 +70,7 @@ class RegisterController extends Controller
             'branch_id'=> $data['branchList'],
             'department_id'=>$data['departmentList'],
             'company_id'=>$data['companyList'],
+            'avatar'=>$data['avatar'],
             'delete_status'=>1
         ]);
     }

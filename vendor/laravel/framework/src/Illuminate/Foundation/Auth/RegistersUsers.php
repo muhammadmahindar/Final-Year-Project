@@ -11,7 +11,7 @@ use App\Department;
 use Spatie\Permission\Models\Role;
 use DB;
 use Illuminate\Support\Facades\Session;
-
+use Image;
 
 trait RegistersUsers
 {
@@ -72,6 +72,14 @@ trait RegistersUsers
         else
         {
         event(new Registered($user = $this->create($request->all())));
+        if($request->hasFile('avatar'))
+        {
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            Image::make($avatar)->resize(300, 300)->save( $filename  );
+            $user->avatar = $filename;
+            $user->save();
+        }
         for($i = 0; $i < $formulaSize;$i++)
         {
           $user->assignRole($request->roleList[$i]); 

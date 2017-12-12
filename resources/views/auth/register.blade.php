@@ -12,7 +12,7 @@
 @section('content')
 
 <p class="login-box-msgs">Register a new user account</p>
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+                    <form enctype="multipart/form-data" class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -117,6 +117,19 @@
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                         <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
+                            <label for="avatar" class="col-md-4 control-label">Photo</label>
+
+                            <div class="col-md-8">
+                                <input id="avatar" type="file" class="form-control" name="avatar" value="{{ old('avatar') }}" required>
+
+                                @if ($errors->has('avatar'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('avatar') }}</strong>
                                     </span>
                                 @endif
                             </div>
