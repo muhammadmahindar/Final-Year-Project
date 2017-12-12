@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Production;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
+use App\Jobs\ProductionApprovedNotifier;
 use Auth;
 use App\Production;
 class ProductionApproval extends Controller
@@ -79,6 +80,7 @@ class ProductionApproval extends Controller
             {
             
             Session::flash('notice','Production was successfully Approved');
+             $this->dispatch(new ProductionApprovedNotifier($productionData));
             return redirect('/Production');
              }
             else

@@ -41,7 +41,8 @@ Productions
             <tr>
                 <td>{{$cmp->production_code}}</td>
                 <td>{{$cmp->name}}</td>
-                <td>@if($cmp->status==1)<span class="label label-info">Pending Approval</span>@elseif($cmp->status==0)<span class="label label-danger">Disapproved</span>@elseif($cmp->status==3)<span class="label label-success">Approved</span>@endif</td>
+                <td>@if($cmp->status==1)<span class="label label-info">Pending Approval</span>@elseif($cmp->status==0)<span class="label label-danger">Disapproved</span>@elseif($cmp->status==3)<span class="label label-success">Approved</span>
+                  @elseif($cmp->status==4)<span class="label label-success">Completed</span>@endif</td>
                 <td>{{$cmp->description}}</td>
                 <td><ul>@foreach($cmp->Products as $chekc) <li>{{$chekc->name}},{{$chekc->pivot->quantity}}</li>@endforeach</ul></td>
                 <td>{{$cmp->company->name}}/{{$cmp->branch->name}}/{{$cmp->department->name}}</td>
@@ -53,12 +54,19 @@ Productions
                   <form action="{{route('Production.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan @if($cmp->status==1)@can('Approve-Production') <form action="{{route('Production-Approval.update',$cmp->id)}}" method="POST">
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan 
+                        @if($cmp->status==1)@can('Approve-Production') <form action="{{route('Production-Approval.update',$cmp->id)}}" method="POST">
                            <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
                           <button class="btn btn-primary" name="approval" value="3">Approve</button>
                           <button class="btn btn-primary" name="approval" value="0">Disapprove</button>
-                        </form>@endcan @endif</td>
+                        </form>@endcan @endif
+                         @if($cmp->status==3)@can('Complete-Production') <form action="{{route('Production-Approval.update',$cmp->id)}}" method="POST">
+                           <input type="hidden" name="_method" value="PATCH">
+                      {{ csrf_field() }}
+                          <button class="btn btn-primary" name="approval" value="4">Completed</button>
+                        </form>@endcan @endif
+                      </td>
             </tr>
             @endif
             @endforeach

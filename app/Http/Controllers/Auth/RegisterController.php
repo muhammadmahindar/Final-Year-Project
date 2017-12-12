@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Auth;
 class RegisterController extends Controller
 {
+    use RegistersUsers;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -23,7 +24,7 @@ class RegisterController extends Controller
     {
         $this->middleware('auth');
     }
-    use RegistersUsers;
+    
 
     /**
      * Where to redirect users after registration.
@@ -31,16 +32,6 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-       
-    }
 
     /**
      * Get a validator for an incoming registration request.

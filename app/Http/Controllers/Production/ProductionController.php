@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Production;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
+use App\Jobs\PendingProductionNotifier;
 use App\Production;
 use App\Material;
 use App\Unit;
 use App\Product;
 use Auth;
-
+use App\User;
 class ProductionController extends Controller
 {
     public function __construct()
@@ -76,6 +77,7 @@ class ProductionController extends Controller
             Session::flash('notice','Production was successfully created');
            
             $productionData->products()->sync($sync_data);
+            $this->dispatch(new PendingProductionNotifier($productionData));
             return redirect('/Production');
              }
             else

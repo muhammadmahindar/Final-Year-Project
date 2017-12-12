@@ -11,7 +11,7 @@ use App\Department;
 use Spatie\Permission\Models\Role;
 use DB;
 use Illuminate\Support\Facades\Session;
-use Auth;
+
 
 trait RegistersUsers
 {

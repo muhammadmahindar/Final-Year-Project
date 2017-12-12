@@ -13,6 +13,12 @@ class PermissionTableSeeder extends Seeder
     {
         
         DB::table('permissions')->insert([
+            'name' => "Read-GatePass",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
             'name' => "Create-Branch",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
@@ -134,6 +140,12 @@ class PermissionTableSeeder extends Seeder
         ]);
          DB::table('permissions')->insert([
             'name' => "Approve-Production",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+         DB::table('permissions')->insert([
+            'name' => "Complete-Production",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),

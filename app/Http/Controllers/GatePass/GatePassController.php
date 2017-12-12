@@ -21,9 +21,10 @@ class GatePassController extends Controller
     {
         if (Auth::user()->can('Read-GatePass')) 
             {
+                $companyData=0;
         $gatepass=GatePass::all();
         $setModal=false;
-       return view('GatePass.index',compact('gatepass','setModal'));
+       return view('GatePass.index',compact('companyData','gatepass','setModal'));
        } 
        else
        {

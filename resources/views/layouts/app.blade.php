@@ -97,20 +97,38 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <span class="label label-warning">{{count(Auth::user()->unreadnotifications)}}</span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <li class="header">You have {{count(Auth::user()->unreadnotifications)}} notifications</li>
+               @foreach(Auth::user()->unreadnotifications as $noti)
+              @if($noti->type=='App\Notifications\PendingProduction')
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    <a href="{{URL('Production')}}" onclick="">
+                      <i class="fa fa-users text-aqua"></i> 
+                      Pending Production Request
                     </a>
                   </li>
                 </ul>
               </li>
+              @elseif($noti->type=='App\Notifications\ProductionApproved')
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="{{URL('Production')}}" onclick="">
+                      <i class="fa fa-users text-aqua"></i> 
+                      The Production has been @if($noti->data['status']==4) Completed @elseif($noti->data['status']==3)Approved @elseif($noti->data['status']==0)Disapproved @endif
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              
+               @endif
+              @endforeach
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
