@@ -46,7 +46,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../index2.html" class="logo">
+    <a href="{{url('/')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>P</b>C</span>
       <!-- logo for regular state and mobile devices -->
@@ -207,7 +207,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{route('Profile.show',Auth::user()->id)}}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ url('/logout') }}"onclick="event.preventDefault();
@@ -297,6 +297,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+   
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -307,7 +308,7 @@
 
     <!-- Main content -->
     <section class="content">
-
+       @yield('FullPage')
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
@@ -336,10 +337,8 @@
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+
+    <strong>Copyright &copy; 2018-2019 <a href="https://adminlte.io">Petrochemical international</a>.</strong> All rights
     reserved.
   </footer>
 

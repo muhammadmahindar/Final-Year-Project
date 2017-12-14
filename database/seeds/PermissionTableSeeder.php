@@ -11,7 +11,12 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        DB::table('permissions')->insert([
+            'name' => "Change-UserPassword",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
         DB::table('permissions')->insert([
             'name' => "Read-GatePass",
             'delete_status'=>1,

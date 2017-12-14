@@ -34,6 +34,7 @@ Route::resource('Production','Production\ProductionController');
 Route::resource('Production-Approval','Production\ProductionApproval');
 
 Route::resource('GatePass','GatePass\GatePassController');
-
+Route::resource('Profile','Auth\Profile\ProfileController');
+Route::post('changepassword/{id}','Auth\Profile\ProfileController@changepassword');
 Route::post('/getbranch','Auth\RegisterController@getbranch');
 Route::post('/getdepartment','Auth\RegisterController@getdepartment');

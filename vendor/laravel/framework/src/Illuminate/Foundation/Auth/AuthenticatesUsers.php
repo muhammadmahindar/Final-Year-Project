@@ -5,6 +5,7 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+
 use App\User;
 trait AuthenticatesUsers
 {
@@ -50,15 +51,17 @@ trait AuthenticatesUsers
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
+        return $this->sendFailedLoginResponse($request);
         }
-        else
-        {
-            return $this->sendFailedLoginResponse($request);
-        }
+            
+        
         }
         
     }
 
+
+    
+  
     /**
      * Validate the user login request.
      *
@@ -132,12 +135,20 @@ trait AuthenticatesUsers
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        return redirect()->back()
+        return redirect('/login')
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([
                 $this->username() => Lang::get('auth.failed'),
             ]);
     }
+       protected function sendFailedLoginResponsec(Request $request)
+    {
+        return redirect()->back()
+            ->withErrors([
+                'password' => Lang::get('auth.failed'),
+            ]);
+    }
+
 
     /**
      * Get the login username to be used by the controller.

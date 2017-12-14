@@ -55,9 +55,48 @@ User's
                   <form action="{{route('Users.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan @can('Change-UserPassword')
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $cmp->id }}">Change Password</button>
+                        @endcan
                  </td>
             </tr>
+            <div class="modal fade" id="myModal{{ $cmp->id }}" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Password for {{$cmp->name}}</h4>
+        </div>
+        <div class="modal-body">
+          
+          <form action="{{URL('changepassword',$cmp->id)}}" method="POST">
+            {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('user_password') ? ' has-error' : '' }}">
+                            <label for="user_password" class="col-md-4 control-label">Password</label>
+                            <div class="col-md-6">
+                                <input id="user_password" class="form-control" name="user_password" value="{{str_random(6)}}">
+
+                                
+                            </div>
+            </div>
+            <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Change Password
+                                </button>
+                            </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
             @endforeach
         </tbody>
     </table>
