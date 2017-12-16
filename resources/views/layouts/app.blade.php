@@ -248,7 +248,7 @@
         <li class="header">User Management Area</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-industry"></i> <span>Company Mangement</span>
+            <i class="fa fa-building"></i> <span>Company Mangement</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -261,7 +261,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users text-red"></i> <span>User Management</span>
+            <i class="fa fa-users"></i> <span>User Management</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -277,7 +277,7 @@
         <li class="header">Production Area</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-circle-o text-aqua"></i> <span>Production</span>
+            <i class="fa fa-industry"></i> <span>Production</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -285,7 +285,24 @@
           <ul class="treeview-menu">
             <li><a href="{{URL('Material')}}"><i class="fa fa-circle-o"></i>Materials</a></li>
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
-            <li><a href="{{URL('Production')}}"><i class="fa fa-circle-o"></i>Production</a></li>            
+            <li class="treeview">
+          <a href="#">
+            <i class="fa fa-circle-o"></i> <span>Production</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('Production')}}"><i class="fa fa-circle-o"></i>All Production</a></li>
+            @can('Approve-Production')
+            <li><a href="{{URL('/Pending/Productions')}}"><i class="fa fa-circle-o "></i>Pending Production</a></li>
+            @endcan
+            @can('Complete-Production')
+             <li><a href="{{URL('/Approved/Productions')}}"><i class="fa fa-circle-o"></i>Approved Production</a></li>
+             @endcan
+             <li><a href="{{URL('/Completed/Productions')}}"><i class="fa fa-circle-o"></i>Completed Production</a></li>
+          </ul>
+        </li>          
           </ul>
         </li>
       </ul>

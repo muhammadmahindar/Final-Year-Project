@@ -72,14 +72,18 @@ class ProductionApproval extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('Approve-Production')) 
-            {
+
         $productionData=Production::findOrFail($id);
         $productionData->status=$request->approval;
         if($productionData->save())
             {
-            
+            if($productionData->status=4){
+            Session::flash('notice','Production was successfully Marked Completed');
+        }   else
+        {
             Session::flash('notice','Production was successfully Approved');
+        }
+
              $this->dispatch(new ProductionApprovedNotifier($productionData));
             return redirect('/Production');
              }
@@ -88,10 +92,7 @@ class ProductionApproval extends Controller
             Session::flash('alert','Production was not successfully Approved');
             return redirect('/Production');
             }   
-    }
-    else {
-        abort(500);
-    }
+   
     }
 
     /**

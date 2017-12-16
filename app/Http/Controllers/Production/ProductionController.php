@@ -37,6 +37,45 @@ class ProductionController extends Controller
         abort(500);
        }
     }
+    public function pending()
+    {
+        if (Auth::user()->can('Read-Production')) 
+            {
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '1'],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where('delete_status',1)->get();
+       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       else{
+        abort(500);
+       }
+    }
+    public function approved()
+    {
+        if (Auth::user()->can('Read-Production')) 
+            {
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '3'],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where('delete_status',1)->get();
+       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       else{
+        abort(500);
+       }
+    }
+        public function completed()
+    {
+        if (Auth::user()->can('Read-Production')) 
+            {
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '4'],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where('delete_status',1)->get();
+       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       else{
+        abort(500);
+       }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -139,7 +178,7 @@ class ProductionController extends Controller
         else{
        $productionData=Production::findOrFail($id);
         $this->validateEditInput($request,$productionData);
-        $this->SaveProduction($request,$productionData);
+        $this->SaveEditProduction($request,$productionData);
         $sync_data = [];
             for($i = 0; $i < $formulaSize;$i++)
             {
@@ -198,6 +237,19 @@ class ProductionController extends Controller
             'branch_code'=>'required',
             'company_code'=>'required',
         ]);
+    }
+      protected function SaveEditProduction(Request $request,$productionData)
+    {
+        $productionData->name=$request->name;
+        $productionData->production_code=$request->mat_code;
+        $productionData->status=$request->statusproduct;
+        $productionData->delete_status=1;
+        $productionData->description=$request->Description;
+        $productionData->user_id=$request->user_code;
+        $productionData->company_id=$request->company_code;
+        $productionData->branch_id=$request->branch_code;
+        $productionData->department_id=$request->department_code;
+        $productionData->toArray();
     }
      protected function validateInput(Request $request)
     {

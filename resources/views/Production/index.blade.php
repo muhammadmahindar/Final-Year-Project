@@ -199,6 +199,7 @@ Productions
           <form role="form" action="{{route('Production.update',$productionData->id)}}" method="POST">
             <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
+          
             <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
             <input id="mat_codeedit" type="text" class="form-control" name="mat_code" value="{{$productionData->production_code}}" readonly>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
@@ -208,6 +209,7 @@ Productions
             </span>
           @endif  
             </div>
+
             <div class="form-group has-feedback form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <input id="name" type="name" class="form-control" placeholder="Name" name="name" value="{{ $productionData->name}}" required autofocus>
             <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
@@ -228,6 +230,23 @@ Productions
             </span>
           @endif
           </div>
+
+          <div class="form-group has-feedback form-group{{ $errors->has('mat_code') ? ' has-error' : '' }}">
+            <label>Status</label>
+            <select name="statusproduct" required="">
+              <option value="1" @if($productionData->status == 1)selected="selected"@endif>Pending Approval</option>
+              <option value="3" @if($productionData->status == 3)selected="selected"@endif>Approved</option>
+              <option value="0" @if($productionData->status == 0)selected="selected"@endif>Disapproved</option>
+              <option value="4" @if($productionData->status == 4)selected="selected"@endif>Completed</option>
+            </select>
+            <span class="glyphicon glyphicon-asterisk form-control-feedback"></span>
+          @if ($errors->has('mat_code'))
+            <span class="help-block">
+                <strong>{{ $errors->first('mat_code') }}</strong>
+            </span>
+          @endif  
+            </div>
+
           <button class="add_form_field test" type="button">Add more</button>
             @if ($errors->has('Duplicate'))
             <span class="help-block">
