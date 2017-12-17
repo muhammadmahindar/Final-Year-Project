@@ -11,6 +11,7 @@ use App\Material;
 use App\Unit;
 use App\Product;
 use Auth;
+use App\ProductionCost;
 use App\User;
 class ProductionController extends Controller
 {
@@ -242,6 +243,13 @@ class ProductionController extends Controller
     {
         $productionData->name=$request->name;
         $productionData->production_code=$request->mat_code;
+        if ($productionData->status==4) {
+            $teac=ProductionCost::where('production_id',$productionData->id)->get();
+            foreach ($teac as $keyue) {
+              $keyue->delete();  
+            }
+            
+        }
         $productionData->status=$request->statusproduct;
         $productionData->delete_status=1;
         $productionData->description=$request->Description;

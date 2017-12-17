@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use App\Jobs\ProductionApprovedNotifier;
 use Auth;
 use App\Production;
+use App\ProductionCost;
 class ProductionApproval extends Controller
 {
     /**
@@ -76,22 +77,41 @@ class ProductionApproval extends Controller
         $productionData=Production::findOrFail($id);
         $productionData->status=$request->approval;
         if($productionData->save())
-            {
-            if($productionData->status=4){
-            Session::flash('notice','Production was successfully Marked Completed');
-        }   else
         {
-            Session::flash('notice','Production was successfully Approved');
-        }
+                if($productionData->status==4)
+                { 
+                    //products in production request
+                    foreach ($productionData->products as $value)
+                    {
+                    //materials in that product
+                        foreach ($value->materials as $key) 
+                        {
+                            $productionCost=new ProductionCost();
+                            $productionCost->product_id=$value->id;
+                            $productionCost->production_id=$productionData->id; //production id
+                            $productionCost->material_id=$key->id; //material id
+                            $productionCost->rate=100;
+                            $productionCost->quantity=$key->pivot->quantity*$value->pivot->quantity; /*material quantity*production quantity*/
+                            $productionCost->cost=$productionCost->rate*$productionCost->quantity;
+                            $productionCost->save(); 
+                       }
+                    }
 
-             $this->dispatch(new ProductionApprovedNotifier($productionData));
+                    Session::flash('notice','Production was successfully Marked Completed');
+                } 
+                else
+                {
+                    Session::flash('notice','Production was successfully Approved');
+                }
+
+            $this->dispatch(new ProductionApprovedNotifier($productionData));
             return redirect('/Production');
-             }
-            else
-            {
+        }
+        else
+        {
             Session::flash('alert','Production was not successfully Approved');
             return redirect('/Production');
-            }   
+        }   
    
     }
 

@@ -19,7 +19,7 @@ class CreateGatePassesTable extends Migration
             $table->string('contact_phone');
             $table->string('destination');
             $table->string('items');
-            $table->float('quantity', 8, 4);
+            $table->double('quantity', 15, 4);
             $table->text('remarks');
             $table->timestamps();
         });

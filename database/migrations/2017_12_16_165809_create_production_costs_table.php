@@ -17,8 +17,11 @@ class CreateProductionCostsTable extends Migration
             $table->increments('id');
             $table->integer('production_id')->unsigned();
             $table->integer('material_id')->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->double('rate', 15, 4);
             $table->double('cost', 15, 4);
+            $table->double('quantity', 15, 4);
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->foreign('production_id')->references('id')->on('productions')->onDelete('cascade');
             $table->timestamps();
