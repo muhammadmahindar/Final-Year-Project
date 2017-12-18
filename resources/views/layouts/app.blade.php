@@ -234,6 +234,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+          @can('Read-GatePass')
                 <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Gate Pass</span>
@@ -245,6 +246,7 @@
             <li><a href="{{URL('GatePass')}}"><i class="fa fa-circle-o"></i>Gate Passes</a></li>           
           </ul>
         </li>
+        @endcan
         <li class="header">User Management Area</li>
         <li class="treeview">
           <a href="#">
@@ -254,9 +256,15 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @can('Read-Company')
             <li><a href="{{URL('Company')}}"><i class="fa fa-circle-o"></i>Companies</a></li>
+            @endcan
+            @can('Read-Branch')
             <li><a href="{{URL('Branch')}}"><i class="fa fa-circle-o"></i>Branches</a></li>
+            @endcan
+            @can('Read-Department')
             <li><a href="{{URL('Department')}}"><i class="fa fa-circle-o"></i>Departments</a></li>            
+          @endcan
           </ul>
         </li>
         <li class="treeview">
@@ -267,9 +275,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @can('Read-User')
             <li><a href="{{URL('Users')}}"><i class="fa fa-user-plus"></i>Users</a></li>
+            @endcan
+            @can('Read-Role')
             <li><a href="{{URL('Role')}}"><i class="fa fa-circle-o"></i>Role</a></li>
-                    
+            @endcan        
           </ul>
         </li>
 
@@ -291,12 +302,21 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @can('Read-SemiFixed')
             <li><a href="{{URL('SemiFixed')}}"><i class="fa fa-circle-o"></i>SemiFixed</a></li>
+            @endcan
+            @can('Read-FactoryOverhead')
             <li><a href="{{URL('FactoryOverhead')}}"><i class="fa fa-circle-o "></i>Factory Overhead</a></li>
+            @endcan
           </ul>
-        </li>   
+        </li> 
+        @can('Read-Material')  
             <li><a href="{{URL('Material')}}"><i class="fa fa-circle-o"></i>Materials</a></li>
+            @endcan
+            @can('Read-Product')
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
+            @endcan
+            @can('Read-Production')
             <li class="treeview">
           <a href="#">
             <i class="fa fa-circle-o"></i> <span>Production</span>
@@ -305,7 +325,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @can('Read-Production')
             <li><a href="{{URL('Production')}}"><i class="fa fa-circle-o"></i>All Production</a></li>
+            @endcan
             @can('Approve-Production')
             <li><a href="{{URL('/Pending/Productions')}}"><i class="fa fa-circle-o "></i>Pending Production</a></li>
             @endcan
@@ -314,7 +336,8 @@
              @endcan
              <li><a href="{{URL('/Completed/Productions')}}"><i class="fa fa-circle-o"></i>Completed Production</a></li>
           </ul>
-        </li>          
+        </li>
+        @endcan          
           </ul>
         </li>
       </ul>

@@ -228,8 +228,56 @@ class PermissionTableSeeder extends Seeder
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+                DB::table('permissions')->insert([
+            'name' => "Create-SemiFixed",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-SemiFixed",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-SemiFixed",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-SemiFixed",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+                DB::table('permissions')->insert([
+            'name' => "Create-FactoryOverhead",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Read-FactoryOverhead",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Edit-FactoryOverhead",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Delete-FactoryOverhead",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
 
     }
-
+ 
 
 }

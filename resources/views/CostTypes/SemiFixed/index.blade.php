@@ -35,8 +35,8 @@ SemiFixed
                 <td>{{$cmp->name}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td>@can('Edit-Company')<a href="{{route('SemiFixed.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
-                  @can('Delete-Company')
+                <td>@can('Edit-SemiFixed')<a href="{{route('SemiFixed.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
+                  @can('Delete-SemiFixed')
                   <form action="{{route('SemiFixed.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
@@ -49,7 +49,7 @@ SemiFixed
 @section('footer')
 <!--Create Modal -->
 <div class="container">
-  @can('Create-Company')
+  @can('Create-SemiFixed')
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-primary" id="companyCreate">New SemiFixed</button>
   @endcan

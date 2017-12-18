@@ -15,10 +15,18 @@ class SemiFixedController extends Controller
      */
     public function index()
     {
+             if (Auth::user()->can('Read-SemiFixed')) 
+            {
+      
         $semifixedata=SemiFixed::all();
          $setModal=0;
         $companyData=0;
         return view('CostTypes.SemiFixed.index',compact('semifixedata','setModal','companyData'));
+               }
+       else{
+        abort(500);
+       } //
+
     }
 
     /**
@@ -73,7 +81,7 @@ class SemiFixedController extends Controller
      */
     public function edit($id)
     {
-    if (Auth::user()->can('Edit-Company')) 
+    if (Auth::user()->can('Edit-SemiFixed')) 
             {
         $semifixedata=SemiFixed::all();
        $companyData=SemiFixed::findOrFail($id);
@@ -117,7 +125,7 @@ class SemiFixedController extends Controller
      */
     public function destroy($id)
     {
-             if (Auth::user()->can('Delete-Company')) 
+             if (Auth::user()->can('Delete-SemiFixed')) 
             {
         $SemiFixedData=SemiFixed::findOrFail($id);
          if( $SemiFixedData->delete())

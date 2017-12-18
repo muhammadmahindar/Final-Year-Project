@@ -35,8 +35,8 @@ Factory Overhead
                 <td>{{$cmp->name}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td>@can('Edit-Company')<a href="{{route('FactoryOverhead.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
-                  @can('Delete-Company')
+                <td>@can('Edit-FactoryOverhead')<a href="{{route('FactoryOverhead.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
+                  @can('Delete-FactoryOverhead')
                   <form action="{{route('FactoryOverhead.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
@@ -49,7 +49,7 @@ Factory Overhead
 @section('footer')
 <!--Create Modal -->
 <div class="container">
-  @can('Create-Company')
+  @can('Create-FactoryOverhead')
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-primary" id="companyCreate">New Factory Overhead Cost</button>
   @endcan

@@ -15,10 +15,19 @@ class FactoryOverheadController extends Controller
      */
     public function index()
      {
+           if (Auth::user()->can('Read-FactoryOverhead')) 
+            {
+      
         $factorydata=Factory::all();
          $setModal=0;
         $companyData=0;
         return view('CostTypes.FactoryOverhead.index',compact('factorydata','setModal','companyData'));
+               }
+       else{
+        abort(500);
+       } //
+
+
     }
 
     /**
@@ -73,7 +82,7 @@ class FactoryOverheadController extends Controller
      */
     public function edit($id)
     {
-         if (Auth::user()->can('Edit-Company')) 
+         if (Auth::user()->can('Edit-FactoryOverhead')) 
             {
        $factorydata=Factory::all();
        $companyData=Factory::findOrFail($id);
@@ -118,7 +127,7 @@ class FactoryOverheadController extends Controller
      */
     public function destroy($id)
     {
-                     if (Auth::user()->can('Delete-Company')) 
+                     if (Auth::user()->can('Delete-FactoryOverhead')) 
             {
         $FactoryOverheadData=Factory::findOrFail($id);
          if( $FactoryOverheadData->delete())
