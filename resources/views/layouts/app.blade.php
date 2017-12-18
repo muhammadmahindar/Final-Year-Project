@@ -267,8 +267,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{URL('Users')}}"><i class="fa fa-user-plus text-yellow"></i>Users</a></li>
-            <li><a href="{{URL('Role')}}"><i class="fa fa-circle-o text-yellow"></i>Role</a></li>
+            <li><a href="{{URL('Users')}}"><i class="fa fa-user-plus"></i>Users</a></li>
+            <li><a href="{{URL('Role')}}"><i class="fa fa-circle-o"></i>Role</a></li>
                     
           </ul>
         </li>
@@ -283,6 +283,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
+                        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-circle-o"></i> <span>Type of Costs</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('SemiFixed')}}"><i class="fa fa-circle-o"></i>SemiFixed</a></li>
+            <li><a href="{{URL('FactoryOverhead')}}"><i class="fa fa-circle-o "></i>Factory Overhead</a></li>
+          </ul>
+        </li>   
             <li><a href="{{URL('Material')}}"><i class="fa fa-circle-o"></i>Materials</a></li>
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
             <li class="treeview">

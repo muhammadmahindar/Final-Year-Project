@@ -90,7 +90,7 @@ class ProductionApproval extends Controller
                             $productionCost->product_id=$value->id;
                             $productionCost->production_id=$productionData->id; //production id
                             $productionCost->material_id=$key->id; //material id
-                            $productionCost->rate=100;
+                            $productionCost->rate=100; //to be taken from inventory
                             $productionCost->quantity=$key->pivot->quantity*$value->pivot->quantity; /*material quantity*production quantity*/
                             $productionCost->cost=$productionCost->rate*$productionCost->quantity;
                             $productionCost->save(); 

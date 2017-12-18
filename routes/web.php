@@ -24,11 +24,11 @@ Route::post('/getdepartment','Auth\RegisterController@getdepartment');
 
 //User With Roles Route
 Route::get('/home', 'HomeController@index');
-
+//Company Management Route
 Route::resource('Company','Company\CompanyController');
 Route::resource('Branch','Branch\BranchController');
 Route::resource('Department','Department\DepartmentController');
-
+//Production Routes
 Route::resource('Material','Material\MaterialController');
 Route::resource('Product','Product\ProductController');
 Route::resource('Production','Production\ProductionController');
@@ -36,7 +36,11 @@ Route::get('/Pending/Productions','Production\ProductionController@pending');
 Route::get('/Approved/Productions','Production\ProductionController@approved');
 Route::get('/Completed/Productions','Production\ProductionController@completed');
 Route::resource('Production-Approval','Production\ProductionApproval');
-
+//GatePass routes
 Route::resource('GatePass','GatePass\GatePassController');
+//Cost Calculation Route
+Route::resource('SemiFixed','Cost\SemiFixedController');
+Route::resource('FactoryOverhead','Cost\FactoryOverheadController');
+//Profile Routes
 Route::resource('Profile','Auth\Profile\ProfileController');
 Route::post('changepassword/{id}','Auth\Profile\ProfileController@changepassword');

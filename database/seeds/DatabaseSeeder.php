@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionTableSeeder::class);
         $this->call(UserRoleTableSeeder::class);
         $this->call(GatePassTableSeeder::class);
+        $this->call(SemiFixedTableSeeder::class);
+        $this->call(FactoryOverheadTableSeeder::class);
     }
 }
