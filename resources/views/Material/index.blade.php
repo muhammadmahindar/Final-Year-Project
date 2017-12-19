@@ -26,10 +26,11 @@ Material
                 <th data-priority="3">Material Code</th>
                 <th data-priority="1">Material Name</th>
                 <th data-priority="4">Description</th>
-                <th data-priority="5">Created By</th>
-                <th data-priority="6">Unit</th>
-                <th data-priority="7">Updated At</th>
-                <th data-priority="8">Created At</th>
+                <th data-priority="5">Company/Branch/Department</th>
+                <th data-priority="6">Created By</th>
+                <th data-priority="7">Unit</th>
+                <th data-priority="8">Updated At</th>
+                <th data-priority="9">Created At</th>
                 <th data-priority="2">Actions</th> 
             </tr>
         </thead>
@@ -40,6 +41,7 @@ Material
                 <td>{{$cmp->material_code}}</td>
                 <td>{{$cmp->name}}</td>
                 <td>{{$cmp->description}}</td>
+                <td>{{$cmp->company->name}}/{{$cmp->branch->name}}/{{$cmp->department->name}}</td>
                 <td>{{$cmp->user->name}}</td>
                 <td>{{$cmp->unit->uom}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>

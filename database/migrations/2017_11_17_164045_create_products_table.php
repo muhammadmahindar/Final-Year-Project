@@ -19,6 +19,12 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->boolean('delete_status');
             $table->text('description');
+            $table->integer('branch_id')->unsigned();
+            $table->integer('department_id')->unsigned();
+            $table->integer('company_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->integer('unit_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

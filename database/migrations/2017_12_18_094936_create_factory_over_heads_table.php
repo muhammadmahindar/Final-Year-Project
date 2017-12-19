@@ -15,7 +15,7 @@ class CreateFactoryOverHeadsTable extends Migration
     {
         Schema::create('factory_over_heads', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

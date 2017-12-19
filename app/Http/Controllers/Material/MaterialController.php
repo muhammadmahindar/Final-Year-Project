@@ -26,7 +26,8 @@ class MaterialController extends Controller
     {
         if (Auth::user()->can('Read-Material')) 
             {
-      $material=Material::where('delete_status',1)->get();
+
+      $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;
@@ -94,7 +95,7 @@ class MaterialController extends Controller
             {
        $materialData=Material::findOrFail($id);
        $setModal=1;
-       $material=Material::orderBy('created_at','desc')->get();
+       $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        return view('Material.index',compact('material','setModal','materialData','unitData')); 
    }
@@ -159,7 +160,7 @@ class MaterialController extends Controller
     {
         $this->validate($request, [
             'mat_code'=>'required|unique:materials,material_code',
-            'name' => 'required|unique:materials,name',
+            'name' => 'required|unique:materials,name,NULL,id,branch_id,'.Auth::user()->branch_id,
             'unitID' => 'required',
             'user_code'=>  'required'
         ]);
@@ -168,7 +169,7 @@ class MaterialController extends Controller
     {
         $this->validate($request, [
             'mat_code' => 'required|unique:materials,material_code,'.$materialData->id,
-            'name' => 'required|unique:materials,name,'.$materialData->id,
+            'name' => 'required|unique:materials,name,'.$materialData->id.'NULL,id,branch_id,'.Auth::user()->branch_id,
             'unitID' => 'required',
             'user_code'=>  'required'
         ]);
@@ -181,6 +182,9 @@ class MaterialController extends Controller
         $materialData->description=$request->Description;
         $materialData->user_id=$request->user_code;
         $materialData->unit_id=$request->unitID;
+        $materialData->branch_id=Auth::user()->branch_id;
+        $materialData->company_id=Auth::user()->company_id;
+        $materialData->department_id=Auth::user()->department_id;
         $materialData->toArray();
     }
 }

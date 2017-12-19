@@ -29,10 +29,10 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
-       $production=Production::where('delete_status',1)->get();
+       $production=Production::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
-       $productData=Product::where('delete_status',1)->get();
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
        else{
         abort(500);
@@ -42,10 +42,10 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
-       $production=Production::where([['delete_status', '=', '1'],['status', '=', '1'],])->get();
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
-       $productData=Product::where('delete_status',1)->get();
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
        else{
         abort(500);
@@ -55,10 +55,10 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
-       $production=Production::where([['delete_status', '=', '1'],['status', '=', '3'],])->get();
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '3'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
-       $productData=Product::where('delete_status',1)->get();
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
        else{
         abort(500);
@@ -68,10 +68,10 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
-       $production=Production::where([['delete_status', '=', '1'],['status', '=', '4'],])->get();
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '4'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
-       $productData=Product::where('delete_status',1)->get();
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
        else{
         abort(500);
@@ -152,9 +152,9 @@ class ProductionController extends Controller
             {
        $productionData=Production::findOrFail($id);
        $setModal=1;
-       $production=Production::where('delete_status',1)->get();
-       $product=Product::where('delete_status',1)->get();
-       $productData=Product::where('delete_status',1)->get();
+       $production=Production::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Production.index',compact('production','product','setModal','productionData','unitData','productData'));
    }
    else{

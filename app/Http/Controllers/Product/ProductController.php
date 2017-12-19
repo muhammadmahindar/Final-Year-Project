@@ -25,11 +25,11 @@ class ProductController extends Controller
     {
         if (Auth::user()->can('Read-Product')) 
             {
-       $product=Product::where('delete_status',1)->get();
+       $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $setModal=0;
        $productData=0;
-       $materialData=Material::where('delete_status',1)->get();
+       $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
    }
    else{
@@ -115,9 +115,9 @@ class ProductController extends Controller
             {
        $productData=Product::findOrFail($id);
        $setModal=1;
-       $product=Product::where('delete_status',1)->get();
+       $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
-       $materialData=Material::where('delete_status',1)->get();
+       $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Product.index',compact('product','setModal','productData','unitData','materialData')); //
    }
    else{
@@ -197,7 +197,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'mat_code'=>'required|unique:products,product_code',
-            'name' => 'required|unique:products,name',
+            'name' => 'required|unique:products,name,NULL,id,branch_id,'.Auth::user()->branch_id,
             'unitID' => 'required',
             'user_code'=>  'required'
         ]);
@@ -206,7 +206,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'mat_code' => 'required|unique:products,product_code,'.$productData->id,
-            'name' => 'required|unique:products,name,'.$productData->id,
+            'name' => 'required|unique:products,name,'.$productData->id.'NULL,id,branch_id,'.Auth::user()->branch_id,
             'unitID' => 'required',
             'user_code'=>  'required'
         ]);
@@ -219,6 +219,9 @@ class ProductController extends Controller
         $productData->description=$request->Description;
         $productData->user_id=$request->user_code;
         $productData->unit_id=$request->unitID;
+        $productData->branch_id=Auth::user()->branch_id;
+        $productData->company_id=Auth::user()->company_id;
+        $productData->department_id=Auth::user()->department_id;
         $productData->toArray();
     }
 }
