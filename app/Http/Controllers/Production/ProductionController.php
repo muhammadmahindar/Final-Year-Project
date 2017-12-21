@@ -251,10 +251,10 @@ class ProductionController extends Controller
               $keyue->delete();  
             }
             foreach ($productionData->semiFixed as $delsemi) {
-               $delsemi->delete();
+               $productionData->semiFixed()->detach($delsemi->id);
             }
             foreach ($productionData->factoryoverhead as $delfact) {
-               $delfact->delete();
+               $productionData->factoryoverhead()->detach($delfact->id);
             }
             
         }

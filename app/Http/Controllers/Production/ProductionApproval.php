@@ -53,10 +53,18 @@ class ProductionApproval extends Controller
      */
     public function show($id)
     {
+
         $productionData=Production::findOrFail($id);
+        if($productionData->status==3)
+        {
         $semi=SemiFixed::all();
         $factory=FactoryOverHead::all();
         return view('Production.CompletedProduction.Completed',compact('productionData','semi','factory'));
+    }
+    else
+    {
+        abort(500);
+    }
     }
 
     /**
