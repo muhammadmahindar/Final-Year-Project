@@ -13,6 +13,8 @@ use App\Product;
 use Auth;
 use App\ProductionCost;
 use App\User;
+use App\SemiFixed;
+use App\FactorOverhead;
 class ProductionController extends Controller
 {
     public function __construct()
@@ -247,6 +249,12 @@ class ProductionController extends Controller
             $teac=ProductionCost::where('production_id',$productionData->id)->get();
             foreach ($teac as $keyue) {
               $keyue->delete();  
+            }
+            foreach ($productionData->semiFixed as $delsemi) {
+               $delsemi->delete();
+            }
+            foreach ($productionData->factoryoverhead as $delfact) {
+               $delfact->delete();
             }
             
         }

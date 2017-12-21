@@ -61,11 +61,7 @@ Productions
                           <button class="btn btn-primary" name="approval" value="3">Approve</button>
                           <button class="btn btn-primary" name="approval" value="0">Disapprove</button>
                         </form>@endcan @endif
-                         @if($cmp->status==3)@can('Complete-Production') <form action="{{route('Production-Approval.update',$cmp->id)}}" method="POST">
-                           <input type="hidden" name="_method" value="PATCH">
-                      {{ csrf_field() }}
-                          <button class="btn btn-primary" name="approval" value="4">Completed</button>
-                        </form>@endcan @endif
+                         @if($cmp->status==3)@can('Complete-Production') <a class="btn btn-primary" href="{{route('Production-Approval.show',$cmp->id)}}">Complete Production</a>@endcan @endif
                       </td>
             </tr>
             @endif

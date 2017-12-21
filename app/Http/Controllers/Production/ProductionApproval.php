@@ -9,8 +9,11 @@ use App\Jobs\ProductionApprovedNotifier;
 use Auth;
 use App\Production;
 use App\ProductionCost;
+use App\SemiFixed;
+Use App\FactoryOverHead;
 class ProductionApproval extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +53,10 @@ class ProductionApproval extends Controller
      */
     public function show($id)
     {
-        //
+        $productionData=Production::findOrFail($id);
+        $semi=SemiFixed::all();
+        $factory=FactoryOverHead::all();
+        return view('Production.CompletedProduction.Completed',compact('productionData','semi','factory'));
     }
 
     /**
@@ -73,8 +79,21 @@ class ProductionApproval extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $productionData=Production::findOrFail($id);
+        $semiSize=sizeof($request->semiId);
+        $factorySize=sizeof($request->factoryId);
+        $sync_data = [];
+        $sync_data1= [];
+            for($i = 0; $i < $semiSize;$i++)
+            {
+            $sync_data[$request->semiId[$i]] = ['quantity' => $request->SemiQuantityList[$i]];
+            }
+             for($i = 0; $i < $factorySize;$i++)
+            {
+            $sync_data1[$request->factoryId[$i]] = ['quantity' => $request->FactoryQuantityList[$i]];
+            }
+        $productionData->semiFixed()->sync($sync_data);
+        $productionData->factoryoverhead()->sync($sync_data1);
         $productionData->status=$request->approval;
         if($productionData->save())
         {
