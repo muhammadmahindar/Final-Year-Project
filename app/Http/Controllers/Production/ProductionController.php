@@ -140,8 +140,14 @@ class ProductionController extends Controller
     public function show($id)
     {
         $productionData=Production::findOrFail($id);
-
+        if($productionData->status==4)
+        {
        return view('Production.CompletedProduction.Show',compact('productionData'));
+   }
+   else
+   {
+    abort(500);
+   }
     }
 
     /**
