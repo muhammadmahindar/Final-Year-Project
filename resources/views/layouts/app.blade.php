@@ -390,7 +390,7 @@
 
   <footer class="main-footer">
 
-    <strong>Copyright &copy; 2018-2019 <a href="https://adminlte.io">Petrochemical international</a>.</strong> All rights
+    <strong>Copyright &copy; 2018-2019 <a>Petrochemical international</a>.</strong> All rights
     reserved.
   </footer>
 

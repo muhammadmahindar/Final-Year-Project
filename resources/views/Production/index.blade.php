@@ -49,7 +49,10 @@ Productions
                 <td>{{$cmp->user->name}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td>@can('Edit-Production')<a href="{{route('Production.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
+                <td>@can('Edit-Production') @if($cmp->status!=4)<a href="{{route('Production.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endif @endcan
+                  @if($cmp->status==4)
+                  <a href="{{route('Production.show',$cmp->id)}}" class="btn btn-primary">Show</a>
+                  @endif
                   @can('Delete-Production')
                   <form action="{{route('Production.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
