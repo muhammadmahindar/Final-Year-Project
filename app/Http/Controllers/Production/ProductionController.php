@@ -142,8 +142,15 @@ class ProductionController extends Controller
         $productionData=Production::findOrFail($id);
         if($productionData->status==4)
         {
+            if($productionData->branch_id==Auth::user()->branch_id)
+                {
        return view('Production.CompletedProduction.Show',compact('productionData'));
    }
+   else
+   {
+    abort(500);
+    }
+        }
    else
    {
     abort(500);
