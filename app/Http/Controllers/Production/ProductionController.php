@@ -140,6 +140,11 @@ class ProductionController extends Controller
     public function show($id)
     {
         $productionData=Production::findOrFail($id);
+        foreach (Auth::user()->unReadNotifications as $value) {
+            if($value->data['id']==$productionData->id && $value->data['status']==4){
+                $value->markAsRead();
+            }
+        }
         if($productionData->status==4)
         {
             if($productionData->branch_id==Auth::user()->branch_id)

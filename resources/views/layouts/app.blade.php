@@ -119,7 +119,7 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a href="{{URL('Production')}}" onclick="">
+                    <a href="{{URL('Production')}}/{{$noti->data['id']}}" onclick="$noti->markAsRead()">
                       <i class="fa fa-users text-aqua"></i> 
                       The Production has been @if($noti->data['status']==4) Completed @elseif($noti->data['status']==3)Approved @elseif($noti->data['status']==0)Disapproved @endif
                     </a>
@@ -351,7 +351,7 @@
   <div class="content-wrapper">
    
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header no-print">
       <h1>
         @yield('BigHeading')
         <small>@yield('SmallHeading')</small>
@@ -362,8 +362,8 @@
     <section class="content">
        @yield('FullPage')
       <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
+      <div class="box ">
+        <div class="box-header with-border no-print">
           <h3 class="box-title">@yield('pagetitle')</h3>
 
           <div class="box-tools pull-right">
@@ -376,19 +376,18 @@
           @yield('dynamiccontent')
         </div>
         <!-- /.box-body -->
-        <div class="box-footer">
+        <div class="box-footer no-print">
           @yield('footer')
         </div>
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer class="main-footer no-print">
 
     <strong>Copyright &copy; 2018-2019 <a>Petrochemical international</a>.</strong> All rights
     reserved.

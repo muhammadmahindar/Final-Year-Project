@@ -7,9 +7,6 @@ Production
 details
 @endsection
 @section('dynamiccontent')
-<div class="pad margin no-print">
-    </div>
-
     <!-- Main content -->
     <section class="invoice">
       <!-- title row -->
@@ -61,7 +58,7 @@ details
               <th>Product</th>
               <th>Product Code</th>
               <th>Description</th>
-              <th>Subtotal</th>
+              <th>Raw Material Cost</th>
             </tr>
             </thead>
             <tbody>
@@ -71,7 +68,7 @@ details
               <td>{{$val->name}}</td>
               <td>{{$val->product_code}}</td>
               <td>{{$val->description}}</td>
-              <td>$64.50</td>
+              <td><strong>PKR 0</strong></td>
             </tr>
             @endforeach
             </tbody>
@@ -86,14 +83,22 @@ details
         <!-- /.col -->
         <div class="col-xs-6 pull-right">
 
-          <div class="table-responsive pull-right">
-            <table class="table">
-              <tr>
-                <th>Total:</th>
-                <td>$265.24</td>
-              </tr>
-            </table>
-          </div>
+          <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>Semi Fixed:</th>
+              <td>PKR {{$productionData->semiFixed()->sum('quantity')}}</td>
+            </tr>
+            <tr>
+              <th>Factory Overhead</th>
+              <td>PKR {{$productionData->factoryoverhead()->sum('quantity')}}</td>
+            </tr> 
+            <tr>
+              <th>Total:</th>
+              <td>PKR {{$productionData->factoryoverhead()->sum('quantity')+$productionData->semiFixed()->sum('quantity')}}</td>
+            </tr>
+          </table>
+        </div>
         </div>
         <!-- /.col -->
       </div>
