@@ -107,7 +107,7 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a href="{{URL('Production')}}" onclick="">
+                    <a href="{{URL('Pending/Productions')}}" onclick="">
                       <i class="fa fa-users text-aqua"></i> 
                       Pending Production Request
                     </a>
@@ -119,7 +119,7 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a href="{{URL('Production')}}/{{$noti->data['id']}}" onclick="$noti->markAsRead()">
+                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('Approved/Productions')}}" @endif onclick="">
                       <i class="fa fa-users text-aqua"></i> 
                       The Production has been @if($noti->data['status']==4) Completed @elseif($noti->data['status']==3)Approved @elseif($noti->data['status']==0)Disapproved @endif
                     </a>
@@ -316,6 +316,7 @@
             @can('Read-Product')
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
             @endcan
+            <li><a href="{{URL('DailyProduction')}}"><i class="fa fa-circle-o"></i>Daily Production</a></li>
             @can('Read-Production')
             <li class="treeview">
           <a href="#">

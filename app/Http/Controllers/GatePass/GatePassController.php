@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\GatePass;
 use Auth;
+use App\Material;
+use App\Product;
 class GatePassController extends Controller
 {
     public function __construct()
@@ -21,10 +23,8 @@ class GatePassController extends Controller
     {
         if (Auth::user()->can('Read-GatePass')) 
             {
-                $companyData=0;
         $gatepass=GatePass::all();
-        $setModal=false;
-       return view('GatePass.index',compact('companyData','gatepass','setModal'));
+       return view('GatePass.index',compact('gatepass'));
        } 
        else
        {
@@ -39,7 +39,7 @@ class GatePassController extends Controller
      */
     public function create()
     {
-        //
+        return view('GatePass.create');
     }
 
     /**
@@ -50,7 +50,12 @@ class GatePassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validateInput($request);
+        $gatePassData=new GatePass();
+        $this->SaveGatePass($request,$gatePassData);
+        $gatePassData->save();
+        return redirect('/GatePass');
+        
     }
 
     /**
@@ -95,6 +100,24 @@ class GatePassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $gatePassData=GatePass::findOrFail($id);
+        $gatePassData->delete();
+        return redirect('/GatePass');
+    }
+    protected function validateInput(Request $request)
+    {
+        $this->validate($request, [
+            'person_name'=>'required',
+            'contact_phone' => 'required|numeric',
+            'destination' => 'required'
+        ]);
+    }
+    protected function SaveGatePass(Request $request,$gatePassData)
+    {
+        $gatePassData->person_name=$request->person_name;
+        $gatePassData->contact_phone=$request->contact_phone;
+        $gatePassData->destination=$request->destination;
+        $gatePassData->remarks=$request->remarks;
+        $gatePassData->toArray();
     }
 }

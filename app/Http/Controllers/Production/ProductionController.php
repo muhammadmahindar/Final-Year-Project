@@ -44,6 +44,9 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
+                foreach (Auth::user()->unReadNotifications as $value) {
+                $value->markAsRead();
+             }
        $production=Production::where([['delete_status', '=', '1'],['status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
@@ -57,6 +60,9 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
+                foreach (Auth::user()->unReadNotifications as $value) {
+                $value->markAsRead();
+             }
        $production=Production::where([['delete_status', '=', '1'],['status', '=', '3'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;

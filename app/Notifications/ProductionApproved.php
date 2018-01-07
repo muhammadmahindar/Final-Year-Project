@@ -59,7 +59,8 @@ class ProductionApproved extends Notification
              return [
             'id'=> $this->productionInformation->id,
             'name'=>$this->productionInformation->name,
-            'status'=>$this->productionInformation->status
+            'status'=>$this->productionInformation->status,
+            'code'=>$this->productionInformation->production_code
         ];
     }
 }

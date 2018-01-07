@@ -32,6 +32,8 @@ Route::resource('Department','Department\DepartmentController');
 Route::resource('Material','Material\MaterialController');
 Route::resource('Product','Product\ProductController');
 Route::resource('Production','Production\ProductionController');
+Route::post('DailyProduction/create','Production\DailyProduction@productselect')->name('DailyProduction.productselect');
+Route::resource('DailyProduction','Production\DailyProduction');
 Route::get('/Pending/Productions','Production\ProductionController@pending');
 Route::get('/Approved/Productions','Production\ProductionController@approved');
 Route::get('/Completed/Productions','Production\ProductionController@completed');
