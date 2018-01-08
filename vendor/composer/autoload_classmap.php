@@ -37,6 +37,7 @@ return array(
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
+    'GatePassProduct' => $baseDir . '/database/migrations/2018_01_08_105208_GatePassProduct.php',
     'GatePassTableSeeder' => $baseDir . '/database/seeds/GatePassTableSeeder.php',
     'GatePassesItem' => $baseDir . '/database/migrations/2018_01_05_130159_gate_passes_item.php',
     'Hamcrest\\Arrays\\IsArray' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',

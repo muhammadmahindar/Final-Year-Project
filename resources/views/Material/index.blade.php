@@ -303,7 +303,7 @@ Material
 
 
  $(document).ready(function() {
-        var max_fields      = 10;
+        var max_fields      = 100;
         var wrapper         = $(".container1");
         var add_button      = $(".add_form_field");
 

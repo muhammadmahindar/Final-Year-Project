@@ -391,6 +391,7 @@ class ComposerStaticInita1c05ffa327e3b213c64650297d6dcab
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'GatePassProduct' => __DIR__ . '/../..' . '/database/migrations/2018_01_08_105208_GatePassProduct.php',
         'GatePassTableSeeder' => __DIR__ . '/../..' . '/database/seeds/GatePassTableSeeder.php',
         'GatePassesItem' => __DIR__ . '/../..' . '/database/migrations/2018_01_05_130159_gate_passes_item.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',

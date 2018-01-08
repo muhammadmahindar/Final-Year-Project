@@ -4,10 +4,12 @@ namespace App\Http\Controllers\GatePass;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\GatePass;
 use Auth;
 use App\Material;
 use App\Product;
+use DB;
 class GatePassController extends Controller
 {
     public function __construct()
@@ -21,10 +23,18 @@ class GatePassController extends Controller
      */
     public function index()
     {
+    
         if (Auth::user()->can('Read-GatePass')) 
             {
-        $gatepass=GatePass::all();
-       return view('GatePass.index',compact('gatepass'));
+        // $gatepass=DB::table('gate_passes')
+        // ->join('gate_passes_item', function ($join) {
+        //     $join->on('gate_passes.id', '=', 'gate_passes_item.gate_id')
+        //          ->where('gate_passes_item.gate_id', '>', 0);
+        // })
+        // ->get();
+                $gatepass=GatePass::all();
+                 
+       return view('GatePass.index',compact('gatepass','product','material'));
        } 
        else
        {
@@ -39,7 +49,10 @@ class GatePassController extends Controller
      */
     public function create()
     {
-        return view('GatePass.create');
+        $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+                 $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+
+        return view('GatePass.create',compact('material','product'));
     }
 
     /**
@@ -50,11 +63,43 @@ class GatePassController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateInput($request);
-        $gatePassData=new GatePass();
-        $this->SaveGatePass($request,$gatePassData);
-        $gatePassData->save();
-        return redirect('/GatePass');
+
+         $materialSize=sizeof($request->materialList);
+         $productSize=sizeof($request->productList);
+        if($request->materialList!=NULL){
+            if (count(array_unique($request->materialList))<count($request->materialList)) {
+                return redirect()->back()->withInput()->withErrors(['DuplicateMaterial' => 'Duplicate Material Selected']);
+            }
+        }
+        elseif ($request->productList!=NULL) {
+            if (count(array_unique($request->productList))<count($request->productList)) {
+                return redirect()->back()->withInput()->withErrors(['DuplicateProduct' => 'Duplicate Product Selected']);
+            }
+        }
+            $this->validateInput($request);
+            $gatePassData=new GatePass();
+            $this->SaveGatePass($request,$gatePassData);
+            $sync_data = [];
+            for($i = 0; $i < $materialSize;$i++)
+            {
+            $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
+            }
+            $sync_data1 = [];
+            for($i = 0; $i < $productSize;$i++)
+            {
+            $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
+            }
+            if ($gatePassData->save()) {
+                Session::flash('notice','GatePass was successfully created');
+                $gatePassData->materials()->sync($sync_data);
+                $gatePassData->products()->sync($sync_data1);
+                return redirect('/GatePass');
+            }
+            else{
+                Session::flash('alert','GatePass was not successfully created');
+                return redirect('/GatePass');
+            }
+        
         
     }
 
@@ -66,7 +111,8 @@ class GatePassController extends Controller
      */
     public function show($id)
     {
-        //
+        $gatePassData=GatePass::findOrFail($id);
+        return view('GatePass.show',compact('gatePassData'));
     }
 
     /**
@@ -77,7 +123,11 @@ class GatePassController extends Controller
      */
     public function edit($id)
     {
-        //
+        $gatePassData=GatePass::findOrFail($id);
+        $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+                 $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+                 return view('GatePass.edit',compact('material','product','gatePassData'));
+
     }
 
     /**
@@ -89,7 +139,41 @@ class GatePassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $materialSize=sizeof($request->materialList);
+         $productSize=sizeof($request->productList);
+        if($request->materialList!=NULL){
+            if (count(array_unique($request->materialList))<count($request->materialList)) {
+                return redirect()->back()->withInput()->withErrors(['DuplicateMaterial' => 'Duplicate Material Selected']);
+            }
+        }
+        elseif ($request->productList!=NULL) {
+            if (count(array_unique($request->productList))<count($request->productList)) {
+                return redirect()->back()->withInput()->withErrors(['DuplicateProduct' => 'Duplicate Product Selected']);
+            }
+        }
+            $gatePassData=GatePass::findOrFail($id);
+            $this->validateInput($request);
+            $this->SaveGatePass($request,$gatePassData);
+            $sync_data = [];
+            for($i = 0; $i < $materialSize;$i++)
+            {
+            $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
+            }
+            $sync_data1 = [];
+            for($i = 0; $i < $productSize;$i++)
+            {
+            $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
+            }
+            if ($gatePassData->save()) {
+                Session::flash('notice','GatePass was successfully Edited');
+                $gatePassData->materials()->sync($sync_data);
+                $gatePassData->products()->sync($sync_data1);
+                return redirect('/GatePass');
+            }
+            else{
+                Session::flash('alert','GatePass was not successfully Edited');
+                return redirect('/GatePass');
+            }
     }
 
     /**
@@ -109,7 +193,7 @@ class GatePassController extends Controller
         $this->validate($request, [
             'person_name'=>'required',
             'contact_phone' => 'required|numeric',
-            'destination' => 'required'
+            'destination' => 'required',
         ]);
     }
     protected function SaveGatePass(Request $request,$gatePassData)

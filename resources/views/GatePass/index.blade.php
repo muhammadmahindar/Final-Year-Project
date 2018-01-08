@@ -25,9 +25,9 @@ GatePass
             <tr>
                 <th data-priority="1">Person Name</th>
                 <th data-priority="5">Phone</th>
-                <th data-priority="4">Destination</th>
-                <th data-priority="3">Item Name</th>
-                <th data-priority="6">Quantity</th>
+                <th data-priority="6">Destination</th>
+                <th data-priority="3">Material/Quantity</th>
+                <th data-priority="4">Product/Quantity</th>
                 <th data-priority="7">Remarks</th>
                 <th data-priority="8">Updated At</th>
                 <th data-priority="9">Created At</th>
@@ -40,8 +40,11 @@ GatePass
                 <td>{{$cmp->person_name}}</td>
                 <td>{{$cmp->contact_phone}}</td>
                 <td>{{$cmp->destination}}</td>
-                <td>{{$cmp->items}}</td>
-                <td>{{$cmp->quantity}}</td>
+                
+                <td><ul>@foreach($cmp->materials as $mat)<li>{{$mat->name}}/{{$mat->pivot->quantity}} </li>@endforeach</ul></td>
+                <td><ul>@foreach($cmp->products as $mat)<li>{{$mat->name}}/{{$mat->pivot->quantity}}</li> @endforeach</ul></td>
+                
+                
                 <td>{{$cmp->remarks}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
@@ -49,7 +52,8 @@ GatePass
                   <form action="{{route('GatePass.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form></td>
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>
+                        <a href="{{route('GatePass.show',$cmp->id)}}" class="btn btn-primary">Show</a></td>
             </tr>
             @endforeach
         </tbody>

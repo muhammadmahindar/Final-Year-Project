@@ -52,7 +52,7 @@
         ]); ?>
     </script>
 </head>
-@yield('scriptarea')
+
 <!-- jQuery 3 -->
  <script src="{{ asset('css/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -68,5 +68,6 @@
     });
   });
 </script>
+@yield('scriptarea')
 </body>
 </html>
