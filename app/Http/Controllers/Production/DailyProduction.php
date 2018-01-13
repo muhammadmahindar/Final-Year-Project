@@ -123,9 +123,9 @@ class DailyProduction extends Controller
         $dailyproduction->dispatches=$request->dispatches;
         $dailyproduction->sale_return=$request->sale_return;
         $dailyproduction->received=$request->received;
-        $dailyproduction->branch_id=1;
-        $dailyproduction->department_id=1;
-        $dailyproduction->company_id=1;
+        $dailyproduction->branch_id=Auth::user()->branch_id;
+        $dailyproduction->department_id=Auth::user()->department_id;
+        $dailyproduction->company_id=Auth::user()->company_id;
         $dailyproduction->toArray();
     }
 }

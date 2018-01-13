@@ -60,19 +60,20 @@ class DailyProductionApi extends Controller
     public function store(Request $request)
     {
         $dailyproduction= new DailyProduct();
-        $this->ValidateInput($request);
+       $this->ValidateInput($request);
         $this->SaveDaily($request,$dailyproduction);
         if($dailyproduction->save())
         {
             return response()->json([
-            'data' => 'Object Saved'
+            'data' => 'Resource has been created'
         ], 201);
         }
         else{
             return response()->json([
-            'data' => 'Not Saved'
-        ], 400);
+            'data' => 'Resource has not been created'
+        ], 500);
         }
+       
     }
 
     /**
@@ -121,7 +122,7 @@ class DailyProductionApi extends Controller
     }
     protected function ValidateInput(Request $request)
     {
-        $this->validate($request, [
+       $this->validate($request, [
             'product_id' => 'required|numeric',
             'produced' => 'required|numeric',
             'dispatches'=>  'numeric',
@@ -139,9 +140,9 @@ class DailyProductionApi extends Controller
         $dailyproduction->dispatches=$request->dispatches;
         $dailyproduction->sale_return=$request->sale_return;
         $dailyproduction->received=$request->received;
-        $dailyproduction->branch_id=1;
-        $dailyproduction->department_id=1;
-        $dailyproduction->company_id=1;
+        $dailyproduction->branch_id=Auth::user()->branch_id;
+        $dailyproduction->department_id=Auth::user()->department_id;
+        $dailyproduction->company_id=Auth::user()->company_id;
         $dailyproduction->toArray();
     }
 }
