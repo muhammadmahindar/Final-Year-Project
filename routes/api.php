@@ -14,5 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/user', function (Request $request) {
-    return $request->user()->name;
+    return $request->user();
 })->middleware('auth:api');
+
+Route::resource('DailyProduction','Api\Production\DailyProductionApi');
+Route::post('DailyProduction/create','Api\Production\DailyProductionApi@productselect')->name('DailyProduction.productselect');

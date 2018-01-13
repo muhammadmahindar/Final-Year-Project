@@ -125,7 +125,7 @@
                             <label for="avatar" class="col-md-4 control-label">Photo</label>
 
                             <div class="col-md-8">
-                                <input id="avatar" type="file" class="form-control" name="avatar" value="{{ old('avatar') }}" required>
+                                <input id="avatar" type="file" class="form-control" name="avatar" value="{{ old('avatar') }}" >
 
                                 @if ($errors->has('avatar'))
                                     <span class="help-block">

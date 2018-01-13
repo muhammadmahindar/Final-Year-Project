@@ -26,12 +26,21 @@ class MaterialController extends Controller
     {
         if (Auth::user()->can('Read-Material')) 
             {
-
+                if(!Auth::user()->hasRole('SuperAdmin'))
+                    {
       $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;
-        return view('Material.index',compact('material','setModal','materialData','unitData'));  
+        return view('Material.index',compact('material','setModal','materialData','unitData')); 
+        }
+        else{
+             $material=Material::where([['delete_status', '=', '1'],])->get();
+       $unitData=Unit::orderBy('created_at','desc')->get();
+        $setModal=0;
+        $materialData=0;
+        return view('Material.index',compact('material','setModal','materialData','unitData')); 
+        } 
     }
     else
     {
@@ -115,7 +124,7 @@ class MaterialController extends Controller
     {
        $materialData=Material::findOrFail($id);
        $this->validateEditInput($request,$materialData);
-        $this->SaveMaterial($request,$materialData);
+        $this->SaveEditMaterial($request,$materialData);
         if($materialData->save())
         {
             Session::flash('notice','Branch was successfully Edited');
@@ -187,4 +196,22 @@ class MaterialController extends Controller
         $materialData->department_id=Auth::user()->department_id;
         $materialData->toArray();
     }
+    protected function SaveEditMaterial(Request $request,$materialData)
+    {
+        $materialData->name=$request->name;
+        $materialData->material_code=$request->mat_code;
+        $materialData->delete_status=1;
+        $materialData->description=$request->Description;  
+        $materialData->unit_id=$request->unitID;
+        if(!Auth::user()->hasRole('SuperAdmin'))
+            {
+        $materialData->user_id=$request->user_code;
+        $materialData->branch_id=Auth::user()->branch_id;
+        $materialData->company_id=Auth::user()->company_id;
+        $materialData->department_id=Auth::user()->department_id;
+    }
+        $materialData->toArray();
+    }
+
+
 }

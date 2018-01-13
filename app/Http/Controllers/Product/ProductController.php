@@ -25,12 +25,23 @@ class ProductController extends Controller
     {
         if (Auth::user()->can('Read-Product')) 
             {
+                if(!Auth::user()->hasRole('SuperAdmin'))
+                    {
        $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $setModal=0;
        $productData=0;
        $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
+   }
+   else{
+        $product=Product::where([['delete_status', '=', '1'],])->get();
+       $unitData=Unit::orderBy('created_at','desc')->get();
+       $setModal=0;
+       $productData=0;
+       $materialData=Material::where([['delete_status', '=', '1'],])->get();
+       return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
+   }
    }
    else{
     abort(500);
@@ -113,12 +124,23 @@ class ProductController extends Controller
     {
         if (Auth::user()->can('Edit-Product')) 
             {
+                 if(!Auth::user()->hasRole('SuperAdmin'))
+                    {
        $productData=Product::findOrFail($id);
        $setModal=1;
        $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-       return view('Product.index',compact('product','setModal','productData','unitData','materialData')); //
+       return view('Product.index',compact('product','setModal','productData','unitData','materialData'));
+       }
+       else{
+         $productData=Product::findOrFail($id);
+       $setModal=1;
+       $product=Product::where([['delete_status', '=', '1'],['company_id', '=', $productData->company_id],['branch_id', '=', $productData->branch_id],])->get();
+       $unitData=Unit::orderBy('created_at','desc')->get();
+       $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', $productData->company_id],['branch_id', '=', $productData->branch_id],])->get();
+       return view('Product.index',compact('product','setModal','productData','unitData','materialData'));
+       }
    }
    else{
     abort(500);
@@ -142,7 +164,7 @@ class ProductController extends Controller
         else{
        $productData=Product::findOrFail($id);
         $this->validateEditInput($request,$productData);
-        $this->SaveProduct($request,$productData);
+        $this->SaveEditProduct($request,$productData);
         $sync_data = [];
             for($i = 0; $i < $formulaSize;$i++)
             {
@@ -222,6 +244,22 @@ class ProductController extends Controller
         $productData->branch_id=Auth::user()->branch_id;
         $productData->company_id=Auth::user()->company_id;
         $productData->department_id=Auth::user()->department_id;
+        $productData->toArray();
+    }
+     protected function SaveEditProduct(Request $request,$productData)
+    {
+        $productData->name=$request->name;
+        $productData->product_code=$request->mat_code;
+        $productData->delete_status=1;
+        $productData->description=$request->Description;
+        $productData->unit_id=$request->unitID;
+        if(!Auth::user()->hasRole('SuperAdmin'))
+            {
+        $productData->user_id=$request->user_code;
+        $productData->branch_id=Auth::user()->branch_id;
+        $productData->company_id=Auth::user()->company_id;
+        $productData->department_id=Auth::user()->department_id;
+    }
         $productData->toArray();
     }
 }

@@ -26,6 +26,7 @@ Products
                 <th data-priority="3">Product Code</th>
                 <th data-priority="1">Product Name</th>
                 <th data-priority="4">Material List,Quantity</th>
+                <th data-priority="5">Company/Branch/Department</th>
                 <th data-priority="5">Description</th>
                 <th data-priority="6">Created By</th>
                 <th data-priority="7">Unit</th>
@@ -41,6 +42,7 @@ Products
                 <td>{{$cmp->product_code}}</td>
                 <td>{{$cmp->name}}</td>
                 <td><ul>@foreach($cmp->materials as $chekc) <li>{{$chekc->name}},{{$chekc->pivot->quantity}}</li>@endforeach</ul></td>
+                 <td>{{$cmp->company->name}}/{{$cmp->branch->name}}/{{$cmp->department->name}}</td>
                 <td>{{$cmp->description}}</td>
                 <td>{{$cmp->user->name}}</td>
                 <td>{{$cmp->unit->uom}}</td>
@@ -233,9 +235,9 @@ Products
               <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
                   <select class="test" name="FormulaList[]" required="">
-                    <option value="">--Please choose--</option>
+                    <option>--Please choose--</option>
                       @foreach($materialData as $mater)
-                        <option value="{{$mater->id}}" @if($mater->id == $cmp->id)selected="selected"@endif>{{$mater->name}}</option>
+                        <option value="{{$mater->id}}" @if($mater->id == $cmp->id)selected="selected" @endif >{{$mater->name}}</option>
                       @endforeach
                   </select>
                 </div>
