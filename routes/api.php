@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,12 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('DailyProduction','Api\Production\DailyProductionApi');
 Route::post('DailyProduction/create','Api\Production\DailyProductionApi@productselect')->name('DailyProduction.productselect');
+
+Route::resource('GatePass','Api\GatePass\GatePassApi');
+
+Route::get('/permissions',function(Request $request){
+	$obj=$request->user()->id;
+	$user=User::find($obj);
+	$user->getAllPermissions();
+	return $user;
+})->middleware('auth:api');
