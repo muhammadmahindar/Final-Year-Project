@@ -8,14 +8,11 @@
 @section('dynamiccontent')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-11">
             <div class="panel panel-default">
-                <div class="panel-heading">Monthly Report of {{$productname->name}}</div>
+                <div class="panel-heading">Daily Report of {{$productname->name}}<div class="pull-right">{{date('d-M-Y h:i a')}}</div></div>
                 <div>
                 	<canvas id="myChart" width="400"></canvas>
-                	@foreach($myData as $key)
-                	
-                	@endforeach
                 </div>
             </div>
         </div>
@@ -50,16 +47,12 @@
                 	@endforeach]
 				}
 			]
-
 		}
-
 	window.onload = function(){
 		var ctx = document.getElementById("myChart").getContext("2d");
 		window.myLine = new Chart(ctx).Line(lineChartData, {
-			responsive: true
+			responsive: true,
 		});
 	}
-
-
 	</script>
 @endsection

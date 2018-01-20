@@ -24,7 +24,7 @@ class MonthlyReport extends Controller
     public function ShowReport(Request $request)
     {
         $productname=Product::find($request->productID);
-        $myData= DB::table('daily_production')->where('product_id',$request->productID)->whereBetween('created_at', array(Carbon::today()->startOfMonth()->toDateTimeString(), Carbon::today()->endOfMonth()->toDateTimeString()) )->orderBy('created_at','asc')->get(); 
+        $myData= DB::table('daily_production')->where('product_id',$request->productID)->whereBetween('created_at', array(Carbon::today()->startOfMonth()->toDateTimeString(), Carbon::today()->endOfMonth()->toDateTimeString()) )->orderBy('created_at','asc')->get();
     return view('Reports.MonthlyGraph',compact('myData','productname'));
     }
 }

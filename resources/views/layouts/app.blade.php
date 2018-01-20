@@ -341,6 +341,18 @@
         @endcan          
           </ul>
         </li>
+        <li class="header">Reports</li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-building"></i> <span>Reports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('Reports')}}"><i class="fa fa-circle-o"></i>Daily Product Production</a></li>
+          </ul>
+        </li>        
       </ul>
     </section>
     <!-- /.sidebar -->
