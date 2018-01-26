@@ -22,24 +22,25 @@ Costing
 <form role="form" action="{{route('Production-Approval.update',$productionData->id)}}" method="POST">
 	<input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
+  @foreach($productionData->products as $productsname)
   <table id="productiontable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th data-priority="1">Semi Fixed</th>
+                <th data-priority="1">{{$productsname->name}} Semi Fixed</th>
                 <th data-priority="2">Quantity</th>
             </tr>
         </thead>
         <tbody>
           @foreach($semi as $key)
             <tr>
-                <td><input type="hidden" name="semiId[]" value="{{$key->id}}">{{$key->name}}</td>
-                <td><input type="number" class="form-control" id="quan"  name="SemiQuantityList[]" placeholder="Enter Quanity" min="0" step="any" required="" value="0"></td>
+                <td><input type="hidden" name="semiId{{$productsname->id}}[]" value="{{$key->id}}">{{$key->name}}</td>
+                <td><input type="number" class="form-control" id="quan"  name="SemiQuantityList{{$productsname->id}}[]" placeholder="Enter Quanity" min="0" step="any" required="" value="0"></td>
             </tr>
             @endforeach
         </tbody>
     </table>
     <div class="row">
-    	<h3>Factory Overhead</h1>
+    	<h3>{{$productsname->name}} Factory Overhead</h1>
     </div>
     <table id="factorytable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">
     	<input type="hidden" name="approval" value="4">
@@ -52,12 +53,13 @@ Costing
         <tbody>
           @foreach($factory as $key)
             <tr>
-                <td><input type="hidden" name="factoryId[]" value="{{$key->id}}">{{$key->name}}</td>
-                <td><input type="number" class="form-control" id="quan"  name="FactoryQuantityList[]" placeholder="Enter Quanity" min="0" step="any" required="" value="0"></td>
+                <td><input type="hidden" name="factoryId{{$productsname->id}}[]" value="{{$key->id}}">{{$key->name}}</td>
+                <td><input type="number" class="form-control" id="quan"  name="FactoryQuantityList{{$productsname->id}}[]" placeholder="Enter Quanity" min="0" step="any" required="" value="0"></td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    @endforeach
     <div class="form-group modal-footer">
           <button type="submit" class="btn btn-primary pull-right">Update</button>
           </div>

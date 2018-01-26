@@ -30,10 +30,10 @@ class Production extends Model
     }
     public function semiFixed()
     {
-        return $this->belongsToMany('App\SemiFixed', 'production_semi_fixed', 'production_id', 'semi_id')->withPivot('quantity')->withTimestamps();
+        return $this->belongsToMany('App\SemiFixed', 'production_semi_fixed', 'production_id', 'semi_id')->withPivot('quantity','product_id')->withTimestamps();
     }
     public function factoryoverhead()
     {
-        return $this->belongsToMany('App\FactoryOverHead', 'factory_ovear_head_production', 'production_id', 'factory_id')->withPivot('quantity')->withTimestamps();
+        return $this->belongsToMany('App\FactoryOverHead', 'factory_ovear_head_production', 'production_id', 'factory_id')->withPivot('quantity','product_id')->withTimestamps();
     }
 }

@@ -13,6 +13,11 @@ use App\SemiFixed;
 Use App\FactoryOverHead;
 class ProductionApproval extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -88,20 +93,23 @@ class ProductionApproval extends Controller
     public function update(Request $request, $id)
     {
         $productionData=Production::findOrFail($id);
-        $semiSize=sizeof($request->semiId);
-        $factorySize=sizeof($request->factoryId);
+        
+        foreach($productionData->products as $productsname){
+        $semiSize=sizeof($request->{"semiId".$productsname->id});
+        $factorySize=sizeof($request->{"factoryId".$productsname->id});
         $sync_data = [];
         $sync_data1= [];
             for($i = 0; $i < $semiSize;$i++)
-            {
-            $sync_data[$request->semiId[$i]] = ['quantity' => $request->SemiQuantityList[$i]];
+            {  
+            $sync_data[$request->{"semiId".$productsname->id}[$i]] = ['quantity' => $request->{"SemiQuantityList".$productsname->id}[$i],'product_id'=>$productsname->id];
             }
              for($i = 0; $i < $factorySize;$i++)
             {
-            $sync_data1[$request->factoryId[$i]] = ['quantity' => $request->FactoryQuantityList[$i]];
+            $sync_data1[$request->{"factoryId".$productsname->id}[$i]] = ['quantity' => $request->{"FactoryQuantityList".$productsname->id}[$i],'product_id'=>$productsname->id];
             }
-        $productionData->semiFixed()->sync($sync_data);
-        $productionData->factoryoverhead()->sync($sync_data1);
+        $productionData->semiFixed()->attach($sync_data);
+        $productionData->factoryoverhead()->attach($sync_data1);
+}
         $productionData->status=$request->approval;
         if($productionData->save())
         {

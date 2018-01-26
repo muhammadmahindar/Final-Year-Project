@@ -13,6 +13,8 @@
 //Reports
 Route::get('/Reports','Reports\MonthlyReport@ProductSelect');
 Route::post('Reports/View','Reports\MonthlyReport@ShowReport')->name('Reports.graph');
+Route::get('/Reports/MonthlyReport','Reports\MonthlyReport@ShowForm');
+Route::post('Reports/View','Reports\MonthlyReport@ShowMonthly')->name('Reports.Month');
 Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');

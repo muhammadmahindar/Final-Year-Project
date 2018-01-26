@@ -351,6 +351,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{URL('Reports')}}"><i class="fa fa-circle-o"></i>Daily Product Production</a></li>
+            <li><a href="{{URL('Reports/MonthlyReport')}}"><i class="fa fa-circle-o"></i>Monthly Product Production</a></li>
           </ul>
         </li>        
       </ul>
