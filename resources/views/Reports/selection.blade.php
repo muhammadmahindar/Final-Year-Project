@@ -19,7 +19,7 @@ Daily Production
      
 @endsection
 @section('dynamiccontent')
-  <form method="POST" action="{{route('Reports.graph')}}">
+  <form method="POST" action="{{route('Reports.Graph')}}">
     {{ csrf_field() }}
     <h3>Select a Product</h3>
     <select name="productID">
