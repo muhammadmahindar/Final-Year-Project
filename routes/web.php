@@ -18,6 +18,8 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Auth::routes();
+// Passport::routes();
+
 //Admin Routes
 Route::resource('Role','Role\RoleController');
 Route::resource('Users','Auth\UserController'); //

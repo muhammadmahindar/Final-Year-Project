@@ -117,7 +117,7 @@ class ProductionController extends Controller
             $sync_data = [];
             for($i = 0; $i < $formulaSize;$i++)
             {
-            $sync_data[$request->FormulaList[$i]] = ['quantity' => $request->QuantityList[$i]];
+                $sync_data[$request->FormulaList[$i]] = ['quantity' => $request->QuantityList[$i]];
             }
             if($productionData->save())
             {

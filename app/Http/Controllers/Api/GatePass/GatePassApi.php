@@ -34,6 +34,10 @@ class GatePassApi extends Controller
             'data' => 'Permission not found'
         ], 403);
        }
+
+        // return response()->json([
+        //     'msg' => 'working'
+        // ]);
     }
 
     /**
