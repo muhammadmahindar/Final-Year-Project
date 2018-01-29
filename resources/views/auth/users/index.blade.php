@@ -57,9 +57,7 @@ User's
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
                         <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan @can('Change-UserPassword')
-                        @if(!$cmp->hasRole('SuperAdmin'))
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $cmp->id }}">Change Password</button>
-                        @endif
                         @endcan
                  </td>
             </tr>

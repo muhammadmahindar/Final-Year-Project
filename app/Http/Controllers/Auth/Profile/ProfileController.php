@@ -111,6 +111,7 @@ class ProfileController extends Controller
     {
 
         $userData=User::findOrFail($id);
+        if (!$userData->hasRole('SuperAdmin')) {
         $this->validate($request, [
             'user_password' => 'required|min:6',
         
@@ -120,6 +121,11 @@ class ProfileController extends Controller
         $userData->save();
         Session::flash('notice',$userData->name.' Password was successfully changed');
         return redirect('/Users');
+    }
+    else
+    {
+        abort(500);
+    }
     }
 
     /**
