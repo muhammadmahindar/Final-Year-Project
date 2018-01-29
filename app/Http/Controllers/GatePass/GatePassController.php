@@ -49,10 +49,17 @@ class GatePassController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->can('Create-GatePass')) 
+            {
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
 
         return view('GatePass.create',compact('material','product'));
+    }
+    else
+       {
+        abort(500);
+       }
     }
 
     /**
@@ -111,8 +118,15 @@ class GatePassController extends Controller
      */
     public function show($id)
     {
+        if (Auth::user()->can('Show-GatePass')) 
+            {
         $gatePassData=GatePass::findOrFail($id);
         return view('GatePass.show',compact('gatePassData'));
+    }
+    else
+       {
+        abort(500);
+       }
     }
 
     /**
@@ -122,11 +136,19 @@ class GatePassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+
     {
+        if (Auth::user()->can('Edit-GatePass')) 
+            {
         $gatePassData=GatePass::findOrFail($id);
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  return view('GatePass.edit',compact('material','product','gatePassData'));
+             }
+             else
+       {
+        abort(500);
+       }
 
     }
 
@@ -184,9 +206,16 @@ class GatePassController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('Delete-GatePass')) 
+            {
         $gatePassData=GatePass::findOrFail($id);
         $gatePassData->delete();
         return redirect('/GatePass');
+    }
+    else
+       {
+        abort(500);
+       }
     }
     protected function validateInput(Request $request)
     {

@@ -48,18 +48,24 @@ GatePass
                 <td>{{$cmp->remarks}}</td>
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
-                <td><a href="{{route('GatePass.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>
+                <td>@can('Edit-GatePass')<a href="{{route('GatePass.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
                   <form action="{{route('GatePass.destroy',$cmp->id)}}" method="POST">
                     <input type="hidden" name="_method" value="delete">
                         {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>
-                        <a href="{{route('GatePass.show',$cmp->id)}}" class="btn btn-primary">Show</a></td>
+                        @can('Delete-GatePass')
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete">
+                    @endcan</form>
+                    @can('Show-GatePass')
+                        <a href="{{route('GatePass.show',$cmp->id)}}" class="btn btn-primary">Show</a>
+                    @endcan</td>
             </tr>
             @endforeach
         </tbody>
     </table>
     <div class="container">
+        @can('Create-GatePass')
       <a class="btn btn-primary" href="{{route('GatePass.create')}}">Create New</a>
+      @endcan
     </div>
 @endsection
 @section('footer')
