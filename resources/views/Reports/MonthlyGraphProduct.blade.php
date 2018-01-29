@@ -83,7 +83,7 @@ details
               <td>{{$key->name}}</td>
               @if($l<=$k)
               <td><strong>{{$factoryreturn[$l]}}</strong></td>
-              <?php $j++ ?>
+              <?php $l++ ?>
               @endif
             </tr>
             @endforeach
