@@ -316,7 +316,9 @@
             @can('Read-Product')
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
             @endcan
+            @can('Update-DailyProduction')
             <li><a href="{{URL('DailyProduction')}}"><i class="fa fa-circle-o"></i>Daily Production</a></li>
+            @endcan
             @can('Read-Production')
             <li class="treeview">
           <a href="#">
@@ -350,8 +352,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @can('Daily-ProductionReport')
             <li><a href="{{URL('Reports')}}"><i class="fa fa-circle-o"></i>Daily Product Production</a></li>
+            @endcan
+            @can('Monthly-ProductionReport')
             <li><a href="{{URL('Reports/MonthlyReport')}}"><i class="fa fa-circle-o"></i>Monthly Product Production</a></li>
+            @endcan
           </ul>
         </li>        
       </ul>

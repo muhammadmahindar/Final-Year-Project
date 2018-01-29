@@ -21,8 +21,14 @@ class DailyProduction extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('Update-DailyProduction')) 
+            {
         $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
         return view('Production.DailyProduction.index',compact('productData'));
+    }else
+       {
+        abort(500);
+       }
     }
 
     /**

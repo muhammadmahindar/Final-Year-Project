@@ -205,6 +205,12 @@ class PermissionTableSeeder extends Seeder
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
+            'name' => "Update-DailyProduction",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
             'name' => "Create-Role",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
@@ -296,6 +302,18 @@ class PermissionTableSeeder extends Seeder
         ]);
         DB::table('permissions')->insert([
             'name' => "Delete-FactoryOverhead",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Daily-ProductionReport",
+            'delete_status'=>1,
+            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        DB::table('permissions')->insert([
+            'name' => "Monthly-ProductionReport",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),

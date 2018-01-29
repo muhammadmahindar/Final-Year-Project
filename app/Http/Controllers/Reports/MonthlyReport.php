@@ -21,13 +21,28 @@ class MonthlyReport extends Controller
 
     public function ProductSelect()
     {
+        if (Auth::user()->can('Daily-ProductionReport')) 
+            {
     	$product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
     	return view('Reports.selection',compact('product'));
+    } else
+       {
+        abort(500);
+       }
     }
+
+    
     public function ShowForm()
     {
+        if (Auth::user()->can('Monthly-ProductionReport')) 
+            {
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
         return view('Reports.ProductMonthly',compact('product'));
+    }
+     else
+       {
+        abort(500);
+       }
     }
     public function ShowDaily(Request $request)
     {
