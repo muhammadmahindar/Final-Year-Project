@@ -90,7 +90,7 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('/ShowApproved/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
+                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('/ShowApproved/Productions')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==0) href="{{URL('/DisApproved/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
                       <i class="fa fa-users text-aqua"></i> 
                       The Production @if($noti->data['status']==4) <strong> {{$noti->data['name']}}</strong> Completed @elseif($noti->data['status']==3) <strong> {{$noti->data['name']}}</strong> Approved @elseif($noti->data['status']==0) {{$noti->data['name']}} Disapproved @endif
                     </a>

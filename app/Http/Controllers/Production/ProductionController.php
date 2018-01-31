@@ -111,6 +111,25 @@ class ProductionController extends Controller
         abort(500);
        }
     }
+     public function disapproved($id)
+    {
+        if (Auth::user()->can('Read-Production')) 
+            {
+                
+                foreach (Auth::user()->unReadNotifications as $value) {
+                    if($value->data['id']==$id && $value->data['status']==0){
+                $value->markAsRead();
+                }   
+             }
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '0'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->where('id',$id)->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       else{
+        abort(500);
+       }
+    }
 
 
         public function completed()

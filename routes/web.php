@@ -27,7 +27,7 @@ Route::get('/MarkRead',function(){
 	return redirect('/');
 })->middleware('auth');
 Route::get('/AndroidSecret', function () {
-    $temp= OauthClient::find(2);
+    $temp= OauthClient::findOrFail(2);
     return $temp->secret;
 })->middleware('auth');
 //Admin Routes
@@ -52,6 +52,7 @@ Route::get('/Pending/Productions','Production\ProductionController@pending');
 Route::get('/ShowPending/Productions/{id}','Production\ProductionController@ShowPending');
 Route::get('/Approved/Productions','Production\ProductionController@approved');
 Route::get('/ShowApproved/Productions/{id}','Production\ProductionController@showapproved');
+Route::get('/DisApproved/Productions/{id}','Production\ProductionController@disapproved');
 Route::get('/Completed/Productions','Production\ProductionController@completed');
 Route::resource('Production-Approval','Production\ProductionApproval');
 //GatePass routes

@@ -39,6 +39,10 @@ class ProductionApprovedNotifier implements ShouldQueue
             {
                 $value->notify(new Notification($this->production));
             }  
+             if($value->can('Create-Production'))
+            {
+                $value->notify(new Notification($this->production));
+            }  
             }
             elseif($this->production->status==3 || $this->production->status==0)
             {

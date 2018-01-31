@@ -134,9 +134,12 @@ class ProductionApproval extends Controller
 
                     Session::flash('notice','Production was successfully Marked Completed');
                 } 
-                else
+                else if($productionData->status==4)
                 {
                     Session::flash('notice','Production was successfully Approved');
+                }
+                else{
+                    Session::flash('notice','Production was successfully Disapproved');
                 }
 
             $this->dispatch(new ProductionApprovedNotifier($productionData));

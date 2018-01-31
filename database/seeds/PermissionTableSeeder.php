@@ -66,12 +66,6 @@ class PermissionTableSeeder extends Seeder
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('permissions')->insert([
-            'name' => "Delete-Branch",
-            'delete_status'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
-        DB::table('permissions')->insert([
             'name' => "Create-Company",
             'delete_status'=>1,
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
@@ -89,12 +83,7 @@ class PermissionTableSeeder extends Seeder
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        DB::table('permissions')->insert([
-            'name' => "Delete-Company",
-            'delete_status'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
+
         DB::table('permissions')->insert([
             'name' => "Create-Department",
             'delete_status'=>1,
@@ -113,12 +102,7 @@ class PermissionTableSeeder extends Seeder
             'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        DB::table('permissions')->insert([
-            'name' => "Delete-Department",
-            'delete_status'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
+
         DB::table('permissions')->insert([
             'name' => "Create-Material",
             'delete_status'=>1,
