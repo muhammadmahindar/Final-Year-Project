@@ -1,4 +1,5 @@
 <?php
+use App\OauthClient;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,17 @@ Route::post('Reports/MonthlyView','Reports\MonthlyReport@ShowMonthly')->name('Re
 Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');
-
 Auth::routes();
+Route::get('/MarkRead',function(){
+	foreach (Auth::user()->unReadNotifications as $value) {
+		$value->markAsRead();
+	}
+	return redirect('/');
+})->middleware('auth');
+Route::get('/AndroidSecret', function () {
+    $temp= OauthClient::find(2);
+    return $temp->secret;
+})->middleware('auth');
 //Admin Routes
 Route::resource('Role','Role\RoleController');
 Route::resource('Users','Auth\UserController'); //
@@ -39,7 +49,9 @@ Route::resource('Production','Production\ProductionController');
 Route::post('DailyProduction/create','Production\DailyProduction@productselect')->name('DailyProduction.productselect');
 Route::resource('DailyProduction','Production\DailyProduction');
 Route::get('/Pending/Productions','Production\ProductionController@pending');
+Route::get('/ShowPending/Productions/{id}','Production\ProductionController@ShowPending');
 Route::get('/Approved/Productions','Production\ProductionController@approved');
+Route::get('/ShowApproved/Productions/{id}','Production\ProductionController@showapproved');
 Route::get('/Completed/Productions','Production\ProductionController@completed');
 Route::resource('Production-Approval','Production\ProductionApproval');
 //GatePass routes

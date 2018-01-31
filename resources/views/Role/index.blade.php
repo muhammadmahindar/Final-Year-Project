@@ -126,7 +126,7 @@ Role's
       <div class="modal-content">
         <div class="modal-header">
           <a class="close" href="{{url('/Role')}}">&times;</a>
-          <h4>Edit Company Details</h4>
+          <h4>Edit Role Details</h4>
         </div>
         <div class="modal-body">
           <form role="form" action="{{route('Role.update',$roleaData->id)}}" method="POST">

@@ -44,11 +44,7 @@ Companies
                 <td>{{$cmp->updated_at->format('d-M-Y h:i a')}}</td>
                 <td>{{$cmp->created_at->format('d-M-Y h:i a')}}</td>
                 <td>@can('Edit-Company')<a href="{{route('Company.edit',$cmp->id)}}" class="btn btn-primary">Edit</a>@endcan
-                  @can('Delete-Company')
-                  <form action="{{route('Company.destroy',$cmp->id)}}" method="POST">
-                    <input type="hidden" name="_method" value="delete">
-                        {{csrf_field()}}
-                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan</td>
+                  </td>
             </tr>
             @endforeach
         </tbody>

@@ -33,10 +33,12 @@ class PendingProductionNotifier implements ShouldQueue
     {
        $userData=User::where('branch_id',$this->production->branch_id)->get();
         foreach ($userData as $value) {
+            if($this->production->status==1){
             if($value->can('Approve-Production'))
             {
                 $value->notify(new Notification($this->production));
             }
+        }
         }
     }
 }

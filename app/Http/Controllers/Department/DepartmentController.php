@@ -128,24 +128,24 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->can('Delete-Department')) 
-            {
-        $departmentData=Department::findOrFail($id);
+     //    if (Auth::user()->can('Delete-Department')) 
+     //        {
+     //    $departmentData=Department::findOrFail($id);
        
-        if( $departmentData->delete())
-        {
-            Session::flash('notice','Department was successfully Deleted');
-            return redirect('/Department');
-        }
-        else
-        {
-            Session::flash('alert','Department was not successfully Deleted');
-            return redirect('/Department');
-        }
-     }
-     else{
-        abort(500);
-     }
+     //    if( $departmentData->delete())
+     //    {
+     //        Session::flash('notice','Department was successfully Deleted');
+     //        return redirect('/Department');
+     //    }
+     //    else
+     //    {
+     //        Session::flash('alert','Department was not successfully Deleted');
+     //        return redirect('/Department');
+     //    }
+     // }
+     // else{
+     //    abort(500);
+     // }
     }
 
     protected function validateInput(Request $request)

@@ -64,35 +64,6 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="/css/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -107,9 +78,9 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a href="{{URL('Pending/Productions')}}" onclick="">
+                    <a @if($noti->data['status']==1) href="{{URL('/ShowPending/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
                       <i class="fa fa-users text-aqua"></i> 
-                      Pending Production Request
+                      Production Request <strong> {{$noti->data['name']}}</strong> is Pending 
                     </a>
                   </li>
                 </ul>
@@ -119,9 +90,9 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
-                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('Approved/Productions')}}" @endif onclick="">
+                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('/ShowApproved/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
                       <i class="fa fa-users text-aqua"></i> 
-                      The Production has been @if($noti->data['status']==4) Completed @elseif($noti->data['status']==3)Approved @elseif($noti->data['status']==0)Disapproved @endif
+                      The Production @if($noti->data['status']==4) <strong> {{$noti->data['name']}}</strong> Completed @elseif($noti->data['status']==3) <strong> {{$noti->data['name']}}</strong> Approved @elseif($noti->data['status']==0) {{$noti->data['name']}} Disapproved @endif
                     </a>
                   </li>
                 </ul>
@@ -129,42 +100,10 @@
               
                @endif
               @endforeach
-              <li class="footer"><a href="#">View all</a></li>
+              <li class="footer"><a href="{{URL('/MarkRead')}}">Mark All Read</a></li>
             </ul>
           </li>
-          <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
+
           <li>
               <a href="javascript:void(0);" class=" right-menu-item" onclick="go_full_screen()">
                 <i class="fa fa-arrows-alt" aria-hidden="true"></i>
@@ -189,21 +128,7 @@
                   
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
@@ -236,7 +161,7 @@
         <li class="header">MAIN NAVIGATION</li>
           @can('Read-GatePass')
                 <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-dashboard"></i> <span>Gate Pass</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -249,7 +174,7 @@
         @endcan
         <li class="header">User Management Area</li>
         <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-building"></i> <span>Company Mangement</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -268,7 +193,7 @@
           </ul>
         </li>
         <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-users"></i> <span>User Management</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -287,7 +212,7 @@
 
         <li class="header">Production Area</li>
         <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-industry"></i> <span>Production</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -295,7 +220,7 @@
           </a>
           <ul class="treeview-menu">
                         <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-circle-o"></i> <span>Type of Costs</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -321,7 +246,7 @@
             @endcan
             @can('Read-Production')
             <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-circle-o"></i> <span>Production</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -345,7 +270,7 @@
         </li>
         <li class="header">Reports</li>
         <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-building"></i> <span>Reports</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

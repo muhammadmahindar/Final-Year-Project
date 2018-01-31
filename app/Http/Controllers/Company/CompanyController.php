@@ -129,23 +129,23 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->can('Delete-Company')) 
-            {
-        $companyData=Company::findOrFail($id);
-         if( $companyData->delete())
-        {
-            Session::flash('notice','Company was successfully Deleted');
-            return redirect('/Company');
-        }
-        else
-        {
-            Session::flash('alert','Company was not successfully Deleted');
-            return redirect('/Company');
-        }
-    }
-    else{
-        abort(500);
-    }
+    //     if (Auth::user()->can('Delete-Company')) 
+    //         {
+    //     $companyData=Company::findOrFail($id);
+    //      if( $companyData->delete())
+    //     {
+    //         Session::flash('notice','Company was successfully Deleted');
+    //         return redirect('/Company');
+    //     }
+    //     else
+    //     {
+    //         Session::flash('alert','Company was not successfully Deleted');
+    //         return redirect('/Company');
+    //     }
+    // }
+    // else{
+    //     abort(500);
+    // }
     }
 
     protected function validateInput(Request $request)
