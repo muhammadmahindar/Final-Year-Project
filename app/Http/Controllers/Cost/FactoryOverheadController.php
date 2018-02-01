@@ -18,7 +18,7 @@ class FactoryOverheadController extends Controller
            if (Auth::user()->can('Read-FactoryOverhead')) 
             {
       
-        $factorydata=Factory::all();
+        $factorydata=Factory::where([['delete_status', '=', '1'],])->get();
          $setModal=0;
         $companyData=0;
         return view('CostTypes.FactoryOverhead.index',compact('factorydata','setModal','companyData'));
@@ -130,7 +130,8 @@ class FactoryOverheadController extends Controller
                      if (Auth::user()->can('Delete-FactoryOverhead')) 
             {
         $FactoryOverheadData=Factory::findOrFail($id);
-         if( $FactoryOverheadData->delete())
+        $FactoryOverheadData->delete_status=0;
+         if( $FactoryOverheadData->save())
         {
             Session::flash('notice','FactoryOverhead was successfully Deleted');
             return redirect('/FactoryOverhead');

@@ -16,6 +16,7 @@ class CreateFactoryOverHeadsTable extends Migration
         Schema::create('factory_over_heads', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->boolean('delete_status');
             $table->timestamps();
         });
     }

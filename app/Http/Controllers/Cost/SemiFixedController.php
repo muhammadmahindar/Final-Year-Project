@@ -18,7 +18,7 @@ class SemiFixedController extends Controller
              if (Auth::user()->can('Read-SemiFixed')) 
             {
       
-        $semifixedata=SemiFixed::all();
+        $semifixedata=SemiFixed::where([['delete_status', '=', '1'],])->get();
          $setModal=0;
         $companyData=0;
         return view('CostTypes.SemiFixed.index',compact('semifixedata','setModal','companyData'));
@@ -128,7 +128,8 @@ class SemiFixedController extends Controller
              if (Auth::user()->can('Delete-SemiFixed')) 
             {
         $SemiFixedData=SemiFixed::findOrFail($id);
-         if( $SemiFixedData->delete())
+        $SemiFixedData->delete_status=0;
+         if( $SemiFixedData->save())
         {
             Session::flash('notice','SemiFixed was successfully Deleted');
             return redirect('/SemiFixed');

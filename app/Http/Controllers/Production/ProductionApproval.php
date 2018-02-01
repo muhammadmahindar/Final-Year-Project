@@ -62,8 +62,8 @@ class ProductionApproval extends Controller
         $productionData=Production::findOrFail($id);
         if($productionData->status==3)
         {
-        $semi=SemiFixed::all();
-        $factory=FactoryOverHead::all();
+        $semi=SemiFixed::where([['delete_status', '=', '1'],])->get();
+        $factory=FactoryOverHead::where([['delete_status', '=', '1'],])->get();
         return view('Production.CompletedProduction.Completed',compact('productionData','semi','factory'));
     }
     else
