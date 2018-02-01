@@ -12,6 +12,20 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Daily Production Report of {{$productname->name}}<div class="pull-right">{{date('d-M-Y h:i a')}}</div></div>
                 <div>
+                	<div class="row">
+                		<div class="col-md-3">
+                			<strong style="background-color:rgba(0,255,0,0.3);">Produced</strong>
+                		</div>
+                		<div class="col-md-3">
+                			<strong style="background-color:rgba(255,0,0,0.3);">Dispatches</strong>
+                		</div>
+                		<div class="col-md-3">
+                			<strong style="background-color:rgba(0,0,255,0.3);">Sale Return</strong>
+                		</div>
+                		<div class="col-md-3">
+                			<strong style="background-color:rgba(192,192,192,0.3);">Received</strong>
+                		</div>
+                	</div>
                 	<canvas id="myChart" width="400"></canvas>
                 </div>
             </div>
@@ -35,18 +49,87 @@
                 	@endforeach],
 			datasets : [
 				{
-					label: "My First dataset",
-					fillColor : "rgba(220,220,220,0.2)",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
+					label: "Daily Produced",
+					fillColor : "rgba(0,255,0,0.3)",
+					strokeColor : "rgba(0,255,0,0.4)",
+					pointColor : "rgba(0,255,0,0.4)",
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(220,220,220,1)",
+					pointHighlightStroke : "rgba(0,255,0,0.4)",
 					data : [@foreach($myData as $key)
                 	"{{$key->produced}}",
                 	@endforeach]
+				},
+				{
+					label: "Daily Dispatches",
+					fillColor : "rgba(255,0,0,0.3)",
+					strokeColor : "rgba(255,0,0,0.4)",
+					pointColor : "rgba(255,0,0,0.4)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(255,0,0,0.4)",
+					data : [@foreach($myData as $key)
+                	"{{$key->dispatches}}",
+                	@endforeach]
+				},
+				{
+					label: "Daily Sale Return",
+					fillColor : "rgba(0,0,255,0.3)",
+					strokeColor : "rgba(0,0,255,0.4)",
+					pointColor : "rgba(0,0,255,0.4)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(0,0,255,0.4)",
+					data : [@foreach($myData as $key)
+                	"{{$key->sale_return}}",
+                	@endforeach]
 				}
-			]
+				,{
+					label: "Daily Received",
+					fillColor : "rgba(192,192,192,0.3)",
+					strokeColor : "rgba(192,192,192,0.4)",
+					pointColor : "rgba(192,192,192,0.4)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(192,192,192,0.4)",
+					data : [@foreach($myData as $key)
+                	"{{$key->received}}",
+                	@endforeach]
+				}
+			],
+			options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Chart.js Line Chart'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+			
+            
 		}
 	window.onload = function(){
 		var ctx = document.getElementById("myChart").getContext("2d");
