@@ -7,7 +7,7 @@ Production Reports
 
 @endsection
 @section('pagetitle')
-Daily Production
+Monthly Production
 @endsection
 @section('cssarea')
 <!-- DataTable Bootstrap  -->

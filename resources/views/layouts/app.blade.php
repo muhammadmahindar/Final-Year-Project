@@ -172,7 +172,7 @@
           </ul>
         </li>
         @endcan
-        <li class="header">User Management Area</li>
+        <li class="header">Company Management Area</li>
         <li class="treeview">
           <a href="">
             <i class="fa fa-building"></i> <span>Company Mangement</span>
@@ -192,6 +192,7 @@
           @endcan
           </ul>
         </li>
+        <li class="header">User Management Area</li>
         <li class="treeview">
           <a href="">
             <i class="fa fa-users"></i> <span>User Management</span>
@@ -221,7 +222,7 @@
           <ul class="treeview-menu">
                         <li class="treeview">
           <a href="">
-            <i class="fa fa-circle-o"></i> <span>Type of Costs</span>
+            <i class="fa fa-circle-o"></i> <span>Costing</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -241,9 +242,6 @@
             @can('Read-Product')
             <li><a href="{{URL('Product')}}"><i class="fa fa-circle-o"></i>Product</a></li>
             @endcan
-            @can('Update-DailyProduction')
-            <li><a href="{{URL('DailyProduction')}}"><i class="fa fa-circle-o"></i>Daily Production</a></li>
-            @endcan
             @can('Read-Production')
             <li class="treeview">
           <a href="">
@@ -254,7 +252,10 @@
           </a>
           <ul class="treeview-menu">
             @can('Read-Production')
-            <li><a href="{{URL('Production')}}"><i class="fa fa-circle-o"></i>All Production</a></li>
+            <li><a href="{{URL('Production')}}"><i class="fa fa-circle-o"></i>Productions</a></li>
+            @endcan
+            @can('Update-DailyProduction')
+            <li><a href="{{URL('DailyProduction')}}"><i class="fa fa-circle-o"></i>Daily Production</a></li>
             @endcan
             @can('Approve-Production')
             <li><a href="{{URL('/Pending/Productions')}}"><i class="fa fa-circle-o "></i>Pending Production</a></li>
