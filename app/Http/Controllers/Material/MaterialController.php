@@ -32,6 +32,7 @@ class MaterialController extends Controller
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;
+        $CompanyData=Company::all();
         return view('Material.index',compact('material','setModal','materialData','unitData')); 
         }
         else{
@@ -39,7 +40,8 @@ class MaterialController extends Controller
        $unitData=Unit::orderBy('created_at','desc')->get();
         $setModal=0;
         $materialData=0;
-        return view('Material.index',compact('material','setModal','materialData','unitData')); 
+        $CompanyData=Company::all();
+        return view('Material.index',compact('material','setModal','materialData','unitData','CompanyData')); 
         } 
     }
     else
@@ -191,9 +193,9 @@ class MaterialController extends Controller
         $materialData->description=$request->Description;
         $materialData->user_id=$request->user_code;
         $materialData->unit_id=$request->unitID;
-        $materialData->branch_id=Auth::user()->branch_id;
-        $materialData->company_id=Auth::user()->company_id;
-        $materialData->department_id=Auth::user()->department_id;
+        $materialData->branch_id=$request->branchList;
+        $materialData->company_id=$request->companyList;
+        $materialData->department_id=$request->departmentList;
         $materialData->toArray();
     }
     protected function SaveEditMaterial(Request $request,$materialData)

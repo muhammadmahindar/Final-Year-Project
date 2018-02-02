@@ -68,10 +68,7 @@
                             <div class="col-md-8">                            
                              <select class="form-control select2" data-placeholder="Branches" id="branchList" name="branchList" required>
                                 <option value="">--- Select Branch ---</option>
-                                 @foreach($branchData as $dpDT)
-                                     <option value="{{$dpDT->id}}" @if($userData->branch->name == $dpDT->name) 
-                                      selected @endif>{{$dpDT->name}}</option>
-                                 @endforeach
+                                     <option value="{{$branchData->id}}" selected>{{$branchData->name}}</option>
                             </select>
                             @if ($errors->has('branchList'))
                             <span class="help-block">
@@ -87,10 +84,8 @@
                              <div class="col-md-8">
                              <select class="form-control select2" data-placeholder="Departments" name="departmentList" required>
                                 <option value="">--- Select Department ---</option>
-                                @foreach($departmentData as $dpDT)
-                                     <option value="{{$dpDT->id}}" @if($userData->Department->name == $dpDT->name) 
-                                      selected @endif>{{$dpDT->name}}</option>
-                                 @endforeach
+                                     <option value="{{$departmentData->id}}"
+                                      selected>{{$departmentData->name}}</option>
                             </select>
                             @if ($errors->has('departmentList'))
                             <span class="help-block">

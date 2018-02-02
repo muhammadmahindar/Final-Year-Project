@@ -125,6 +125,8 @@ Material
           @endif
           </div>
 
+          
+
           <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
             <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
             <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ Auth::user()->name }}">
@@ -135,6 +137,59 @@ Material
             </span>
           @endif  
             </div>
+            @if(!Auth::user()->hasRole('SuperAdmin'))
+
+            <input type="hidden" name="" value="{{Auth::user()->company_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->branch_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->department_id}}">
+            
+            @else
+            <div class="form-group has-feedback form-group{{ $errors->has('companyList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Companies</label>
+                            <div class="col-md-8">
+                             <select class="form-control select2"  data-placeholder="Companies" name="companyList" id="companyList" style="width: 100%;" required>
+                                  <option value="">--- Select State ---</option>
+                                 @foreach($CompanyData as $dpDT)
+                                     <option value="{{$dpDT->id}}">{{$dpDT->name}}</option>
+                                 @endforeach
+                            </select>
+                            @if ($errors->has('companyList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('companyList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('branchList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Branches</label>
+                            <div class="col-md-8">                            
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Branches" id="branchList" name="branchList" required>
+                                <option value="">--- Select Branch ---</option>
+                            </select>
+                            @if ($errors->has('branchList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('branchList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('departmentList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Departments</label>
+                             <div class="col-md-8">
+                             <select class="form-control select2" data-placeholder="Departments" name="departmentList" style="width: 100%;" required>
+                                <option value="">--- Select Department ---</option>
+                            </select>
+                            @if ($errors->has('departmentList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('departmentList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+                        @endif
 
           <div class="form-group modal-footer">
             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
@@ -275,7 +330,6 @@ Material
             }
         }
         
-
     } );
 } );
 </script>
@@ -286,27 +340,20 @@ Material
     $('.select2').select2()
   $(document).ready(function(){
     $("#companyCreate").click(function(){
-
       var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
   for (var i = 0; i < 11; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-
         $("#mat_code").val(text);
         $("#myModal").modal();
     });
 });
 </script>
 <script>
-
-
  $(document).ready(function() {
         var max_fields      = 100;
         var wrapper         = $(".container1");
         var add_button      = $(".add_form_field");
-
         var x = 1;
         $(add_button).click(function(e){
             e.preventDefault();
@@ -314,22 +361,17 @@ Material
                 x++;
                 $(wrapper).append('<div class="row"><div class="col-sm-offset-2 col-sm-4"><select name="FormulaList[]" class="test"><option value="">--Please choose--</option>@foreach($material as $mater)<option value="{{$mater->id}}">{{$mater->name}}</option>@endforeach</select></div><div class="col-sm-4 "><input type="number" class="form-control" id="quan"  name="QuantityList[]" placeholder="Enter Quanity" min="1" required=""></div><a href="#" class="delete">Delete</a></div>'); //add input box
             }        });
-
         $(wrapper).on("click",".delete", function(e){
             e.preventDefault(); $(this).parent('div').remove(); x--;
         })
     });
-
 </script>
 <script type="text/javascript">
 @if (count($errors) > 0 && $setModal!=true)
    var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
   for (var i = 0; i < 11; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-
         $("#mat_code").val(text);
     $("#myModal").modal();
 @elseif(count($errors) > 0 && $setModal==true)
@@ -338,8 +380,36 @@ $("#editModal").modal('show');
 @if($setModal==true)
 $('#editModal').modal({backdrop: 'static', keyboard: false})
 $("#editModal").modal('show');
-
 @endif
 </script>
-
+<script type="text/javascript">
+  $("select[name='companyList']").change(function(){
+      var companyList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getbranch',
+          method: 'POST',
+          data: {companyList:companyList, _token:token},
+          success: function(data) {
+            $("select[name='branchList'").html('');
+            $("select[name='branchList'").html(data.options);
+          }
+      });
+  });
+</script>
+<script type="text/javascript">
+  $("select[name='branchList']").change(function(){
+      var branchList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getdepartment',
+          method: 'POST',
+          data: {branchList:branchList, _token:token},
+          success: function(data) {
+            $("select[name='departmentList'").html('');
+            $("select[name='departmentList'").html(data.options);
+          }
+      });
+  });
+</script>
 @endsection

@@ -36,8 +36,8 @@ class UserController extends Controller
             {
         $userData=User::findOrFail($id);
         $CompanyData=Company::all();
-        $departmentData=Department::all();
-        $branchData=Branch::all();
+        $departmentData=Department::find($userData->department_id);
+        $branchData=Branch::find($userData->branch_id);
         $roleData=Role::where('delete_status',1)->get();
        return view('auth.users.edit',compact('CompanyData','branchData','departmentData','roleData','userData'));
    }
