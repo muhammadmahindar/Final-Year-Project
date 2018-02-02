@@ -1,6 +1,7 @@
-@extends('layouts.login')
+@extends('layouts.app')
 @section('title','GatePass')
-@section('content')
+@section('dynamiccontent')
+<div class="col-sm-6">
 <p class="login-box-msg">Generate Pass</p>
 <form role="form" action="{{route('GatePass.store')}}" method="POST">
       {{csrf_field()}}
@@ -60,6 +61,60 @@
       <div class="container2">
 
       </div>
+
+      @if(!Auth::user()->hasRole('SuperAdmin'))
+
+            <input type="hidden" name="" value="{{Auth::user()->company_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->branch_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->department_id}}">
+            
+            @else
+            <div class="form-group has-feedback form-group{{ $errors->has('companyList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Companies</label>
+                            <div class="col-md-8">
+                             <select class="form-control select2"  data-placeholder="Companies" name="companyList" id="companyList" style="width: 100%;" required>
+                                  <option value="">--- Select State ---</option>
+                                 @foreach($CompanyData as $dpDT)
+                                     <option value="{{$dpDT->id}}">{{$dpDT->name}}</option>
+                                 @endforeach
+                            </select>
+                            @if ($errors->has('companyList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('companyList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('branchList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Branches</label>
+                            <div class="col-md-8">                            
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Branches" id="branchList" name="branchList" required>
+                                <option value="">--- Select Branch ---</option>
+                            </select>
+                            @if ($errors->has('branchList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('branchList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('departmentList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Departments</label>
+                             <div class="col-md-8">
+                             <select class="form-control select2" data-placeholder="Departments" name="departmentList" style="width: 100%;" required>
+                                <option value="">--- Select Department ---</option>
+                            </select>
+                            @if ($errors->has('departmentList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('departmentList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+                        @endif
       <div class="form-group">
         <!-- /.col -->
         <div class="col-xs-4 pull-right">
@@ -69,6 +124,7 @@
         </div>
         
 </form>
+</div>
 @endsection
 @section('scriptarea')
 <!-- InputMask -->
@@ -127,5 +183,35 @@
   $(document).ready(function(){
   $("#phone1").inputmask("99999999999",{ "onincomplete": function(){ $(':input[type="submit"]').prop('disabled', true); },"oncomplete": function(){ $(':input[type="submit"]').prop('disabled', false); } }); //default
 });
+</script>
+<script type="text/javascript">
+  $("select[name='companyList']").change(function(){
+      var companyList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getbranch',
+          method: 'POST',
+          data: {companyList:companyList, _token:token},
+          success: function(data) {
+            $("select[name='branchList'").html('');
+            $("select[name='branchList'").html(data.options);
+          }
+      });
+  });
+</script>
+<script type="text/javascript">
+  $("select[name='branchList']").change(function(){
+      var branchList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getdepartment',
+          method: 'POST',
+          data: {branchList:branchList, _token:token},
+          success: function(data) {
+            $("select[name='departmentList'").html('');
+            $("select[name='departmentList'").html(data.options);
+          }
+      });
+  });
 </script>
 @endsection

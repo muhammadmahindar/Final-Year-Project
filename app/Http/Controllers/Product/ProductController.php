@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Session;
 use App\Product;
 use App\Material;
 use App\Unit;
+use App\Company;
+use App\Department;
+use App\Branch;
 use Auth;
+
 class ProductController extends Controller
 {
 
@@ -31,16 +35,18 @@ class ProductController extends Controller
        $unitData=Unit::orderBy('created_at','desc')->get();
        $setModal=0;
        $productData=0;
+       $CompanyData=Company::all();
        $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-       return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
+       return view('Product.index',compact('CompanyData','product','setModal','productData','materialData','unitData'));
    }
    else{
         $product=Product::where([['delete_status', '=', '1'],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $setModal=0;
        $productData=0;
+       $CompanyData=Company::all();
        $materialData=Material::where([['delete_status', '=', '1'],])->get();
-       return view('Product.index',compact('product','setModal','productData','materialData','unitData'));
+       return view('Product.index',compact('CompanyData','product','setModal','productData','materialData','unitData'));
    }
    }
    else{
@@ -124,23 +130,16 @@ class ProductController extends Controller
     {
         if (Auth::user()->can('Edit-Product')) 
             {
-                 if(!Auth::user()->hasRole('SuperAdmin'))
-                    {
-       $productData=Product::findOrFail($id);
-       $setModal=1;
-       $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-       $unitData=Unit::orderBy('created_at','desc')->get();
-       $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-       return view('Product.index',compact('product','setModal','productData','unitData','materialData'));
-       }
-       else{
          $productData=Product::findOrFail($id);
        $setModal=1;
+       $CompanyData=Company::all();
+       $departmentData=Department::find($productData->department_id);
+        $branchData=Branch::find($productData->branch_id);
        $product=Product::where([['delete_status', '=', '1'],['company_id', '=', $productData->company_id],['branch_id', '=', $productData->branch_id],])->get();
        $unitData=Unit::orderBy('created_at','desc')->get();
        $materialData=Material::where([['delete_status', '=', '1'],['company_id', '=', $productData->company_id],['branch_id', '=', $productData->branch_id],])->get();
-       return view('Product.index',compact('product','setModal','productData','unitData','materialData'));
-       }
+       return view('Product.index',compact('CompanyData','product','setModal','productData','unitData','materialData','branchData','departmentData'));
+       
    }
    else{
     abort(500);
@@ -241,9 +240,9 @@ class ProductController extends Controller
         $productData->description=$request->Description;
         $productData->user_id=$request->user_code;
         $productData->unit_id=$request->unitID;
-        $productData->branch_id=Auth::user()->branch_id;
-        $productData->company_id=Auth::user()->company_id;
-        $productData->department_id=Auth::user()->department_id;
+        $productData->branch_id=$request->branchList;
+        $productData->company_id=$request->companyList;
+        $productData->department_id=$request->departmentList;
         $productData->toArray();
     }
      protected function SaveEditProduct(Request $request,$productData)
@@ -253,13 +252,10 @@ class ProductController extends Controller
         $productData->delete_status=1;
         $productData->description=$request->Description;
         $productData->unit_id=$request->unitID;
-        if(!Auth::user()->hasRole('SuperAdmin'))
-            {
         $productData->user_id=$request->user_code;
-        $productData->branch_id=Auth::user()->branch_id;
-        $productData->company_id=Auth::user()->company_id;
-        $productData->department_id=Auth::user()->department_id;
-    }
+        $productData->branch_id=$request->branchList;
+        $productData->company_id=$request->companyList;
+        $productData->department_id=$request->departmentList;
         $productData->toArray();
     }
 }

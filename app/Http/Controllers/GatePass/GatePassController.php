@@ -9,6 +9,7 @@ use App\GatePass;
 use Auth;
 use App\Material;
 use App\Product;
+use App\Company;
 use DB;
 class GatePassController extends Controller
 {
@@ -32,7 +33,7 @@ class GatePassController extends Controller
         //          ->where('gate_passes_item.gate_id', '>', 0);
         // })
         // ->get();
-                $gatepass=GatePass::all();
+                $gatepass=GatePass::where([['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();;
                  
        return view('GatePass.index',compact('gatepass','product','material'));
        } 
@@ -51,10 +52,11 @@ class GatePassController extends Controller
     {
         if (Auth::user()->can('Create-GatePass')) 
             {
+                $CompanyData=Company::all();
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
 
-        return view('GatePass.create',compact('material','product'));
+        return view('GatePass.create',compact('material','product','CompanyData'));
     }
     else
        {
@@ -140,10 +142,11 @@ class GatePassController extends Controller
     {
         if (Auth::user()->can('Edit-GatePass')) 
             {
+                $CompanyData=Company::all();
         $gatePassData=GatePass::findOrFail($id);
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-                 return view('GatePass.edit',compact('material','product','gatePassData'));
+                 return view('GatePass.edit',compact('CompanyData','material','product','gatePassData'));
              }
              else
        {
@@ -231,6 +234,9 @@ class GatePassController extends Controller
         $gatePassData->contact_phone=$request->contact_phone;
         $gatePassData->destination=$request->destination;
         $gatePassData->remarks=$request->remarks;
+        $gatePassData->branch_id=$request->branchList;
+        $gatePassData->company_id=$request->companyList;
+        $gatePassData->department_id=$request->departmentList;
         $gatePassData->toArray();
     }
 }

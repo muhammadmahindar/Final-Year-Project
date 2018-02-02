@@ -155,6 +155,62 @@ Products
                                </div>
                           </div>
                           </div>
+
+                          @if(!Auth::user()->hasRole('SuperAdmin'))
+
+            <input type="hidden" name="" value="{{Auth::user()->company_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->branch_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->department_id}}">
+            
+            @else
+            <div class="form-group has-feedback form-group{{ $errors->has('companyList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Companies</label>
+                            <div class="col-md-8">
+                             <select class="form-control select2"  data-placeholder="Companies" name="companyList" id="companyList" style="width: 100%;" required>
+                                  <option value="">--- Select State ---</option>
+                                 @foreach($CompanyData as $dpDT)
+                                     <option value="{{$dpDT->id}}">{{$dpDT->name}}</option>
+                                 @endforeach
+                            </select>
+                            @if ($errors->has('companyList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('companyList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('branchList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Branches</label>
+                            <div class="col-md-8">                            
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Branches" id="branchList" name="branchList" required>
+                                <option value="">--- Select Branch ---</option>
+                            </select>
+                            @if ($errors->has('branchList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('branchList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('departmentList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Departments</label>
+                             <div class="col-md-8">
+                             <select class="form-control select2" data-placeholder="Departments" name="departmentList" style="width: 100%;" required>
+                                <option value="">--- Select Department ---</option>
+                            </select>
+                            @if ($errors->has('departmentList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('departmentList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+                        @endif
+
+
           <div class="form-group modal-footer">
             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="" ="glyphicon glyphicon-remove"></span> Cancel</button>
           <button type="submit" class="btn btn-primary pull-right">Save it</button>
@@ -248,6 +304,9 @@ Products
               @endforeach
               </div>
 
+
+              
+              
           <div class="form-group has-feedback form-group{{ $errors->has('user_code') ? ' has-error' : '' }}">
             <input id="user_code" type="text" class="form-control" readonly placeholder="{{ Auth::user()->name }}">
             <input id="user_code" type="hidden" class="form-control" name="user_code" value="{{ Auth::user()->id }}" readonly placeholder="{{ $productData->user->name }}">
@@ -258,6 +317,66 @@ Products
             </span>
           @endif  
             </div>
+
+            @if(!Auth::user()->hasRole('SuperAdmin'))
+
+            <input type="hidden" name="" value="{{Auth::user()->company_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->branch_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->department_id}}">
+            
+            @else
+            <div class="form-group has-feedback form-group{{ $errors->has('companyList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Companies</label>
+                            <div class="col-md-8">
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Companies" name="companyList" id="companyList" required>
+                                  <option value="">--- Select State ---</option>
+                                 @foreach($CompanyData as $dpDT)
+                                     <option value="{{$dpDT->id}}" @if($productData->company->name == $dpDT->name) 
+                                      selected @endif>{{$dpDT->name}}</option>
+                                 @endforeach
+                            </select>
+                            @if ($errors->has('companyList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('companyList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('branchList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Branches</label>
+                            <div class="col-md-8">                            
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Branches" id="branchList" name="branchList" required>
+                                <option value="">--- Select Branch ---</option>
+                                     <option value="{{$branchData->id}}" selected>{{$branchData->name}}</option>
+                            </select>
+                            @if ($errors->has('branchList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('branchList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('departmentList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Departments</label>
+                             <div class="col-md-8">
+                             <select class="form-control select2" data-placeholder="Departments" style="width: 100%;" name="departmentList" required>
+                                <option value="">--- Select Department ---</option>
+                                     <option value="{{$departmentData->id}}"
+                                      selected>{{$departmentData->name}}</option>
+                            </select>
+                            @if ($errors->has('departmentList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('departmentList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+                        @endif
+
+
           <div class="form-group modal-footer">
             <a class="btn btn-default btn-default pull-left" href="{{url('/Product')}}">Back</a>
           <button type="submit" class="btn btn-primary pull-right">Update</button>
@@ -377,5 +496,34 @@ $("#editModal").modal('show');
 
 @endif
 </script>
-
+<script type="text/javascript">
+  $("select[name='companyList']").change(function(){
+      var companyList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getbranch',
+          method: 'POST',
+          data: {companyList:companyList, _token:token},
+          success: function(data) {
+            $("select[name='branchList'").html('');
+            $("select[name='branchList'").html(data.options);
+          }
+      });
+  });
+</script>
+<script type="text/javascript">
+  $("select[name='branchList']").change(function(){
+      var branchList = $(this).val();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+          url: '/getdepartment',
+          method: 'POST',
+          data: {branchList:branchList, _token:token},
+          success: function(data) {
+            $("select[name='departmentList'").html('');
+            $("select[name='departmentList'").html(data.options);
+          }
+      });
+  });
+</script>
 @endsection

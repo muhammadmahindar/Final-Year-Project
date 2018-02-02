@@ -273,7 +273,63 @@ Material
           @endif  
             </div>
 
+            @if(!Auth::user()->hasRole('SuperAdmin'))
 
+            <input type="hidden" name="" value="{{Auth::user()->company_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->branch_id}}">
+            <input type="hidden" name="" value="{{Auth::user()->department_id}}">
+            
+            @else
+            <div class="form-group has-feedback form-group{{ $errors->has('companyList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Companies</label>
+                            <div class="col-md-8">
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Companies" name="companyList" id="companyList" required>
+                                  <option value="">--- Select State ---</option>
+                                 @foreach($CompanyData as $dpDT)
+                                     <option value="{{$dpDT->id}}" @if($materialData->company->name == $dpDT->name) 
+                                      selected @endif>{{$dpDT->name}}</option>
+                                 @endforeach
+                            </select>
+                            @if ($errors->has('companyList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('companyList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('branchList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Branches</label>
+                            <div class="col-md-8">                            
+                             <select class="form-control select2" style="width: 100%;" data-placeholder="Branches" id="branchList" name="branchList" required>
+                                <option value="">--- Select Branch ---</option>
+                                     <option value="{{$branchData->id}}" selected>{{$branchData->name}}</option>
+                            </select>
+                            @if ($errors->has('branchList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('branchList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+
+
+                        <div class="form-group has-feedback form-group{{ $errors->has('departmentList') ? ' has-error' : '' }}">
+                            <label class="col-md-4">Associate Departments</label>
+                             <div class="col-md-8">
+                             <select class="form-control select2" data-placeholder="Departments" style="width: 100%;" name="departmentList" required>
+                                <option value="">--- Select Department ---</option>
+                                     <option value="{{$departmentData->id}}"
+                                      selected>{{$departmentData->name}}</option>
+                            </select>
+                            @if ($errors->has('departmentList'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('departmentList') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        </div>
+                        @endif
 
           <div class="form-group modal-footer">
             <a class="btn btn-default btn-default pull-left" href="{{url('/Material')}}">Back</a>

@@ -107,8 +107,11 @@ class MaterialController extends Controller
        $materialData=Material::findOrFail($id);
        $setModal=1;
        $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $CompanyData=Company::all();
+       $departmentData=Department::find($materialData->department_id);
+        $branchData=Branch::find($materialData  ->branch_id);
        $unitData=Unit::orderBy('created_at','desc')->get();
-       return view('Material.index',compact('material','setModal','materialData','unitData')); 
+       return view('Material.index',compact('CompanyData','material','setModal','materialData','unitData','departmentData','branchData')); 
    }
    else{
     abort(500);
@@ -205,13 +208,10 @@ class MaterialController extends Controller
         $materialData->delete_status=1;
         $materialData->description=$request->Description;  
         $materialData->unit_id=$request->unitID;
-        if(!Auth::user()->hasRole('SuperAdmin'))
-            {
         $materialData->user_id=$request->user_code;
-        $materialData->branch_id=Auth::user()->branch_id;
-        $materialData->company_id=Auth::user()->company_id;
-        $materialData->department_id=Auth::user()->department_id;
-    }
+        $materialData->branch_id=$request->branchList;
+        $materialData->company_id=$request->companyList;
+        $materialData->department_id=$request->departmentList;
         $materialData->toArray();
     }
 

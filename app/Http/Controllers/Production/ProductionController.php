@@ -15,6 +15,8 @@ use App\ProductionCost;
 use App\User;
 use App\SemiFixed;
 use App\FactorOverhead;
+use App\Company;
+
 class ProductionController extends Controller
 {
     public function __construct()
@@ -31,11 +33,24 @@ class ProductionController extends Controller
     {
         if (Auth::user()->can('Read-Production')) 
             {
+               if(!Auth::user()->hasRole('SuperAdmin'))
+                    {
        $production=Production::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
+       $CompanyData=Company::all();
        $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-       return view('Production.index',compact('production','setModal','productionData','productData','unitData')); }
+       return view('Production.index',compact('CompanyData','production','setModal','productionData','productData','unitData')); 
+     }
+     else {
+      $production=Production::where([['delete_status', '=', '1'],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where([['delete_status', '=', '1'],])->get();
+       $CompanyData=Company::all();
+       return view('Production.index',compact('CompanyData','production','setModal','productionData','productData','unitData')); 
+     }
+   }
        else{
         abort(500);
        }

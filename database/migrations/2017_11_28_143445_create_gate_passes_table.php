@@ -18,6 +18,12 @@ class CreateGatePassesTable extends Migration
             $table->string('person_name');
             $table->string('contact_phone');
             $table->string('destination');
+            $table->integer('branch_id')->unsigned();
+            $table->integer('department_id')->unsigned();
+            $table->integer('company_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->text('remarks');
             $table->timestamps();
         });
