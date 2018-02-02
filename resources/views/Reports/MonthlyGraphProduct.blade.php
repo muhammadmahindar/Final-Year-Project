@@ -14,7 +14,7 @@ details
         <div class="col-xs-12">
           <h2 class="page-header">
             <i class="fa fa-globe"></i> Petro Chemical International  
-            <small class="pull-right">{{date('d-M-Y h:i a')}}</small>
+            <small class="pull-right">Monthly Report {{date('d-M-Y h:i a')}}</small>
           </h2>
         </div>
         <!-- /.col -->

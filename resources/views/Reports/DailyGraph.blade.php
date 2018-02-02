@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-11">
             <div class="panel panel-default">
-                <div class="panel-heading">Daily Production Report of {{$productname->name}}<div class="pull-right">{{date('d-M-Y h:i a')}}</div></div>
+                <div class="panel-heading">Daily Production Report of {{$productname->name}}<div class="pull-right">Daily Graph {{date('d-M-Y h:i a')}}</div></div>
                 <div>
                 	<div class="row">
                 		<div class="col-md-3">
