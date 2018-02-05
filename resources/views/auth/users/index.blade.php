@@ -59,6 +59,13 @@ User's
                         <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete his?');" value="Delete"></form>@endcan @can('Change-UserPassword')
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $cmp->id }}">Change Password</button>
                         @endcan
+                        <form action="{{URL('Message',$cmp->id)}}" method="POST">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-lg">
+                                    <span class="fa fa-wechat">
+                                </button>
+                        </form>
+                        
                  </td>
             </tr>
             @endif

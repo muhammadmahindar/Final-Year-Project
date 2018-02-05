@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Session;
 use App\User;
-
+use App\Messages;
+use DB;
+use Carbon\Carbon;
+use App\Notifications\MessageNotification as Notification;
 class ProfileController extends Controller
 {
     use AuthenticatesUsers;
@@ -137,5 +140,24 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function SendMessage(Request $request,$id)
+    {
+        $userData=User::find($id);
+        return view('auth.profile.Message',compact('userData'));
+    }
+    public function MessageToDB(Request $request,$id)
+    {
+        $userData=User::find($id);
+        $userData->notify(new Notification($request));
+        return redirect('/Users');
+    }
+    public function ShowMessage(Request $request,$id)
+    {
+        $messagedata=Messages::find($id);
+        $messagedata->read_at=Carbon::now()->format('Y-m-d H:i:s');
+        $fromData=User::find(json_decode($messagedata->data)->from);
+        $messagedata->save();
+        return view('auth.users.ShowMessage',compact('messagedata','fromData'));
     }
 }

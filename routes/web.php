@@ -15,10 +15,17 @@ use App\OauthClient;
 Route::get('/Reports','Reports\MonthlyReport@ProductSelect');
 Route::post('/Reports/DailyView','Reports\MonthlyReport@ShowDaily')->name('Reports.Graph');
 Route::get('/Reports/MonthlyReport','Reports\MonthlyReport@ShowForm');
+
 Route::post('Reports/MonthlyView','Reports\MonthlyReport@ShowMonthly')->name('Reports.Month');
+
+Route::post('Message/{id}','Auth\Profile\ProfileController@SendMessage');
+Route::post('SendMessage/{id}','Auth\Profile\ProfileController@MessageToDB');
+Route::post('ShowMessage/{id}','Auth\Profile\ProfileController@ShowMessage');
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');
+
 Auth::routes();
 Route::get('/MarkRead',function(){
 	foreach (Auth::user()->unReadNotifications as $value) {
