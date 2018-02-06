@@ -39,6 +39,12 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    <style type="text/css">
+      .btn-primary-outline {
+  background-color: transparent;
+  border-color: #ccc;
+}
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -76,16 +82,15 @@
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li><!-- start message -->
+                  <li style="width: 100%"><!-- start message -->
                     <form action="{{URL('ShowMessage')}}/{{$noti->id}}" method="POST">
-                    <button type="submit">
-                      {{csrf_field()}}
-                      <h4>
-                        <small><i class="fa fa-clock-o"></i></small>
-                      </h4>
-                      <p>{{$noti->data['message']}}</p>
-                    </button>
-                  </form>
+                      <button class="btn btn-primary-outline" type="submit">
+                        {{csrf_field()}}
+                        <h4>
+                        </h4>
+                        <p>{{$noti->data['message']}}</p>
+                      </button>
+                    </form>
                   </li>
                   <!-- end message -->
                 </ul>
@@ -98,11 +103,11 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved
-')->count()}}</span>
+              <span class="label label-warning">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}}</span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have {{count(Auth::user()->unreadnotifications)}} notifications</li>
+              @if(Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()>0)
+              <li class="header">You have {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}} notifications</li>
                @foreach(Auth::user()->unreadnotifications as $noti)
               @if($noti->type=='App\Notifications\PendingProduction')
               <li>
@@ -132,6 +137,7 @@
                @endif
               @endforeach
               <li class="footer"><a href="{{URL('/MarkRead')}}">Mark All Read</a></li>
+              @endif
             </ul>
           </li>
 

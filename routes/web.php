@@ -29,7 +29,10 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/MarkRead',function(){
 	foreach (Auth::user()->unReadNotifications as $value) {
-		$value->markAsRead();
+		if ($value->type=='App\Notifications\ProductionApproved' || $value->type=='App\Notifications\PendingProduction') {
+			$value->markAsRead();
+		}
+		
 	}
 	return redirect('/');
 })->middleware('auth');
