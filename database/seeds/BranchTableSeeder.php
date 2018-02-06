@@ -12,8 +12,8 @@ class BranchTableSeeder extends Seeder
     public function run()
     {
        DB::table('branches')->insert([
-            'name' => "branch1",
-            'email'=> "branch1@gmail.com",
+            'name' => "Multan Road",
+            'email'=> "mr@gmail.com",
             'phone'=>"12345678901",
             'address'=>"xyz location",
             'description'=>"default branch",

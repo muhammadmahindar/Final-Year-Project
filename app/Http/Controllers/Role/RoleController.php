@@ -148,8 +148,7 @@ class RoleController extends Controller
         if (Auth::user()->can('Delete-Role')) 
             {
        $roleData=Role::findOrFail($id);
-       $roleData->delete_status=0;
-        if($roleData->save())
+        if($roleData->delete())
         {
             Session::flash('notice','Role was successfully Deleted');
             return redirect('/Role');

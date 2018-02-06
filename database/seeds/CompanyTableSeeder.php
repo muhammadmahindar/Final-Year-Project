@@ -12,8 +12,8 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         DB::table('companies')->insert([
-            'name' => "company1",
-            'email'=> "company1@gmail.com",
+            'name' => "Faras Combine Marketing Company (PVT) Limited",
+            'email'=> "fcm@gmail.com",
             'phone'=>"12345678901",
             'address'=>"xyz location",
             'description'=>"default company",
