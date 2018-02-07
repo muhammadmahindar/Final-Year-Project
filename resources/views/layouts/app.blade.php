@@ -74,7 +74,7 @@
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success"><!-- {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\MessageNotification')->count()}} --></span>
+              <span class="label label-success">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\MessageNotification')->count()}}</span>
             </a>
             <ul class="dropdown-menu">
               @foreach(Auth::user()->unreadnotifications as $noti)
@@ -103,11 +103,11 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning"><!-- {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}} --></span>
+              <span class="label label-warning">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}}</span>
             </a>
             <ul class="dropdown-menu">
-              <!-- @if(Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()>0) -->
-              <li class="header">You have <!-- {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}} --> notifications</li>
+              @if(Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()>0)
+              <li class="header">You have {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}} notifications</li>
                @foreach(Auth::user()->unreadnotifications as $noti)
               @if($noti->type=='App\Notifications\PendingProduction')
               <li>
@@ -137,7 +137,7 @@
                @endif
               @endforeach
               <li class="footer"><a href="{{URL('/MarkRead')}}">Mark All Read</a></li>
-             <!--  @endif -->
+              @endif
             </ul>
           </li>
 
