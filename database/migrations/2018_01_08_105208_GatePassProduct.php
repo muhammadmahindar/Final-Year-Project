@@ -23,7 +23,7 @@ class GatePassProduct extends Migration
         });  //
     }
 
-    /**
+    /**4
      * Reverse the migrations.
      *
      * @return void

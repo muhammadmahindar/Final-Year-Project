@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\GatePass;
 
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -12,6 +13,7 @@ use Auth;
 
 class GatePassApi extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -26,6 +28,8 @@ class GatePassApi extends Controller
         if (Auth::user()->can('Read-GatePass')) 
             {
                 $gatepass=GatePass::all();
+                // $gatepass=GatePass::find(1)->materials()->get();
+                
                 return response()->json($gatepass);
             } 
        else
@@ -60,49 +64,87 @@ class GatePassApi extends Controller
      */
     public function store(Request $request)
     {
-        $materialSize=sizeof($request->materialList);
-         $productSize=sizeof($request->productList);
-        if($request->materialList!=NULL){
-            if (count(array_unique($request->materialList))<count($request->materialList)) {
-                return response()->json([
-            'data' => 'Vaildation Failed not found'
-        ], 400);
-            }
-        }
-        elseif ($request->productList!=NULL) {
-            if (count(array_unique($request->productList))<count($request->productList)) {
-                return response()->json([
-            'data' => 'Vaildation Failed not found'
-        ], 400);
-            }
-        }
-            $this->validateInput($request);
-            $gatePassData=new GatePass();
-            $this->SaveGatePass($request,$gatePassData);
-            $sync_data = [];
-            for($i = 0; $i < $materialSize;$i++)
-            {
-            $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
-            }
-            $sync_data1 = [];
-            for($i = 0; $i < $productSize;$i++)
-            {
-            $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
-            }
-            if ($gatePassData->save()) {
-                Session::flash('notice','GatePass was successfully created');
-                $gatePassData->materials()->sync($sync_data);
-                $gatePassData->products()->sync($sync_data1);
-                return response()->json([
-            'data' => 'Saved'
-        ], 201);
-            }
-            else{
-                Session::flash('alert','GatePass was not successfully created');
-                return response()->json([
-            'data' => 'Cant Save'
-        ], 500);
-            }
+
+        $json = '{
+    "gate_passes":{
+        "contact_phone":"12345678901",
+        "id":3,
+        "remarks":"sincere",
+        "person_name":"Ali Abrar",
+        "destination":"Lahore"
+        },
+        
+    "materials":[
+        {"quantity":2,"material_id":1},
+        {"quantity":3,"material_id":2},
+        {"quantity":4,"material_id":3}
+    ],
+    
+    "products":[
+        {"product_id":1,"quantity":1},
+        {"product_id":2,"quantity":1},
+        {"product_id":3,"quantity":1}
+    ]
+    
+}'; 
+
+    $obj = json_decode($json);
+    
+    $gatePassObj = $obj->{'gate_passes'};
+
+    // Saving GatePass Info
+
+    $products = $obj->{'products'};
+    $materials = $obj->{'materials'};
+
+    $productsArray = [];
+    $materialsArray = [];
+    $productSize = count($products);
+    $materialSize = count($materials);
+    $id = '';
+    $qty = '';
+
+    for ($i=0; $i < $productSize; $i++) { 
+        $product = $products[$i];
+
+        $id = $product->product_id;
+        $qty = $product->quantity;
+        $productsArray[$id] = ['quantity' => $qty];
+
+    }
+
+    for ($i=0; $i < $materialSize; $i++) { 
+        $material = $materials[$i];
+
+        $id = $material->material_id;
+        $qty = $material->quantity;
+
+        $materialsArray[$id] = ['quantity' => $qty];
+
+    }
+
+    // Saving GatePass Object
+    $gatePass = new GatePass();
+    $gatePass->person_name = $gatePassObj->person_name;
+    $gatePass->contact_phone = $gatePassObj->contact_phone;
+    $gatePass->destination = $gatePassObj->destination;
+    $gatePass->remarks = $gatePassObj->remarks;
+
+    if ($gatePass->save()) {
+        $gatePass->products()->sync($productsArray);
+        $gatePass->materials()->sync($materialsArray);
+        return response()->json([
+            'status' => "success",
+            'msg' => 'Successfully Created!'
+        ]);
+    } else {
+        return response()->json([
+            'status' => "fail",
+            'msg' => 'UnSuccessfull !'
+        ]);
+    }
+
+    
     }
 
     /**
@@ -113,7 +155,16 @@ class GatePassApi extends Controller
      */
     public function show($id)
     {
-        //
+        $gatePass = GatePass::find($id);
+        $products = $gatePass->products()->get();
+        $materials = $gatePass->materials()->get();
+
+
+        return response()->json([
+            'gatepass' => $gatePass,
+            'products' => $products,
+            'materials' => $materials
+        ]);
     }
 
     /**
@@ -136,7 +187,52 @@ class GatePassApi extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+        $products = GatePass::find(1)->products()->get();
+
+        $productId = $products[0]->pivot->product_id;
+
+        // $product = 
+
+        // $products->save();
+
+        return response()->json(
+            $productId
+        );
+
+
+
+        // return $request->bearerToken();
+        // $gatePassInput = json_decode($request->getContent(), true);
+
+        // $gatepass = GatePass::find(1);
+
+        // // return $gatepass;
+
+        // $gatepass->person_name = $gatePassInput{"person_name"};
+        // $gatepass->contact_phone = $gatePassInput{"contact_phone"};
+        // $gatepass->destination = $gatePassInput{"destination"};
+        // $gatepass->remarks = $gatePassInput{"remarks"};
+        
+        // $gatepass->save();
+
+
+        // // return $gatePass;
+        // return response()->json([
+        //     "gatepass" => $gatePassInput
+
+        // ]);
+
+
+        
+        // return $request->all();
+
+        // return response()->json([
+        //     "gatepass" => $request->input('person_name')
+        //     // "gatepass" => "Hello"
+             
+        // ]);
     }
 
      protected function validateInput(Request $request)

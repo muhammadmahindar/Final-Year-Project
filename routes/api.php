@@ -59,12 +59,6 @@ Route::post('/test', function (Request $request) {
 	]);
 });
 
-	
-
-
-
-
-
 
 Route::resource('DailyProduction','Api\Production\DailyProductionApi');
 Route::post('DailyProduction/create','Api\Production\DailyProductionApi@productselect')->name('DailyProduction.productselect');
