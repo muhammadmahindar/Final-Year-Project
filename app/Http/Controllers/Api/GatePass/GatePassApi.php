@@ -27,10 +27,11 @@ class GatePassApi extends Controller
     {
         if (Auth::user()->can('Read-GatePass')) 
             {
-                $gatepass=GatePass::all();
-                // $gatepass=GatePass::find(1)->materials()->get();
+                $gatePasses=GatePass::all();
                 
-                return response()->json($gatepass);
+                return response()->json(
+                    $gatePasses
+                );
             } 
        else
        {
