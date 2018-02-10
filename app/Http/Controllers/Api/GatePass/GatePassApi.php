@@ -66,30 +66,33 @@ class GatePassApi extends Controller
     public function store(Request $request)
     {
 
-        $json = '{
-    "gate_passes":{
-        "contact_phone":"12345678901",
-        "id":3,
-        "remarks":"sincere",
-        "person_name":"Ali Abrar",
-        "destination":"Lahore"
-        },
-        
-    "materials":[
-        {"quantity":2,"material_id":1},
-        {"quantity":3,"material_id":2},
-        {"quantity":4,"material_id":3}
-    ],
-    
-    "products":[
-        {"product_id":1,"quantity":1},
-        {"product_id":2,"quantity":1},
-        {"product_id":3,"quantity":1}
-    ]
-    
-}'; 
 
-    $obj = json_decode($json);
+        // Reserve only for testing purpose
+//         $json = '{
+//     "gate_passes":{
+//         "contact_phone":"12345678901",
+//         "id":3,
+//         "remarks":"sincere",
+//         "person_name":"Ali Abrar",
+//         "destination":"Lahore"
+//         },
+        
+//     "materials":[
+//         {"quantity":2,"material_id":1},
+//         {"quantity":3,"material_id":2},
+//         {"quantity":4,"material_id":3}
+//     ],
+    
+//     "products":[
+//         {"product_id":1,"quantity":1},
+//         {"product_id":2,"quantity":1},
+//         {"product_id":3,"quantity":1}
+//     ]
+    
+// }'; 
+
+    $obj = json_decode($request->getContent());
+
     
     $gatePassObj = $obj->{'gate_passes'};
 
