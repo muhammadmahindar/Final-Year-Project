@@ -14,9 +14,51 @@ use App\User;
 |
 */
 
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:api');
+
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    // return $request->user();
+	
+	
+
+	return response()->json([
+		"msg" => "working"
+	]);
+// });	
 })->middleware('auth:api');
+
+Route::get('/userInfo', function (Request $request) {
+    
+	$email = "muhammadmahindar@gmail.com";
+	$password ="secret";
+
+	if(Auth::attempt(['email' => $email, 'password' => $password])) {
+		// Authentication passed...
+
+		$user = Auth::user();
+
+		return response()->json([
+			"user" => $user
+		]);	
+	}
+
+	
+	return response()->json([
+		"user" => null
+	]);
+});	
+
+Route::post('/test', function (Request $request) {
+    
+	$password = $request["password"];
+	
+	return response()->json([
+		"msg" => $password
+	]);
+});
+
 
 Route::resource('DailyProduction','Api\Production\DailyProductionApi');
 Route::post('DailyProduction/create','Api\Production\DailyProductionApi@productselect')->name('DailyProduction.productselect');

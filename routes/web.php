@@ -24,9 +24,11 @@ Route::post('ShowMessage/{id}','Auth\Profile\ProfileController@ShowMessage');
 
 Route::get('/', function () {
     return view('welcome');
+//});
 })->middleware('auth');
 
 Auth::routes();
+<<<<<<< HEAD
 Route::get('/MarkRead',function(){
 	foreach (Auth::user()->unReadNotifications as $value) {
 		if ($value->type=='App\Notifications\ProductionApproved' || $value->type=='App\Notifications\PendingProduction') {
@@ -40,6 +42,10 @@ Route::get('/AndroidSecret', function () {
     $temp= OauthClient::findOrFail(2);
     return $temp->secret;
 })->middleware('auth');
+=======
+// Passport::routes();
+
+>>>>>>> 80b94d99843fab0f6106fbfe5f01e9f5b3bedfb1
 //Admin Routes
 Route::resource('Role','Role\RoleController');
 Route::resource('Users','Auth\UserController'); //
