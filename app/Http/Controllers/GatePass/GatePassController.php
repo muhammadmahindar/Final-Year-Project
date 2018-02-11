@@ -33,14 +33,7 @@ class GatePassController extends Controller
         //          ->where('gate_passes_item.gate_id', '>', 0);
         // })
         // ->get();
-<<<<<<< HEAD
                 $gatepass=GatePass::where([['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();;
-=======
-
-                $gatepass=GatePass::all();
-
-                // return $gatepass;
->>>>>>> 80b94d99843fab0f6106fbfe5f01e9f5b3bedfb1
                  
        return view('GatePass.index',compact('gatepass','product','material'));
        } 
@@ -93,17 +86,17 @@ class GatePassController extends Controller
             }
         }
             $this->validateInput($request);
-            $gatePassData = new GatePass();
+            $gatePassData=new GatePass();
             $this->SaveGatePass($request,$gatePassData);
             $sync_data = [];
             for($i = 0; $i < $materialSize;$i++)
             {
-                $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
+            $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
             }
             $sync_data1 = [];
             for($i = 0; $i < $productSize;$i++)
             {
-                $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
+            $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
             }
             if ($gatePassData->save()) {
                 Session::flash('notice','GatePass was successfully created');

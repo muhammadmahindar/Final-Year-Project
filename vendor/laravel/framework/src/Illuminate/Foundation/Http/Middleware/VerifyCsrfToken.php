@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Session\TokenMismatchException;
 
-// use Illuminate\Foundation\Http\VerifyCsrfToken as Middleware;
-
-class VerifyCsrfToken 
+class VerifyCsrfToken
 {
     /**
      * The application instance.
@@ -32,7 +30,7 @@ class VerifyCsrfToken
      *
      * @var array
      */
-    protected $except = [ ];
+    protected $except = [];
 
     /**
      * Create a new middleware instance.
