@@ -133,6 +133,9 @@ class GatePassApi extends Controller
     $gatePass->contact_phone = $gatePassObj->contact_phone;
     $gatePass->destination = $gatePassObj->destination;
     $gatePass->remarks = $gatePassObj->remarks;
+    $gatePass->branch_id=Auth::user()->branch_id;
+    $gatePass->department_id=Auth::user()->department_id;
+    $gatePass->company_id=Auth::user()->company_id;
 
     if ($gatePass->save()) {
         $gatePass->products()->sync($productsArray);

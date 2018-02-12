@@ -197,6 +197,8 @@ class GatePassController extends Controller
             'person_name'=>'required',
             'contact_phone' => 'required|numeric',
             'destination' => 'required',
+            'materialSize'=>'required',
+            'productSize'=>'required',
         ]);
     }
     protected function SaveGatePass(Request $request,$gatePassData)
