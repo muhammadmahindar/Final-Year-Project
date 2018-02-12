@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\GatePass;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -33,14 +31,7 @@ class GatePassController extends Controller
         //          ->where('gate_passes_item.gate_id', '>', 0);
         // })
         // ->get();
-<<<<<<< HEAD
                 $gatepass=GatePass::where([['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();;
-=======
-
-                $gatepass=GatePass::all();
-
-                // return $gatepass;
->>>>>>> 80b94d99843fab0f6106fbfe5f01e9f5b3bedfb1
                  
        return view('GatePass.index',compact('gatepass','product','material'));
        } 
@@ -49,7 +40,6 @@ class GatePassController extends Controller
         abort(500);
        }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -62,7 +52,6 @@ class GatePassController extends Controller
                 $CompanyData=Company::all();
         $product=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-
         return view('GatePass.create',compact('material','product','CompanyData'));
     }
     else
@@ -70,7 +59,6 @@ class GatePassController extends Controller
         abort(500);
        }
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -79,7 +67,6 @@ class GatePassController extends Controller
      */
     public function store(Request $request)
     {
-
          $materialSize=sizeof($request->materialList);
          $productSize=sizeof($request->productList);
         if($request->materialList!=NULL){
@@ -93,17 +80,17 @@ class GatePassController extends Controller
             }
         }
             $this->validateInput($request);
-            $gatePassData = new GatePass();
+            $gatePassData=new GatePass();
             $this->SaveGatePass($request,$gatePassData);
             $sync_data = [];
             for($i = 0; $i < $materialSize;$i++)
             {
-                $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
+            $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
             }
             $sync_data1 = [];
             for($i = 0; $i < $productSize;$i++)
             {
-                $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
+            $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
             }
             if ($gatePassData->save()) {
                 Session::flash('notice','GatePass was successfully created');
@@ -118,7 +105,6 @@ class GatePassController extends Controller
         
         
     }
-
     /**
      * Display the specified resource.
      *
@@ -137,7 +123,6 @@ class GatePassController extends Controller
         abort(500);
        }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -145,7 +130,6 @@ class GatePassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-
     {
         if (Auth::user()->can('Edit-GatePass')) 
             {
@@ -159,9 +143,7 @@ class GatePassController extends Controller
        {
         abort(500);
        }
-
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -207,7 +189,6 @@ class GatePassController extends Controller
                 return redirect('/GatePass');
             }
     }
-
     /**
      * Remove the specified resource from storage.
      *
