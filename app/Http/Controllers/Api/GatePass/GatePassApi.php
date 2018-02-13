@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api\GatePass;
-
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,10 +8,8 @@ use App\GatePass;
 use App\Product;
 use App\Material;
 use Auth;
-
 class GatePassApi extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -39,12 +35,10 @@ class GatePassApi extends Controller
             'data' => 'Permission not found'
         ], 403);
        }
-
         // return response()->json([
         //     'msg' => 'working'
         // ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -56,7 +50,6 @@ class GatePassApi extends Controller
                  $material=Material::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
                    return response()->json($arrayName = array('product' => $product,'material'=>$material ));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -65,8 +58,6 @@ class GatePassApi extends Controller
      */
     public function store(Request $request)
     {
-
-
         // Reserve only for testing purpose
 //         $json = '{
 //     "gate_passes":{
@@ -90,43 +81,30 @@ class GatePassApi extends Controller
 //     ]
     
 // }'; 
-
     $obj = json_decode($request->getContent());
-
     
     $gatePassObj = $obj->{'gate_passes'};
-
     // Saving GatePass Info
-
     $products = $obj->{'products'};
     $materials = $obj->{'materials'};
-
     $productsArray = [];
     $materialsArray = [];
     $productSize = count($products);
     $materialSize = count($materials);
     $id = '';
     $qty = '';
-
     for ($i=0; $i < $productSize; $i++) { 
         $product = $products[$i];
-
         $id = $product->product_id;
         $qty = $product->quantity;
         $productsArray[$id] = ['quantity' => $qty];
-
     }
-
     for ($i=0; $i < $materialSize; $i++) { 
         $material = $materials[$i];
-
         $id = $material->material_id;
         $qty = $material->quantity;
-
         $materialsArray[$id] = ['quantity' => $qty];
-
     }
-
     // Saving GatePass Object
     $gatePass = new GatePass();
     $gatePass->person_name = $gatePassObj->person_name;
@@ -136,7 +114,6 @@ class GatePassApi extends Controller
     $gatePass->branch_id=Auth::user()->branch_id;
     $gatePass->department_id=Auth::user()->department_id;
     $gatePass->company_id=Auth::user()->company_id;
-
     if ($gatePass->save()) {
         $gatePass->products()->sync($productsArray);
         $gatePass->materials()->sync($materialsArray);
@@ -150,10 +127,8 @@ class GatePassApi extends Controller
             'msg' => 'UnSuccessfull !'
         ]);
     }
-
     
     }
-
     /**
      * Display the specified resource.
      *
@@ -165,15 +140,12 @@ class GatePassApi extends Controller
         $gatePass = GatePass::find($id);
         $products = $gatePass->products()->get();
         $materials = $gatePass->materials()->get();
-
-
         return response()->json([
             'gatepass' => $gatePass,
             'products' => $products,
             'materials' => $materials
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -184,7 +156,6 @@ class GatePassApi extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -194,54 +165,35 @@ class GatePassApi extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
         $products = GatePass::find(1)->products()->get();
-
         $productId = $products[0]->pivot->product_id;
-
         // $product = 
-
         // $products->save();
-
         return response()->json(
             $productId
         );
-
-
-
         // return $request->bearerToken();
         // $gatePassInput = json_decode($request->getContent(), true);
-
         // $gatepass = GatePass::find(1);
-
         // // return $gatepass;
-
         // $gatepass->person_name = $gatePassInput{"person_name"};
         // $gatepass->contact_phone = $gatePassInput{"contact_phone"};
         // $gatepass->destination = $gatePassInput{"destination"};
         // $gatepass->remarks = $gatePassInput{"remarks"};
         
         // $gatepass->save();
-
-
         // // return $gatePass;
         // return response()->json([
         //     "gatepass" => $gatePassInput
-
         // ]);
-
-
         
         // return $request->all();
-
         // return response()->json([
         //     "gatepass" => $request->input('person_name')
         //     // "gatepass" => "Hello"
              
         // ]);
     }
-
      protected function validateInput(Request $request)
     {
         $this->validate($request, [
