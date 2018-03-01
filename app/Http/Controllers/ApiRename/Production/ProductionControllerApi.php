@@ -30,30 +30,12 @@ class ProductionControllerApi extends Controller
     public function index()
     {
         if (Auth::user()->can('Read-Production')) 
-        {
-            $production=Production::where([
-                ['delete_status', '=', '1'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id]
-            ])->get();
-
-            return  response()->json([
-                "productions" => $production   
-            ]);
-            
-            // $setModal=0;
-            // $productionData=0;
-            // $productData=Product::where([
-            //     ['delete_status', '=', '1'],
-            //     ['company_id', '=', Auth::user()->company_id],
-            //     ['branch_id', '=', Auth::user()->branch_id]
-            // ])->get();
-
-            // return response()->json([
-            //     'production' => $production,
-            //     // 'products' => $production
-            //     // 'productData'=>$productData 
-            // ]);
+            {
+       $production=Production::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       return response()->json($arrayName = array('production' => $production,'productData'=>$productData ));
    }
        else{
         return response()->json([
@@ -61,143 +43,59 @@ class ProductionControllerApi extends Controller
         ], 403);
        }
     }
-
-    public function notifications() {
-
-        $pending;
-        $approved;
-        $completed;
-
-
-        // Getting Notifications
-        if (Auth::user()->can('Read-Production')) 
-        {
-            foreach (Auth::user()->unReadNotifications as $value) {
-                $value->markAsRead();
-            }
-
-            //
-            $pending=Production::where([
-                ['delete_status', '=', '1'],
-                ['status', '=', '1'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],
-            ])->get();
-
-            $approved=Production::where([
-                ['delete_status', '=', '1'],
-                ['status', '=', '3'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],
-            ])->get();
-
-            $completed=Production::where([
-                ['delete_status', '=', '1'],
-                ['status', '=', '4'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],
-            ])->get();
-
-
-
-        }
-       
-
-        return response()->json([
-            "pending" => $pending,
-            "approved" => $approved,
-            "completed" => $completed
-        ]);
-    }
-
     public function pending()
     {
         if (Auth::user()->can('Read-Production')) 
-        {
-            foreach (Auth::user()->unReadNotifications as $value) {
+            {
+                foreach (Auth::user()->unReadNotifications as $value) {
                 $value->markAsRead();
-            }
-       $production=Production::where([
-            ['delete_status', '=', '1'],
-            ['status', '=', '1'],
-            ['company_id', '=', Auth::user()->company_id],
-            ['branch_id', '=', Auth::user()->branch_id],
-          ])->get();
+             }
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
        $setModal=0;
        $productionData=0;
-       $productData=Product::where([
-            ['delete_status', '=', '1'],
-            ['company_id', '=', Auth::user()->company_id],
-            ['branch_id', '=', Auth::user()->branch_id],
-          ])->get();
-        
-        return response()->json(
-            $arrayName = array(
-              'production' => $production,'productData'=>$productData )
-          );
-        } else{
-            return response()->json([
-                 'data' => 'Permission not found'
-            ], 403);
-       }
-    }
-
-    public function approved() {
-
-        if (Auth::user()->can('Read-Production')) 
-        {
-            foreach (Auth::user()->unReadNotifications as $value) {
-                    $value->markAsRead();
-            }       
-        
-       $production=Production::where([
-                ['delete_status', '=', '1'],
-                ['status', '=', '3'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],
-            ])->get();
-       $setModal=0;
-       $productionData=0;
-       $productData=Product::where([
-                ['delete_status', '=', '1'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],
-            ])->get();
-        return response()->json(
-          $arrayName = array('production' => $production,'productData'=>$productData )
-        ); 
-
-      } else{
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+        return response()->json($arrayName = array('production' => $production,'productData'=>$productData ));
+   }
+       else{
         return response()->json([
             'data' => 'Permission not found'
         ], 403);
        }
     }
-    
-
-    public function completed(){
+    public function approved()
+    {
         if (Auth::user()->can('Read-Production')) 
-        {
-           $production=Production::where([['delete_status', '=', '1'],['status', '=', '4'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-           $setModal=0;
-           $productionData=0;
-           $productData=Product::where([
-                ['delete_status', '=', '1'],
-                ['company_id', '=', Auth::user()->company_id],
-                ['branch_id', '=', Auth::user()->branch_id],]
-            )->get();
-          return response()->json(
-            $arrayName = array(
-                      'production' => $production,
-                      'productData'=>$productData )
-          );
-       }
+            {
+                foreach (Auth::user()->unReadNotifications as $value) {
+                $value->markAsRead();
+             }
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '3'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       return response()->json($arrayName = array('production' => $production,'productData'=>$productData )); }
        else{
-            return response()->json([
-                'data' => 'Permission not found'
-            ], 403);
+        return response()->json([
+            'data' => 'Permission not found'
+        ], 403);
        }
-       
+       }
+    }
+        public function completed()
+    {
+        if (Auth::user()->can('Read-Production')) 
+            {
+       $production=Production::where([['delete_status', '=', '1'],['status', '=', '4'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       $setModal=0;
+       $productionData=0;
+       $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
+       return response()->json($arrayName = array('production' => $production,'productData'=>$productData )); }
+       else{
+        return response()->json([
+            'data' => 'Permission not found'
+        ], 403);
+       }
+       }
     }
 
     /**
@@ -223,10 +121,10 @@ class ProductionControllerApi extends Controller
         {
            return response()->json([
             'data' => 'Vaildation Failed not found'
-            ], 400);
+        ], 400);
         }
         else{
-            //doesnt have duplicate material
+        //doesnt have duplicate material
             $this->validateInput($request);
             $productionData = new Production();
             $this->SaveProduction($request,$productionData);
@@ -235,7 +133,6 @@ class ProductionControllerApi extends Controller
             {
             $sync_data[$request->FormulaList[$i]] = ['quantity' => $request->QuantityList[$i]];
             }
-            
             if($productionData->save())
             {
             
@@ -254,10 +151,7 @@ class ProductionControllerApi extends Controller
             'data' => 'Cant Save'
         ], 500);
             } //
-
     }
-}
-    
 
     /**
      * Display the specified resource.
@@ -267,19 +161,7 @@ class ProductionControllerApi extends Controller
      */
     public function show($id)
     {
-        $production=Production::findOrFail($id);
-        // foreach (Auth::user()->unReadNotifications as $value) {
-        //     if($value->data['id']==$production->id && $value->data['status']==4){
-        //         $value->markAsRead();
-        //     }
-        // }
-
-        return response()->json([
-
-            "productions" => $production,
-            "products" => $production->products,
-
-        ]);
+        //
     }
 
     /**

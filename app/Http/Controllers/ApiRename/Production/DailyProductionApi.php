@@ -24,10 +24,7 @@ class DailyProductionApi extends Controller
     public function index()
     {
         $productData=Product::where([['delete_status', '=', '1'],['company_id', '=', Auth::user()->company_id],['branch_id', '=', Auth::user()->branch_id],])->get();
-        return response()->json([
-            "products" => $productData
-        ]);
-        
+        return response()->json($productData);
     }
 
 
@@ -52,11 +49,7 @@ class DailyProductionApi extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-
-        return response()->json([
-            "products" => $products
-        ]);
+        //
     }
 
     /**
@@ -67,21 +60,21 @@ class DailyProductionApi extends Controller
      */
     public function store(Request $request)
     {
-        
-        $dailyProductionJson = json_decode($request->getContent()); 
-        // return $dailyProductionJson->{"product_id"}; 
-        
         $dailyproduction= new DailyProduct();
-        // $this->ValidateInput($request);
-        $this->SaveDaily($dailyProductionJson ,$dailyproduction);
+       $this->ValidateInput($request);
+        $this->SaveDaily($request,$dailyproduction);
         if($dailyproduction->save())
         {
             return response()->json([
-                "status" => "success",
-                'msg' => 'Resource has been created'
-            ], 200);
-
+            'data' => 'Resource has been created'
+        ], 201);
         }
+        else{
+            return response()->json([
+            'data' => 'Resource has not been created'
+        ], 500);
+        }
+       
     }
 
     /**
@@ -141,18 +134,16 @@ class DailyProductionApi extends Controller
             'company_id'=>'numeric'
         ]);
     }
-
-    protected function SaveDaily($dailyProductionJson,$dailyproduction)
+    protected function SaveDaily(Request $request,$dailyproduction)
     {
-        $dailyproduction->product_id = $dailyProductionJson->{"product_id"};
-        $dailyproduction->produced = $dailyProductionJson->{"produced"};
-        $dailyproduction->dispatches = $dailyProductionJson->{"dispatches"};
-        $dailyproduction->sale_return = $dailyProductionJson->{"sale_return"};
-        $dailyproduction->received = $dailyProductionJson->{"received"};
-        $dailyproduction->branch_id = Auth::user()->branch_id;
+        $dailyproduction->product_id=$request->product_id;
+        $dailyproduction->produced=$request->produced;
+        $dailyproduction->dispatches=$request->dispatches;
+        $dailyproduction->sale_return=$request->sale_return;
+        $dailyproduction->received=$request->received;
+        $dailyproduction->branch_id=Auth::user()->branch_id;
         $dailyproduction->department_id=Auth::user()->department_id;
         $dailyproduction->company_id=Auth::user()->company_id;
         $dailyproduction->toArray();
-
     }
 }

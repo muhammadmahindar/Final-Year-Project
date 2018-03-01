@@ -26,15 +26,15 @@ Route::get('/user', function (Request $request) {
 	return response()->json([
 		"msg" => "working"
 	]);
-});	
-// })->middleware('auth:api');
+// });	
+})->middleware('auth:api');
 
 Route::get('/userInfo', function (Request $request) {
     
 	$email = "muhammadmahindar@gmail.com";
 	$password ="secret";
 
-	if(Auth::attempt(['email' =>$email, 'password' => $password])) {
+	if(Auth::attempt(['email' => $email, 'password' => $password])) {
 		// Authentication passed...
 
 		$user = Auth::user();
@@ -65,16 +65,6 @@ Route::post('DailyProduction/create','Api\Production\DailyProductionApi@products
 
 Route::resource('GatePass','Api\GatePass\GatePassApi');
 Route::resource('Production','Api\Production\ProductionControllerApi');
-
-Route::resource('Notifications','Api\Production\ProductionControllerApi@notifications');
-
 Route::get('/Pending/Productions','Api\Production\ProductionControllerApi@pending');
 Route::get('/Approved/Productions','Api\Production\ProductionControllerApi@approved');
 Route::get('/Completed/Productions','Api\Production\ProductionControllerApi@completed');
-
-Route::get('/permissions',function(Request $request){
-	$obj=$request->user()->id;
-	$user=User::find($obj);
-	$user->getAllPermissions();
-	return $user;
-})->middleware('auth:api');
