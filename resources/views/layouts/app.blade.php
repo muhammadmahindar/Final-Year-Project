@@ -71,75 +71,8 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\MessageNotification')->count()}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              @foreach(Auth::user()->unreadnotifications as $noti)
-              @if($noti->type=='App\Notifications\MessageNotification')
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li style="width: 100%"><!-- start message -->
-                    <form action="{{URL('ShowMessage')}}/{{$noti->id}}" method="POST">
-                      <button class="btn btn-primary-outline" type="submit">
-                        {{csrf_field()}}
-                        <h4>
-                        </h4>
-                        <p>{{$noti->data['message']}}</p>
-                      </button>
-                    </form>
-                  </li>
-                  <!-- end message -->
-                </ul>
-              </li>
-              @endif
-             @endforeach
-            </ul>
-          </li>
-          <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">{{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              @if(Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()>0)
-              <li class="header">You have {{Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\ProductionApproved')->count()+Auth::user()->unreadnotifications()->groupBy('type')->where('type','App\Notifications\PendingProduction')->count()}} notifications</li>
-               @foreach(Auth::user()->unreadnotifications as $noti)
-              @if($noti->type=='App\Notifications\PendingProduction')
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a @if($noti->data['status']==1) href="{{URL('/ShowPending/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
-                      <i class="fa fa-users text-aqua"></i> 
-                      Production Request <strong> {{$noti->data['name']}}</strong> is Pending 
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              @elseif($noti->type=='App\Notifications\ProductionApproved')
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a @if($noti->data['status']==4) href="{{URL('Production')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==3) href="{{URL('/ShowApproved/Productions')}}/{{$noti->data['id']}}" @elseif($noti->data['status']==0) href="{{URL('/DisApproved/Productions')}}/{{$noti->data['id']}}" @endif onclick="">
-                      <i class="fa fa-users text-aqua"></i> 
-                      The Production @if($noti->data['status']==4) <strong> {{$noti->data['name']}}</strong> Completed @elseif($noti->data['status']==3) <strong> {{$noti->data['name']}}</strong> Approved @elseif($noti->data['status']==0) {{$noti->data['name']}} Disapproved @endif
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              
-               @endif
-              @endforeach
-              <li class="footer"><a href="{{URL('/MarkRead')}}">Mark All Read</a></li>
-              @endif
-            </ul>
-          </li>
+
+
 
           <li>
               <a href="javascript:void(0);" class=" right-menu-item" onclick="go_full_screen()">
