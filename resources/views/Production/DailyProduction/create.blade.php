@@ -31,22 +31,22 @@ Daily Production
     <div class="form-group">
       <label>Produced</label>
       <br> 
-      <input step="0.0000" min="0" type="number" name="produced" required="" autofocus="" value="0">
+      <input step="any"  type="number" name="produced" required="" autofocus="" value="0.0000" required="">
     </div>
     <div class="form-group">
       <label>Dispatches</label>
       <br>
-      <input step="0.0000" min="0" type="number" name="dispatches" value="0">
+      <input step="any"  type="number" name="dispatches" value="0.0000" required="">
     </div>
     <div class="form-group">
       <label>Sale Return</label>
       <br>
-      <input step="0.0000" min="0" type="number" name="sale_return" value="0">
+      <input step="any"  type="number" name="sale_return" value="0.0000" required="">
     </div>
     <div class="form-group">
       <label>Received</label>
       <br>
-      <input step="0.0000" min="0" type="number" name="received" value="0">
+      <input step="any"  type="number" name="received" value="0.0000" required="">
     </div>
     <button class="btn btn-primary" type="Submit">Submit</button>
   </div>

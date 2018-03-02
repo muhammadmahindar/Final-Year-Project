@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GatePassTableSeeder::class);
         $this->call(SemiFixedTableSeeder::class);
         $this->call(FactoryOverheadTableSeeder::class);
+        $this->call(DailyProductionSeeder::class);
     }
 }

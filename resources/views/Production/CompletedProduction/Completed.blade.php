@@ -21,6 +21,7 @@ Costing
 @section('dynamiccontent')
 <form role="form" action="{{route('Production-Approval.update',$productionData->id)}}" method="POST">
 	<input type="hidden" name="_method" value="PATCH">
+  <input type="hidden" name="approval" value="4">
                       {{ csrf_field() }}
   @foreach($productionData->products as $productsname)
   <table id="productiontable" class="display responsive table table-striped table-bordered nowrap" cellspacing="0" width="100%">

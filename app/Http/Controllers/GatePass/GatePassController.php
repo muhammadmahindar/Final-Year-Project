@@ -92,6 +92,7 @@ class GatePassController extends Controller
             $sync_data = [];
             if($request->materialList!=NULL)
             {
+                $materialSize=sizeof($request->materialList);
             for($i = 0; $i < $materialSize;$i++)
             {
                 $sync_data[$request->materialList[$i]] = ['quantity' => $request->QuantityList[$i]];
@@ -99,6 +100,7 @@ class GatePassController extends Controller
             }
             $sync_data1 = [];
             if($request->productList!=NULL){
+                $productSize=sizeof($request->productList);
             for($i = 0; $i < $productSize;$i++)
             {
                 $sync_data1[$request->productList[$i]] = ['quantity' => $request->QuantityList1[$i]];
