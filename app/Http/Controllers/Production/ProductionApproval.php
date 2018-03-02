@@ -93,7 +93,7 @@ class ProductionApproval extends Controller
     public function update(Request $request, $id)
     {
         $productionData=Production::findOrFail($id);
-        
+        if($productionData->status==4){
         foreach($productionData->products as $productsname){
         $semiSize=sizeof($request->{"semiId".$productsname->id});
         $factorySize=sizeof($request->{"factoryId".$productsname->id});
@@ -109,7 +109,10 @@ class ProductionApproval extends Controller
             }
         $productionData->semiFixed()->attach($sync_data);
         $productionData->factoryoverhead()->attach($sync_data1);
-}
+        }
+    }
+    else
+    {
         $productionData->status=$request->approval;
         if($productionData->save())
         {
@@ -149,7 +152,8 @@ class ProductionApproval extends Controller
         {
             Session::flash('alert','Production was not successfully Approved');
             return redirect('/Production');
-        }   
+        } 
+        }  
    
     }
 

@@ -78,6 +78,9 @@ class MonthlyReport extends Controller
 
         //factory overhead total
         $factoryData=DB::table('factory_ovear_head_production')->where('product_id',$request->productID)->whereBetween('created_at', array(Carbon::today()->startOfMonth()->toDateTimeString(), Carbon::today()->endOfMonth()->toDateTimeString()))->sum('quantity');
+        if ($quantityData==0) {
+          $quantityData=1;
+        }
         return view('Reports.MonthlyGraphProduct',compact('quantityData','totalrate','semiAll','semireturn','factoryreturn','factoryAll','costData','semiData','factoryData','productionData'));
     }
     
