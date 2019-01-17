@@ -11,7 +11,7 @@
     <title>@yield('title') | CPMS </title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script>
+    <script defer>
         var chatDiv = document.createElement('div');
         chatDiv.className = 'fb-customerchat';
         chatDiv.setAttribute('page_id', '204334060167088');
