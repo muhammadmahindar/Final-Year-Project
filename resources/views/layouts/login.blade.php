@@ -12,7 +12,7 @@
     <title>@yield('title') | CPMS </title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="referrer" content="no-referrer">
+    <meta name="referrer" content="null">
 
     <title>{{ config('app.name', 'CPMS') }}</title>
 
