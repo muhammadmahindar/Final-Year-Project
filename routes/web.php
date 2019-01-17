@@ -1,4 +1,5 @@
 <?php
+
 use App\OauthClient;
 
 /*
@@ -12,66 +13,73 @@ use App\OauthClient;
 |
 */
 //Reports
-Route::get('/Reports','Reports\MonthlyReport@ProductSelect');
-Route::post('/Reports/DailyView','Reports\MonthlyReport@ShowDaily')->name('Reports.Graph');
-Route::get('/Reports/MonthlyReport','Reports\MonthlyReport@ShowForm');
+Route::get('/Reports', 'Reports\MonthlyReport@ProductSelect');
+Route::post('/Reports/DailyView', 'Reports\MonthlyReport@ShowDaily')
+     ->name('Reports.Graph');
+Route::get('/Reports/MonthlyReport', 'Reports\MonthlyReport@ShowForm');
 
-Route::post('Reports/MonthlyView','Reports\MonthlyReport@ShowMonthly')->name('Reports.Month');
+Route::post('Reports/MonthlyView', 'Reports\MonthlyReport@ShowMonthly')
+     ->name('Reports.Month');
 
-Route::post('Message/{id}','Auth\Profile\ProfileController@SendMessage');
-Route::post('SendMessage/{id}','Auth\Profile\ProfileController@MessageToDB');
-Route::post('ShowMessage/{id}','Auth\Profile\ProfileController@ShowMessage');
+Route::post('Message/{id}', 'Auth\Profile\ProfileController@SendMessage');
+Route::post('SendMessage/{id}', 'Auth\Profile\ProfileController@MessageToDB');
+Route::post('ShowMessage/{id}', 'Auth\Profile\ProfileController@ShowMessage');
 
 Route::get('/', function () {
     return view('welcome');
-//});
-})->middleware('auth');
+    //});
+})
+     ->middleware('auth');
 
 Auth::routes();
 
-Route::get('/MarkRead',function(){
-	foreach (Auth::user()->unReadNotifications as $value) {
-		if ($value->type=='App\Notifications\ProductionApproved' || $value->type=='App\Notifications\PendingProduction') {
-			$value->markAsRead();
-		}
-		
-	}
-	return redirect('/');
-})->middleware('auth');
+Route::get('/MarkRead', function () {
+    foreach (Auth::user()->unReadNotifications as $value) {
+        if ($value->type == 'App\Notifications\ProductionApproved' || $value->type == 'App\Notifications\PendingProduction') {
+            $value->markAsRead();
+        }
+
+    }
+    return redirect('/');
+})
+     ->middleware('auth');
 Route::get('/AndroidSecret', function () {
-    $temp= OauthClient::findOrFail(2);
+    $temp = OauthClient::findOrFail(2);
     return $temp->secret;
-})->middleware('auth');
+})
+     ->middleware('auth');
 //Admin Routes
-Route::resource('Role','Role\RoleController');
-Route::resource('Users','Auth\UserController'); //
-Route::post('/getbranch','Auth\RegisterController@getbranch');
-Route::post('/getdepartment','Auth\RegisterController@getdepartment');
+Route::resource('Role', 'Role\RoleController');
+Route::resource('Users', 'Auth\UserController'); //
+Route::post('/getbranch', 'Auth\RegisterController@getbranch');
+Route::post('/getdepartment', 'Auth\RegisterController@getdepartment');
 
 //User With Roles Route
 Route::get('/home', 'HomeController@index');
 //Company Management Route
-Route::resource('Company','Company\CompanyController');
-Route::resource('Branch','Branch\BranchController');
-Route::resource('Department','Department\DepartmentController');
+Route::resource('Company', 'Company\CompanyController');
+Route::resource('Branch', 'Branch\BranchController');
+Route::resource('Department', 'Department\DepartmentController');
 //Production Routes
-Route::resource('Material','Material\MaterialController');
-Route::resource('Product','Product\ProductController');
-Route::resource('Production','Production\ProductionController');
-Route::post('DailyProduction/create','Production\DailyProduction@productselect')->name('DailyProduction.productselect');
-Route::resource('DailyProduction','Production\DailyProduction');
-Route::get('/Pending/Productions','Production\ProductionController@pending');
-Route::get('/ShowPending/Productions/{id}','Production\ProductionController@ShowPending');
-Route::get('/Approved/Productions','Production\ProductionController@approved');
-Route::get('/ShowApproved/Productions/{id}','Production\ProductionController@showapproved');
-Route::get('/DisApproved/Productions/{id}','Production\ProductionController@disapproved');
-Route::get('/Completed/Productions','Production\ProductionController@completed');
-Route::resource('Production-Approval','Production\ProductionApproval');
+Route::resource('Material', 'Material\MaterialController');
+Route::resource('Product', 'Product\ProductController');
+Route::resource('Production', 'Production\ProductionController');
+Route::post('DailyProduction/create', 'Production\DailyProduction@productselect')
+     ->name('DailyProduction.productselect');
+Route::resource('DailyProduction', 'Production\DailyProduction');
+Route::get('/Pending/Productions', 'Production\ProductionController@pending');
+Route::get('/ShowPending/Productions/{id}', 'Production\ProductionController@ShowPending');
+Route::get('/Approved/Productions', 'Production\ProductionController@approved');
+Route::get('/ShowApproved/Productions/{id}', 'Production\ProductionController@showapproved');
+Route::get('/DisApproved/Productions/{id}', 'Production\ProductionController@disapproved');
+Route::get('/Completed/Productions', 'Production\ProductionController@completed');
+Route::resource('Production-Approval', 'Production\ProductionApproval');
 //GatePass routes
-Route::resource('GatePass','GatePass\GatePassController');
+Route::resource('GatePass', 'GatePass\GatePassController');
 //Cost Calculation Route
-Route::resource('SemiFixed','Cost\SemiFixedController');
-Route::resource('FactoryOverhead','Cost\FactoryOverheadController');
+Route::resource('SemiFixed', 'Cost\SemiFixedController');
+Route::resource('FactoryOverhead', 'Cost\FactoryOverheadController');
 //Profile Routes
-Route::resource('Profile','Auth\Profile\ProfileController');
-Route::post('changepassword/{id}','Auth\Profile\ProfileController@changepassword');
+Route::resource('Profile', 'Auth\Profile\ProfileController');
+Route::post('changepassword/{id}', 'Auth\Profile\ProfileController@changepassword');
+Route::get('/test', 'TestingController@test');
