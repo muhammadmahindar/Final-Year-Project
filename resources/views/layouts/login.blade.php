@@ -31,6 +31,27 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <body class="hold-transition login-page">
+  <script>
+ var chatDiv = document.createElement('div');
+ chatDiv.className = 'fb-customerchat';
+ chatDiv.setAttribute('page_id', '204334060167088');
+ document.body.appendChild(chatDiv);
+  window.fbAsyncInit = function() {
+   FB.init({
+   appId            : '850652791742367',
+   autoLogAppEvents : true,
+   xfbml            : true,
+   version          : 'v3.2'
+  });
+}; 
+ (function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="login-box">
   <div class="login-logo">
     <a href="../../index2.html"><b>Petro</b>Chemical</a>
