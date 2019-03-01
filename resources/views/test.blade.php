@@ -11,7 +11,9 @@
     <title>@yield('title') | CPMS </title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script id="rocketbots__widget" src="https://rocketbots-staging.oss-cn-hongkong.aliyuncs.com/webchat/widget/widget.js?cId=46b4411d5da6f35cdf7a17d09c4dcf17d0154da3301f87797c89c28f1f1157cc"></script>
+    <!-- This site is converting visitors into subscribers and customers with Rocketbots - https://rocketbots.io -->
+<script id="rocketbots__widget" src="https://rocketbots.oss-cn-hongkong.aliyuncs.com/webchat/widget/widget.js?cId=5b305ffb337fe55306a372d62977343fb2e879343540a729b297cbc79d6675ee"></script>
+<!-- https://rocketbots.io/ -->
 
     <title>{{ config('app.name', 'CPMS') }}</title>
 
