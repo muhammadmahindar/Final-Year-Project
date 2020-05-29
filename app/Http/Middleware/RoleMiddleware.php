@@ -2,25 +2,28 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
+
 class RoleMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
-    public function handle($request, Closure $next,$role)
+    public function handle($request, Closure $next, $role)
     {
         if (Auth::guest()) {
             return redirect('/login');
         }
-        if (! $request->user()->hasRole($role)) {
-       abort(500);
+        if (!$request->user()->hasRole($role)) {
+            abort(500);
         }
+
         return $next($request);
     }
 }

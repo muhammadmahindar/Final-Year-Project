@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    
-   public function branches()
+    public function branches()
     {
         return $this->belongsToMany('App\Branch')->withTimestamps();
     }

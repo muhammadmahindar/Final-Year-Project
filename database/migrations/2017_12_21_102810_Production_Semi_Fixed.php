@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class ProductionSemiFixed extends Migration
 {
@@ -13,7 +13,7 @@ class ProductionSemiFixed extends Migration
      */
     public function up()
     {
-      Schema::create('Production_Semi_Fixed', function (Blueprint $table) {
+        Schema::create('Production_Semi_Fixed', function (Blueprint $table) {
             $table->integer('semi_id')->unsigned();
             $table->integer('production_id')->unsigned();
             $table->integer('product_id')->unsigned();
@@ -32,6 +32,6 @@ class ProductionSemiFixed extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Production_Semi_Fixed');//
+        Schema::dropIfExists('Production_Semi_Fixed'); //
     }
 }

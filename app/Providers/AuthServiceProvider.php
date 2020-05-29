@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use \Carbon\Carbon;
-use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Gate;
+use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,7 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-     
     public function boot()
     {
         $this->registerPolicies();
@@ -34,7 +32,6 @@ class AuthServiceProvider extends ServiceProvider
         // Passport::refreshTokensExpireIn(Carbon::
         // now()->addDays(30));
 
-        
         //
     }
 }

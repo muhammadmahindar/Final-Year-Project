@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -11,18 +12,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('users')->insert([
-            'name' => "Muhammad Mahin Dar",
-            'email' => "muhammadmahindar".'@gmail.com',
-            'password' => bcrypt('petroadmin'),
-            'active'=>1,
-            'branch_id'=>1,
-            'department_id'=>1,
-            'company_id'=>1,
-            'avatar'=>"default.jpg",
-            'delete_status'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        DB::table('users')->insert([
+            'name'         => 'Muhammad Mahin Dar',
+            'email'        => 'muhammadmahindar'.'@gmail.com',
+            'password'     => bcrypt('petroadmin'),
+            'active'       => 1,
+            'branch_id'    => 1,
+            'department_id'=> 1,
+            'company_id'   => 1,
+            'avatar'       => 'default.jpg',
+            'delete_status'=> 1,
+            'created_at'   => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at'   => Carbon::now()->format('Y-m-d H:i:s'),
         ]); //
     }
 }

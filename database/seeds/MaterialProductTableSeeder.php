@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+
 class MaterialProductTableSeeder extends Seeder
 {
     /**
@@ -11,12 +12,12 @@ class MaterialProductTableSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('material_product')->insert([
+        DB::table('material_product')->insert([
             'material_id' => 1,
-            'product_id'=> 1,
-            'quantity'=>100,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+            'product_id'  => 1,
+            'quantity'    => 100,
+            'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
         ]);  //
     }
 }
