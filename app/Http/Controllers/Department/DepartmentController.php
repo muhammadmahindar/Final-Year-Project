@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Department;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Department;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 class DepartmentController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,16 +22,15 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('Read-Department')) 
-            {
-       $department=Department::orderBy('created_at','desc')->get();
-        $setModal=0;
-        $departmentData=0;
-       return view('Department.index',compact('department','setModal','departmentData'));
-       }
-       else{
-        abort(500);
-       } //
+        if (Auth::user()->can('Read-Department')) {
+            $department = Department::orderBy('created_at', 'desc')->get();
+            $setModal = 0;
+            $departmentData = 0;
+
+            return view('Department.index', compact('department', 'setModal', 'departmentData'));
+        } else {
+            abort(500);
+        } //
     }
 
     /**
@@ -45,22 +46,22 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-      $this->validateInput($request);
+        $this->validateInput($request);
         $departmentData = new Department();
-        $this->SaveDepartment($request,$departmentData);
-        if($departmentData->save())
-        {
-            Session::flash('notice','Department was successfully created');
+        $this->SaveDepartment($request, $departmentData);
+        if ($departmentData->save()) {
+            Session::flash('notice', 'Department was successfully created');
+
             return redirect('/Department');
-        }
-        else
-        {
-            Session::flash('alert','Department was not successfully created');
+        } else {
+            Session::flash('alert', 'Department was not successfully created');
+
             return redirect('/Department');
         }  //
     }
@@ -68,7 +69,8 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,43 +81,43 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (Auth::user()->can('Edit-Department')) 
-            {
-      $departmentData=Department::findOrFail($id);
-       $setModal=1;
-       $department=Department::orderBy('created_at','desc')->get();
-       return view('Department.index',compact('department','setModal','departmentData'));
-       }
-       else{
-        abort(500);
-       }  //
+        if (Auth::user()->can('Edit-Department')) {
+            $departmentData = Department::findOrFail($id);
+            $setModal = 1;
+            $department = Department::orderBy('created_at', 'desc')->get();
+
+            return view('Department.index', compact('department', 'setModal', 'departmentData'));
+        } else {
+            abort(500);
+        }  //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $departmentData=Department::findOrFail($id);
-       $this->validateEditInput($request,$departmentData);
-        $this->SaveDepartment($request,$departmentData);
-        if($departmentData->save())
-        {
-            Session::flash('notice','Department was successfully Edited');
+        $departmentData = Department::findOrFail($id);
+        $this->validateEditInput($request, $departmentData);
+        $this->SaveDepartment($request, $departmentData);
+        if ($departmentData->save()) {
+            Session::flash('notice', 'Department was successfully Edited');
+
             return redirect('/Department');
-        }
-        else
-        {
-            Session::flash('alert','Department was not successfully Edited');
+        } else {
+            Session::flash('alert', 'Department was not successfully Edited');
+
             return redirect('/Department');
         } // //
     }
@@ -123,15 +125,16 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-     //    if (Auth::user()->can('Delete-Department')) 
+        //    if (Auth::user()->can('Delete-Department'))
      //        {
      //    $departmentData=Department::findOrFail($id);
-       
+
      //    if( $departmentData->delete())
      //    {
      //        Session::flash('notice','Department was successfully Deleted');
@@ -151,25 +154,27 @@ class DepartmentController extends Controller
     protected function validateInput(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:departments,name',
+            'name'  => 'required|unique:departments,name',
             'email' => 'required',
-            'phone'=>  'min:11|numeric'
+            'phone' => 'min:11|numeric',
         ]);
     }
-    protected function validateEditInput(Request $request,$departmentData)
+
+    protected function validateEditInput(Request $request, $departmentData)
     {
         $this->validate($request, [
-            'name' => 'required|unique:departments,name,'.$departmentData->id,
+            'name'  => 'required|unique:departments,name,'.$departmentData->id,
             'email' => 'required',
-            'phone'=>  'min:11|numeric'
+            'phone' => 'min:11|numeric',
         ]);
     }
-    protected function SaveDepartment(Request $request,$departmentData)
+
+    protected function SaveDepartment(Request $request, $departmentData)
     {
-        $departmentData->name=$request->name;
-        $departmentData->email=$request->email;
-        $departmentData->phone=$request->phone;
-        $departmentData->description=$request->Description;
+        $departmentData->name = $request->name;
+        $departmentData->email = $request->email;
+        $departmentData->phone = $request->phone;
+        $departmentData->description = $request->Description;
         $departmentData->toArray();
     }
 }

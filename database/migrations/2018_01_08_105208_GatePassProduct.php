@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class GatePassProduct extends Migration
 {
@@ -13,7 +13,7 @@ class GatePassProduct extends Migration
      */
     public function up()
     {
-      Schema::create('gate_passes_product', function (Blueprint $table) {
+        Schema::create('gate_passes_product', function (Blueprint $table) {
             $table->integer('gate_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->double('quantity', 15, 4)->default('0.0000');
@@ -30,6 +30,6 @@ class GatePassProduct extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gate_passes_product');//
+        Schema::dropIfExists('gate_passes_product'); //
     }
 }

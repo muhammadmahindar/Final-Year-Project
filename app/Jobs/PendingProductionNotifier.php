@@ -2,18 +2,21 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\PendingProduction as Notification;
 use App\Production;
 use App\User;
-use App\Notifications\PendingProduction as Notification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class PendingProductionNotifier implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     protected $production;
+
     /**
      * Create a new job instance.
      *
@@ -21,7 +24,7 @@ class PendingProductionNotifier implements ShouldQueue
      */
     public function __construct(Production $roduction)
     {
-       $this->production=$roduction;
+        $this->production = $roduction;
     }
 
     /**
@@ -31,14 +34,13 @@ class PendingProductionNotifier implements ShouldQueue
      */
     public function handle()
     {
-       $userData=User::where('branch_id',$this->production->branch_id)->get();
+        $userData = User::where('branch_id', $this->production->branch_id)->get();
         foreach ($userData as $value) {
-            if($this->production->status==1){
-            if($value->can('Approve-Production'))
-            {
-                $value->notify(new Notification($this->production));
+            if ($this->production->status == 1) {
+                if ($value->can('Approve-Production')) {
+                    $value->notify(new Notification($this->production));
+                }
             }
-        }
         }
     }
 }

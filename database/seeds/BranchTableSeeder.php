@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+
 class BranchTableSeeder extends Seeder
 {
     /**
@@ -11,15 +12,15 @@ class BranchTableSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('branches')->insert([
-            'name' => "Multan Road",
-            'email'=> "mr@gmail.com",
-            'phone'=>"12345678901",
-            'address'=>"xyz location",
-            'description'=>"default branch",
-            'company_id'=>1,
-            'created_at' =>Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' =>Carbon::now()->format('Y-m-d H:i:s'),
+        DB::table('branches')->insert([
+            'name'       => 'Multan Road',
+            'email'      => 'mr@gmail.com',
+            'phone'      => '12345678901',
+            'address'    => 'xyz location',
+            'description'=> 'default branch',
+            'company_id' => 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]); //
     }
 }

@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-   public function branches()
+    public function branches()
     {
         return $this->hasMany('App\Branch');
-    } //
+    }
+
+    //
 }

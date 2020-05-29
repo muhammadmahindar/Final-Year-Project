@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branch extends Model
 {
-   public function departments()
+    public function departments()
     {
         return $this->belongsToMany('App\Department')->withTimestamps();
-    } //
+    }
 
-     public function company()
+    //
+
+    public function company()
     {
         return $this->belongsTo('App\Company');
     }

@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Cost;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+
 use App\FactoryOverhead as Factory;
+use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 class FactoryOverheadController extends Controller
 {
     /**
@@ -14,20 +16,16 @@ class FactoryOverheadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-     {
-           if (Auth::user()->can('Read-FactoryOverhead')) 
-            {
-      
-        $factorydata=Factory::where([['delete_status', '=', '1'],])->get();
-         $setModal=0;
-        $companyData=0;
-        return view('CostTypes.FactoryOverhead.index',compact('factorydata','setModal','companyData'));
-               }
-       else{
-        abort(500);
-       } //
+    {
+        if (Auth::user()->can('Read-FactoryOverhead')) {
+            $factorydata = Factory::where([['delete_status', '=', '1']])->get();
+            $setModal = 0;
+            $companyData = 0;
 
-
+            return view('CostTypes.FactoryOverhead.index', compact('factorydata', 'setModal', 'companyData'));
+        } else {
+            abort(500);
+        } //
     }
 
     /**
@@ -43,22 +41,22 @@ class FactoryOverheadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validateInput($request);
         $factoryData = new Factory();
-        $this->SaveFactory($request,$factoryData);
-        if($factoryData->save())
-        {
-            Session::flash('notice','FactoryOverhead was successfully created');
+        $this->SaveFactory($request, $factoryData);
+        if ($factoryData->save()) {
+            Session::flash('notice', 'FactoryOverhead was successfully created');
+
             return redirect('/FactoryOverhead');
-        }
-        else
-        {
-            Session::flash('alert','FactoryOverhead was not successfully created');
+        } else {
+            Session::flash('alert', 'FactoryOverhead was not successfully created');
+
             return redirect('/FactoryOverhead');
         }
     }
@@ -66,7 +64,8 @@ class FactoryOverheadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,44 +76,43 @@ class FactoryOverheadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-         if (Auth::user()->can('Edit-FactoryOverhead')) 
-            {
-       $factorydata=Factory::all();
-       $companyData=Factory::findOrFail($id);
-       $setModal=1;
-      return view('CostTypes.FactoryOverhead.index',compact('factorydata','setModal','companyData'));
-    
-       }
-       else{
-        abort(500);
-       }
+        if (Auth::user()->can('Edit-FactoryOverhead')) {
+            $factorydata = Factory::all();
+            $companyData = Factory::findOrFail($id);
+            $setModal = 1;
+
+            return view('CostTypes.FactoryOverhead.index', compact('factorydata', 'setModal', 'companyData'));
+        } else {
+            abort(500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $factoryData=Factory::findOrFail($id);
-       $this->validateEditInput($request,$factoryData);
-        $this->SaveFactory($request,$factoryData);
-        if($factoryData->save())
-        {
-            Session::flash('notice','FactoryOverhead was successfully Edited');
+        $factoryData = Factory::findOrFail($id);
+        $this->validateEditInput($request, $factoryData);
+        $this->SaveFactory($request, $factoryData);
+        if ($factoryData->save()) {
+            Session::flash('notice', 'FactoryOverhead was successfully Edited');
+
             return redirect('/FactoryOverhead');
-        }
-        else
-        {
-            Session::flash('alert','FactoryOverhead was not successfully Edited');
+        } else {
+            Session::flash('alert', 'FactoryOverhead was not successfully Edited');
+
             return redirect('/FactoryOverhead');
         }//
     }
@@ -122,47 +120,47 @@ class FactoryOverheadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-                     if (Auth::user()->can('Delete-FactoryOverhead')) 
-            {
-        $FactoryOverheadData=Factory::findOrFail($id);
-        $FactoryOverheadData->delete_status=0;
-         if( $FactoryOverheadData->save())
-        {
-            Session::flash('notice','FactoryOverhead was successfully Deleted');
-            return redirect('/FactoryOverhead');
+        if (Auth::user()->can('Delete-FactoryOverhead')) {
+            $FactoryOverheadData = Factory::findOrFail($id);
+            $FactoryOverheadData->delete_status = 0;
+            if ($FactoryOverheadData->save()) {
+                Session::flash('notice', 'FactoryOverhead was successfully Deleted');
+
+                return redirect('/FactoryOverhead');
+            } else {
+                Session::flash('alert', 'FactoryOverhead was not successfully Deleted');
+
+                return redirect('/FactoryOverhead');
+            }
+        } else {
+            abort(500);
         }
-        else
-        {
-            Session::flash('alert','FactoryOverhead was not successfully Deleted');
-            return redirect('/FactoryOverhead');
-        }
-    }
-    else{
-        abort(500);
-    }
 //
     }
-     protected function validateEditInput(Request $request,$factoryData)
+
+    protected function validateEditInput(Request $request, $factoryData)
     {
         $this->validate($request, [
-            'name' => 'required|unique:factory_over_heads,name,'.$factoryData->name
+            'name' => 'required|unique:factory_over_heads,name,'.$factoryData->name,
         ]);
     }
-        protected function validateInput(Request $request)
+
+    protected function validateInput(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:factory_over_heads,name'
+            'name' => 'required|unique:factory_over_heads,name',
         ]);
     }
-    protected function SaveFactory(Request $request,$factoryData)
+
+    protected function SaveFactory(Request $request, $factoryData)
     {
-        $factoryData->name=$request->name;
+        $factoryData->name = $request->name;
         $factoryData->toArray();
     }
-    
 }

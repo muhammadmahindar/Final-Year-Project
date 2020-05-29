@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Cost;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\SemiFixed;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 class SemiFixedController extends Controller
 {
     /**
@@ -15,18 +17,15 @@ class SemiFixedController extends Controller
      */
     public function index()
     {
-             if (Auth::user()->can('Read-SemiFixed')) 
-            {
-      
-        $semifixedata=SemiFixed::where([['delete_status', '=', '1'],])->get();
-         $setModal=0;
-        $companyData=0;
-        return view('CostTypes.SemiFixed.index',compact('semifixedata','setModal','companyData'));
-               }
-       else{
-        abort(500);
-       } //
+        if (Auth::user()->can('Read-SemiFixed')) {
+            $semifixedata = SemiFixed::where([['delete_status', '=', '1']])->get();
+            $setModal = 0;
+            $companyData = 0;
 
+            return view('CostTypes.SemiFixed.index', compact('semifixedata', 'setModal', 'companyData'));
+        } else {
+            abort(500);
+        } //
     }
 
     /**
@@ -42,22 +41,22 @@ class SemiFixedController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validateInput($request);
         $semiData = new SemiFixed();
-        $this->SaveSemi($request,$semiData);
-        if($semiData->save())
-        {
-            Session::flash('notice','SemiFixed was successfully created');
+        $this->SaveSemi($request, $semiData);
+        if ($semiData->save()) {
+            Session::flash('notice', 'SemiFixed was successfully created');
+
             return redirect('/SemiFixed');
-        }
-        else
-        {
-            Session::flash('alert','SemiFixed was not successfully created');
+        } else {
+            Session::flash('alert', 'SemiFixed was not successfully created');
+
             return redirect('/SemiFixed');
         }
     }
@@ -65,7 +64,8 @@ class SemiFixedController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -76,43 +76,43 @@ class SemiFixedController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-    if (Auth::user()->can('Edit-SemiFixed')) 
-            {
-        $semifixedata=SemiFixed::all();
-       $companyData=SemiFixed::findOrFail($id);
-       $setModal=1;
-       return view('CostTypes.SemiFixed.index',compact('semifixedata','setModal','companyData'));
-       }
-       else{
-        abort(500);
-       } //
+        if (Auth::user()->can('Edit-SemiFixed')) {
+            $semifixedata = SemiFixed::all();
+            $companyData = SemiFixed::findOrFail($id);
+            $setModal = 1;
+
+            return view('CostTypes.SemiFixed.index', compact('semifixedata', 'setModal', 'companyData'));
+        } else {
+            abort(500);
+        } //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-    $semiData=SemiFixed::findOrFail($id);
-       $this->validateEditInput($request,$semiData);
-        $this->SaveSemi($request,$semiData);
-        if($semiData->save())
-        {
-            Session::flash('notice','SemiFixed was successfully Edited');
+        $semiData = SemiFixed::findOrFail($id);
+        $this->validateEditInput($request, $semiData);
+        $this->SaveSemi($request, $semiData);
+        if ($semiData->save()) {
+            Session::flash('notice', 'SemiFixed was successfully Edited');
+
             return redirect('/SemiFixed');
-        }
-        else
-        {
-            Session::flash('alert','SemiFixed was not successfully Edited');
+        } else {
+            Session::flash('alert', 'SemiFixed was not successfully Edited');
+
             return redirect('/SemiFixed');
         }   //
     }
@@ -120,46 +120,46 @@ class SemiFixedController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-             if (Auth::user()->can('Delete-SemiFixed')) 
-            {
-        $SemiFixedData=SemiFixed::findOrFail($id);
-        $SemiFixedData->delete_status=0;
-         if( $SemiFixedData->save())
-        {
-            Session::flash('notice','SemiFixed was successfully Deleted');
-            return redirect('/SemiFixed');
+        if (Auth::user()->can('Delete-SemiFixed')) {
+            $SemiFixedData = SemiFixed::findOrFail($id);
+            $SemiFixedData->delete_status = 0;
+            if ($SemiFixedData->save()) {
+                Session::flash('notice', 'SemiFixed was successfully Deleted');
+
+                return redirect('/SemiFixed');
+            } else {
+                Session::flash('alert', 'SemiFixed was not successfully Deleted');
+
+                return redirect('/SemiFixed');
+            }
+        } else {
+            abort(500);
         }
-        else
-        {
-            Session::flash('alert','SemiFixed was not successfully Deleted');
-            return redirect('/SemiFixed');
-        }
     }
-    else{
-        abort(500);
-    }
-   
-    }
-     protected function validateEditInput(Request $request,$semiData)
+
+    protected function validateEditInput(Request $request, $semiData)
     {
         $this->validate($request, [
-            'name' => 'required|unique:semi_fixeds,name,'.$semiData->name
+            'name' => 'required|unique:semi_fixeds,name,'.$semiData->name,
         ]);
     }
-        protected function validateInput(Request $request)
+
+    protected function validateInput(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:semi_fixeds,name'
+            'name' => 'required|unique:semi_fixeds,name',
         ]);
     }
-    protected function SaveSemi(Request $request,$semiData)
+
+    protected function SaveSemi(Request $request, $semiData)
     {
-        $semiData->name=$request->name;
+        $semiData->name = $request->name;
         $semiData->toArray();
     }
 }

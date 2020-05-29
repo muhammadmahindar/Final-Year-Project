@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class FactoryOverHeadProduction extends Migration
 {
-   /**
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-      Schema::create('Factory_Ovear_head_Production', function (Blueprint $table) {
+        Schema::create('Factory_Ovear_head_Production', function (Blueprint $table) {
             $table->integer('factory_id')->unsigned();
             $table->integer('production_id')->unsigned();
             $table->integer('product_id')->unsigned();
@@ -32,6 +32,6 @@ class FactoryOverHeadProduction extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Factory_Ovear_head_Production');//
+        Schema::dropIfExists('Factory_Ovear_head_Production'); //
     }
 }

@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Branch;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
 use App\Branch;
 use App\Company;
 use App\Department;
+use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 class BranchController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,20 +24,19 @@ class BranchController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('Read-Branch')) 
-            {
-        $branch=Branch::orderBy('created_at','desc')->get();
-       $company=Company::orderBy('created_at','desc')->get();
-       $departmentData=Department::orderBy('created_at','desc')->get();
-        $setModal=0;
-        $branchData=0;
-        return view('Branch.index',compact('branch','setModal','branchData','company','departmentData'));
-        }
-        else{
+        if (Auth::user()->can('Read-Branch')) {
+            $branch = Branch::orderBy('created_at', 'desc')->get();
+            $company = Company::orderBy('created_at', 'desc')->get();
+            $departmentData = Department::orderBy('created_at', 'desc')->get();
+            $setModal = 0;
+            $branchData = 0;
+
+            return view('Branch.index', compact('branch', 'setModal', 'branchData', 'company', 'departmentData'));
+        } else {
             abort(500);
         }
-       
-         //
+
+        //
     }
 
     /**
@@ -52,26 +52,25 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-       $this->validateInput($request);
+        $this->validateInput($request);
         $branchData = new Branch();
-        $this->SaveBranch($request,$branchData);
-        if($branchData->save())
-        {
-            if($request->departmentList!=null)
-            {
-            $branchData->departments()->sync($request->departmentList);
+        $this->SaveBranch($request, $branchData);
+        if ($branchData->save()) {
+            if ($request->departmentList != null) {
+                $branchData->departments()->sync($request->departmentList);
             }
-            Session::flash('notice','Branch was successfully created');
+            Session::flash('notice', 'Branch was successfully created');
+
             return redirect('/Branch');
-        }
-        else
-        {
-            Session::flash('alert','Branch was not successfully created');
+        } else {
+            Session::flash('alert', 'Branch was not successfully created');
+
             return redirect('/Branch');
         } //
     }
@@ -79,7 +78,8 @@ class BranchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,49 +90,48 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-      if (Auth::user()->can('Edit-Branch')) 
-            {  
-       $branchData=Branch::findOrFail($id);
-       $setModal=1;
-       $branch=Branch::orderBy('created_at','desc')->get();
-       $company=Company::orderBy('created_at','desc')->get();
-        $departmentData=Department::orderBy('created_at','desc')->get();
-       return view('Branch.index',compact('company','branch','setModal','branchData','departmentData'));
-       }
-       else{
-        abort(500);
-       }  //
+        if (Auth::user()->can('Edit-Branch')) {
+            $branchData = Branch::findOrFail($id);
+            $setModal = 1;
+            $branch = Branch::orderBy('created_at', 'desc')->get();
+            $company = Company::orderBy('created_at', 'desc')->get();
+            $departmentData = Department::orderBy('created_at', 'desc')->get();
+
+            return view('Branch.index', compact('company', 'branch', 'setModal', 'branchData', 'departmentData'));
+        } else {
+            abort(500);
+        }  //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-       $branchData=Branch::findOrFail($id);
-       $this->validateEditInput($request,$branchData);
-        $this->SaveBranch($request,$branchData);
-        if($branchData->save())
-        {
-            if($request->departmentList!=null)
-            {
-            $branchData->departments()->sync($request->departmentList);
+        $branchData = Branch::findOrFail($id);
+        $this->validateEditInput($request, $branchData);
+        $this->SaveBranch($request, $branchData);
+        if ($branchData->save()) {
+            if ($request->departmentList != null) {
+                $branchData->departments()->sync($request->departmentList);
             }
-            Session::flash('notice','Branch was successfully Edited');
+            Session::flash('notice', 'Branch was successfully Edited');
+
             return redirect('/Branch');
-        }
-        else
-        {
-            Session::flash('alert','Branch was not successfully Edited');
+        } else {
+            Session::flash('alert', 'Branch was not successfully Edited');
+
             return redirect('/Branch');
         } //
     }
@@ -140,14 +139,15 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        
+
        // $branchData=Branch::findOrFail($id);
-       
+
        //   if( $branchData->delete())
        //  {
        //      Session::flash('notice','Branch was successfully Deleted');
@@ -159,30 +159,33 @@ class BranchController extends Controller
        //      return redirect('/Branch');
        //  } //
     }
+
     protected function validateInput(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:branches,name',
+            'name'  => 'required|unique:branches,name',
             'email' => 'required',
-            'phone'=>  'min:11|numeric'
+            'phone' => 'min:11|numeric',
         ]);
     }
-    protected function validateEditInput(Request $request,$branchData)
+
+    protected function validateEditInput(Request $request, $branchData)
     {
         $this->validate($request, [
-            'name' => 'required|unique:branches,name,'.$branchData->id,
+            'name'  => 'required|unique:branches,name,'.$branchData->id,
             'email' => 'required',
-            'phone'=>  'min:11|numeric'
+            'phone' => 'min:11|numeric',
         ]);
     }
-    protected function SaveBranch(Request $request,$branchData)
+
+    protected function SaveBranch(Request $request, $branchData)
     {
-        $branchData->name=$request->name;
-        $branchData->email=$request->email;
-        $branchData->phone=$request->phone;
-        $branchData->address=$request->Address;
-        $branchData->description=$request->Description;
-        $branchData->company_id=$request->companyId;
+        $branchData->name = $request->name;
+        $branchData->email = $request->email;
+        $branchData->phone = $request->phone;
+        $branchData->address = $request->Address;
+        $branchData->description = $request->Description;
+        $branchData->company_id = $request->companyId;
         $branchData->toArray();
     }
 }

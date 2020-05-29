@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBranchDepartmentTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateBranchDepartmentTable extends Migration
      */
     public function up()
     {
-      Schema::create('branch_department', function (Blueprint $table) {
+        Schema::create('branch_department', function (Blueprint $table) {
             $table->integer('branch_id')->unsigned();
             $table->integer('department_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
@@ -29,6 +29,6 @@ class CreateBranchDepartmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branch_department');//
+        Schema::dropIfExists('branch_department'); //
     }
 }
